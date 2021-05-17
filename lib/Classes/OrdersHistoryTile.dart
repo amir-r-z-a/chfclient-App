@@ -78,7 +78,9 @@ class _OrderHistoryTileState extends State<OrderHistoryTile> {
               Container(
                 margin: EdgeInsets.fromLTRB(12, 18, 12, 0),
                 child: ElevatedButton(
-                  onPressed: (){},
+                  onPressed: (){
+                    //TODO
+                  },
                   child: Text("View invoice"),
                 ),
               ),
