@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class ClientOrderTile extends StatefulWidget {
-  const ClientOrderTile({Key key}) : super(key: key);
+class ClientActiveOrderTile extends StatefulWidget {
+  const ClientActiveOrderTile({Key key}) : super(key: key);
 
   @override
-  _ClientOrderTileState createState() => _ClientOrderTileState();
+  _ClientActiveOrderTileState createState() => _ClientActiveOrderTileState();
 }
 
-class _ClientOrderTileState extends State<ClientOrderTile> {
+class _ClientActiveOrderTileState extends State<ClientActiveOrderTile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,7 +78,7 @@ class _ClientOrderTileState extends State<ClientOrderTile> {
               Container(
                 margin: EdgeInsets.fromLTRB(12, 18, 12, 0),
                 child: ElevatedButton(
-                  onPressed: (){
+                  onPressed: () {
                     //TODO
                   },
                   child: Text("View invoice"),

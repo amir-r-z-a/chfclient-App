@@ -1,4 +1,6 @@
-import 'package:chfclient/Classes/ClientOrderTile.dart';
+import 'package:chfclient/Classes/ClientActiveOrderTile.dart';
+import 'package:chfclient/Classes/CartTile.dart';
+import 'package:chfclient/Classes/ClientOrderHistoryTile.dart';
 
 class Client {
   String _name;
@@ -9,11 +11,32 @@ class Client {
   // Location _location;
   String _password;
   String _email;
-  List<ClientOrderTile> _clientOrders;
+  List<ClientActiveOrderTile> _activeOrders = [];
+  List<ClientOrderHistoryTile> _ordersHistory = [];
+  List<CartTile> _cartList = [];
 
   // List<Restaurant> _favRestaurants;
   // List<CommentTile> _clientComments;
   double _wallet;
+
+  Client(
+    this._name,
+    this._phoneNumber,
+    this._password,
+    this._address,
+  );
+
+  int getOrdersHistoryLength() {
+    return ordersHistory.length;
+  }
+
+  int getActiveOrdersLength() {
+    return activeOrders.length;
+  }
+
+  int getCartListLength() {
+    return cartList.length;
+  }
 
   String get name => _name;
 
@@ -51,12 +74,6 @@ class Client {
     _email = value;
   }
 
-  List<ClientOrderTile> get clientOrders => _clientOrders;
-
-  set clientOrders(List<ClientOrderTile> value) {
-    _clientOrders = value;
-  }
-
   // List<Restaurant> get favRestaurant => _favRestaurants;
   //
   // set favRestaurant(List<Restaurant> value) {
@@ -79,5 +96,23 @@ class Client {
 
   set address(List value) {
     _address = value;
+  }
+
+  List<ClientOrderHistoryTile> get ordersHistory => _ordersHistory;
+
+  set ordersHistory(List<ClientOrderHistoryTile> value) {
+    _ordersHistory = value;
+  }
+
+  List<ClientActiveOrderTile> get activeOrders => _activeOrders;
+
+  set activeOrders(List<ClientActiveOrderTile> value) {
+    _activeOrders = value;
+  }
+
+  List<CartTile> get cartList => _cartList;
+
+  set cartList(List<CartTile> value) {
+    _cartList = value;
   }
 }

@@ -1,19 +1,19 @@
+import 'package:chfclient/Screens/ClientActiveOrdersScreen.dart';
 import 'package:chfclient/Screens/CartScreen.dart';
 import 'package:chfclient/Screens/ClientHomeScreen.dart';
-import 'package:chfclient/Screens/OrdersScreen.dart';
+import 'package:chfclient/Screens/ClientOrdersHistoryScreen.dart';
 import 'package:flutter/material.dart';
 
-class MainMenuScreen extends StatefulWidget {
+class ClientMainMenuScreen extends StatefulWidget {
   @override
-  _MainMenuScreenState createState() => _MainMenuScreenState();
+  _ClientMainMenuScreenState createState() => _ClientMainMenuScreenState();
 }
 
-class _MainMenuScreenState extends State<MainMenuScreen> {
+class _ClientMainMenuScreenState extends State<ClientMainMenuScreen> {
   int _currentSelect = 1;
   List<Widget> screens = [
     CartScreen(),
     ClientHomeScreen(),
-    OrdersScreen(),
   ];
   String appBarText = 'Cart';
 
@@ -22,9 +22,24 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        body: screens[_currentSelect],
+        body: _currentSelect != 2
+            ? screens[_currentSelect]
+            : TabBarView(children: [
+                ClientOrdersHistoryScreen(),
+                ClientActiveOrdersScreen(),
+              ]),
+        drawer: Drawer(),
         appBar: AppBar(
-          bottom: _currentSelect == 2 ? TabBar(tabs: [Tab(), Tab()]) : null,
+          bottom: _currentSelect == 2
+              ? TabBar(tabs: [
+                  Tab(
+                    child: Text('Orders History'),
+                  ),
+                  Tab(
+                    child: Text('Active Orders'),
+                  ),
+                ])
+              : null,
           centerTitle: true,
           title: Text(appBarText),
         ),

@@ -1,12 +1,13 @@
-import 'package:chfclient/Classes/ActiveOrdersTile.dart';
+import 'package:chfclient/Classes/Accounts.dart';
+import 'package:chfclient/Classes/ClientActiveOrderTile.dart';
+import 'package:chfclient/Classes/Client.dart';
 import 'package:chfclient/Classes/ClientFoodTile.dart';
+import 'package:chfclient/Classes/ClientOrderHistoryTile.dart';
+import 'package:chfclient/Screens/ClientSignInScreen.dart';
+import 'package:chfclient/Screens/ClientSignUpScreen.dart';
 import 'package:chfclient/Screens/InvoiceDetailsScreeen.dart';
-import 'package:chfclient/Screens/MainMenuScreen.dart';
+import 'package:chfclient/Screens/ClientMainMenuScreen.dart';
 import 'package:flutter/material.dart';
-
-void main() {
-  runApp(MyApp());
-}
 
 class MyApp extends StatefulWidget {
   @override
@@ -19,12 +20,29 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       title: "CHFood",
       theme: ThemeData(primaryColor: const Color.fromRGBO(248, 95, 106, 1)),
+      routes: {
+        '/ClientSignUpScreen': (context) => ClientSignUpScreen(),
+        '/ClientSignInScreen': (context) => ClientSignInScreen(),
+        '/MainMenuScreen': (context) => ClientMainMenuScreen(),
+      },
       home:
-      // ActiveOrderTile()
-      // ClientFoodTile()
-      // OrderHistoryTile()
-      // MainMenuScreen(),
-      InvoiceDetailsScreen()
+          // ClientSignInScreen(),
+          // ClientActiveOrderTile()
+          // ClientFoodTile()
+          // ClientOrderTile()
+          ClientMainMenuScreen(),
+      // InvoiceDetailsScreen()
     );
   }
+}
+
+void main() {
+  Client client = Client(
+    'Client1',
+    '09198612878',
+    'clientPassword1',
+    ['address1', 'address2'],
+  );
+  Accounts.addAccount(client);
+  runApp(MyApp());
 }
