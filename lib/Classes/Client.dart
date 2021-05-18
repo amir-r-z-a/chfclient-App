@@ -1,14 +1,18 @@
+import 'package:chfclient/Classes/ClientOrderTile.dart';
+
 class Client {
   String _name;
   String _lastName;
   String _phoneNumber;
+  List _address;
 
   // Location _location;
   String _password;
   String _email;
   List<ClientOrderTile> _clientOrders;
-  List<Restaurant> _favRestaurants;
-  List<CommentTile> _clientComments;
+
+  // List<Restaurant> _favRestaurants;
+  // List<CommentTile> _clientComments;
   double _wallet;
 
   String get name => _name;
@@ -53,21 +57,27 @@ class Client {
     _clientOrders = value;
   }
 
-  List<Restaurant> get favRestaurant => _favRestaurants;
-
-  set favRestaurant(List<Restaurant> value) {
-    _favRestaurants = value;
-  }
-
-  List<CommentTile> get clientComments => _clientComments;
-
-  set clientComments(List<CommentTile> value) {
-    _clientComments = value;
-  }
+  // List<Restaurant> get favRestaurant => _favRestaurants;
+  //
+  // set favRestaurant(List<Restaurant> value) {
+  //   _favRestaurants = value;
+  // }
+  //
+  // List<CommentTile> get clientComments => _clientComments;
+  //
+  // set clientComments(List<CommentTile> value) {
+  //   _clientComments = value;
+  // }
 
   double get wallet => _wallet;
 
   set wallet(double value) {
     _wallet = value;
+  }
+
+  List get address => _address;
+
+  set address(List value) {
+    _address = value;
   }
 }

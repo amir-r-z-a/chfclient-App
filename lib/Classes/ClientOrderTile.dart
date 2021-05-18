@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class OrderHistoryTile extends StatefulWidget {
-  const OrderHistoryTile({Key key}) : super(key: key);
+class ClientOrderTile extends StatefulWidget {
+  const ClientOrderTile({Key key}) : super(key: key);
 
   @override
-  _OrderHistoryTileState createState() => _OrderHistoryTileState();
+  _ClientOrderTileState createState() => _ClientOrderTileState();
 }
 
-class _OrderHistoryTileState extends State<OrderHistoryTile> {
+class _ClientOrderTileState extends State<ClientOrderTile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

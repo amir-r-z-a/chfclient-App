@@ -1,6 +1,4 @@
-import 'package:chfrestaurant/Classes/Accounts.dart';
-import 'package:chfrestaurant/Classes/Restaurant.dart';
-import 'package:chfrestaurant/Classes/RestaurantTypes.dart';
+import 'package:chfclient/Classes/Accounts.dart';
 import 'package:flutter/material.dart';
 
 class MyTextFormField extends StatelessWidget {
@@ -8,15 +6,9 @@ class MyTextFormField extends StatelessWidget {
   static String password;
   static String phoneNumber;
   static String address;
-  static RestaurantTypes type;
   static String email;
 
-  static String foodCategory;
-  static String foodName;
-  static String foodDesc;
-  static String foodPrice;
-
-  static String reply;
+  static int addressCount = 0;
 
   String label;
   String hint;
@@ -48,20 +40,14 @@ class MyTextFormField extends StatelessWidget {
               : phoneNumber = value;
         } else if (index == 3) {
           addToAccounts
-              ? Accounts.accounts[Accounts.currentAccount].address = value
+              ? Accounts.accounts[Accounts.currentAccount]
+                  .address[MyTextFormField.addressCount] = value
               : address = value;
+          MyTextFormField.addressCount++;
         } else if (index == 4) {
-          foodCategory = value;
-        } else if (index == 5) {
-          foodName = value;
-        } else if (index == 6) {
-          foodPrice = value;
-        } else if (index == 7) {
           addToAccounts
               ? Accounts.accounts[Accounts.currentAccount].email = value
               : email = value;
-        } else if (index == 8) {
-          reply = value;
         }
       },
       validator: (String value) {
@@ -76,14 +62,6 @@ class MyTextFormField extends StatelessWidget {
           } else if (Accounts.alreadyPhoneNumber(value)) {
             return 'Your phone number is already registered';
           }
-        } else if (regex == 'Category' &&
-            Accounts.accounts[Accounts.currentAccount].validCategory(value)) {
-          return 'Your category could not be All';
-        } else if (regex == 'Price' && Restaurant.validPrice(value)) {
-          return 'Your price is not valid';
-        } else if (regex == 'FoodName' &&
-            Accounts.accounts[Accounts.currentAccount].validFood(value)) {
-          return 'Your food was already added in one of category';
         } else if (regex == 'Email' && Accounts.validEmail(value)) {
           return 'Your email is not valid';
         }
