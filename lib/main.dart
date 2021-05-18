@@ -1,3 +1,6 @@
+import 'package:chfclient/Classes/ActiveOrdersTile.dart';
+import 'package:chfclient/Classes/ClientFoodTile.dart';
+import 'package:chfclient/Screens/InvoiceDetailsScreeen.dart';
 import 'package:chfclient/Screens/MainMenuScreen.dart';
 import 'package:flutter/material.dart';
 
@@ -16,7 +19,12 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       title: "CHFood",
       theme: ThemeData(primaryColor: const Color.fromRGBO(248, 95, 106, 1)),
-      home: MainMenuScreen(),
+      home:
+      // ActiveOrderTile()
+      // ClientFoodTile()
+      // OrderHistoryTile()
+      // MainMenuScreen(),
+      InvoiceDetailsScreen()
     );
   }
 }
