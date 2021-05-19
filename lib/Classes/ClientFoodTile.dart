@@ -1,4 +1,5 @@
 import 'package:chfclient/Classes/ClientAccounts.dart';
+import 'package:chfclient/Screens/DetailsClientFoodTile.dart';
 import 'package:flutter/material.dart';
 
 class ClientFoodTile extends StatefulWidget {
@@ -69,20 +70,12 @@ class _ClientFoodTileState extends State<ClientFoodTile> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // DetailsRestaurantFoodTile.deleteFunction = deleteFunc;
-        // DetailsRestaurantFoodTile.name = widget.name;
-        // DetailsRestaurantFoodTile.desc =
-        //     widget.desc != null ? widget.desc : ' ';
-        // DetailsRestaurantFoodTile.price = widget.price;
-        // DetailsRestaurantFoodTile.foodStatus = widget.foodStatus;
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(
-        //     builder: (context) => DetailsRestaurantFoodTile(
-        //       function: refreshPage,
-        //     ),
-        //   ),
-        // );
+        DetailsClientFoodTile.addCartFunc = addCartFunc;
+        DetailsClientFoodTile.name = widget.name;
+        DetailsClientFoodTile.desc = widget.desc != null ? widget.desc : ' ';
+        DetailsClientFoodTile.price = widget.price;
+        DetailsClientFoodTile.foodStatus = widget.foodStatus;
+        Navigator.pushNamed(context, '/DetailsClientFoodTile');
       },
       child: Container(
         decoration: BoxDecoration(

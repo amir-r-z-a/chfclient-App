@@ -10,6 +10,7 @@ import 'package:chfclient/Common/Common%20Classes/RestaurantTile.dart';
 import 'package:chfclient/Common/Common%20Classes/RestaurantTypes.dart';
 import 'package:chfclient/Screens/ClientSignInScreen.dart';
 import 'package:chfclient/Screens/ClientSignUpScreen.dart';
+import 'package:chfclient/Screens/DetailsClientFoodTile.dart';
 import 'package:chfclient/Screens/InvoiceDetailsScreeen.dart';
 import 'package:chfclient/Screens/ClientMainMenuScreen.dart';
 import 'package:flutter/material.dart';
@@ -23,32 +24,32 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: "CHFood",
-        theme: ThemeData(primaryColor: const Color.fromRGBO(248, 95, 106, 1)),
-        routes: {
-          '/ClientSignUpScreen': (context) => ClientSignUpScreen(),
-          '/ClientSignInScreen': (context) => ClientSignInScreen(),
-          '/ClientMainMenuScreen': (context) => ClientMainMenuScreen(),
-        },
-        home:
-      // ClientSignInScreen(),
+      title: "CHFood",
+      theme: ThemeData(primaryColor: const Color.fromRGBO(248, 95, 106, 1)),
+      routes: {
+        '/ClientSignUpScreen': (context) => ClientSignUpScreen(),
+        '/ClientSignInScreen': (context) => ClientSignInScreen(),
+        '/ClientMainMenuScreen': (context) => ClientMainMenuScreen(),
+        '/DetailsClientFoodTile': (context) => DetailsClientFoodTile(),
+      },
+      home:
+          // ClientSignInScreen(),
 
-      // ClientActiveOrderTile()
+          // ClientActiveOrderTile()
 
-      //     ClientFoodTile(
-      //   'ClientFoodTile1',
-      //   '25',
-      //   true,
-      //   'Cafe',
-      //   desc: 'hello',
-      // ),
+          //     ClientFoodTile(
+          //   'ClientFoodTile1',
+          //   '25',
+          //   true,
+          //   'Cafe',
+          //   desc: 'hello',
+          // ),
 
-      // ClientOrderTile()
+          // ClientOrderTile()
 
-      ClientMainMenuScreen(),
+          ClientMainMenuScreen(),
 
       // InvoiceDetailsScreen()
-
     );
   }
 }
