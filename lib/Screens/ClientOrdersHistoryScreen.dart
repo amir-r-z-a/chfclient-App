@@ -1,4 +1,4 @@
-import 'package:chfclient/Classes/Accounts.dart';
+import 'package:chfclient/Classes/ClientAccounts.dart';
 import 'package:flutter/material.dart';
 
 class ClientOrdersHistoryScreen extends StatefulWidget {
@@ -32,10 +32,10 @@ class _ClientOrdersHistoryScreenState extends State<ClientOrdersHistoryScreen> {
         ),
         Column(
           children: List.generate(
-              Accounts.accounts[Accounts.currentAccount]
+              ClientAccounts.accounts[ClientAccounts.currentAccount]
                   .getOrdersHistoryLength(),
-              (index) => Accounts
-                  .accounts[Accounts.currentAccount].ordersHistory[index]),
+              (index) => ClientAccounts
+                  .accounts[ClientAccounts.currentAccount].ordersHistory[index]),
         ),
       ]),
     );

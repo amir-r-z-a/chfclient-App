@@ -1,7 +1,7 @@
-import 'package:chfclient/Classes/Accounts.dart';
+import 'package:chfclient/Classes/ClientAccounts.dart';
 import 'package:chfclient/Common/Text/GrayText.dart';
-import 'package:chfclient/Common/Text/MyPassFormField.dart';
-import 'package:chfclient/Common/Text/MyTextFormField.dart';
+import 'package:chfclient/Common/Text/ClientMyPassFormField.dart';
+import 'package:chfclient/Common/Text/ClientMyTextFormField.dart';
 import 'package:chfclient/Common/Text/SignInUpText.dart';
 import 'package:chfclient/Common/Text/TitleText.dart';
 import 'package:chfclient/Common/Text/WhiteText.dart';
@@ -28,13 +28,13 @@ class _ClientSignInScreenState extends State<ClientSignInScreen> {
                 Padding(padding: EdgeInsets.all(10)),
                 GrayText("Hi there! Nice to see you again.", 0xff989eb1, 16),
                 Padding(padding: EdgeInsets.all(10)),
-                MyTextFormField(
+                ClientMyTextFormField(
                   "Phone number",
                   hint: "example: 0912XXXXXXX",
                   regex: 'PNSignIn',
                 ),
                 Padding(padding: EdgeInsets.all(10)),
-                MyPassFormField(
+                ClientMyPassFormField(
                   'Password',
                   regex: 'PassSignIn',
                   hint: 'Your password',
@@ -48,7 +48,7 @@ class _ClientSignInScreenState extends State<ClientSignInScreen> {
                       key1.currentState.save();
                       print("done");
                       print('index: ');
-                      print(Accounts.currentAccount);
+                      print(ClientAccounts.currentAccount);
                       print("Welcome to Chamir food");
                       Navigator.pushNamed(context, '/ClientMainMenuScreen');
                     }

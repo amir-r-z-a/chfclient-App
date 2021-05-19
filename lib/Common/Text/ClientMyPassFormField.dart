@@ -1,14 +1,14 @@
-import 'package:chfclient/Classes/Accounts.dart';
-import 'package:chfclient/Common/Text/MyTextFormField.dart';
+import 'package:chfclient/Classes/ClientAccounts.dart';
+import 'package:chfclient/Common/Text/ClientMyTextFormField.dart';
 import 'package:flutter/material.dart';
 
-class MyPassFormField extends StatefulWidget {
+class ClientMyPassFormField extends StatefulWidget {
   String label;
   String regex;
   String hint;
   int index;
 
-  MyPassFormField(
+  ClientMyPassFormField(
     this.label, {
     this.index,
     this.regex,
@@ -16,34 +16,34 @@ class MyPassFormField extends StatefulWidget {
   });
 
   @override
-  _MyPassFormFieldState createState() => _MyPassFormFieldState();
+  _ClientMyPassFormFieldState createState() => _ClientMyPassFormFieldState();
 }
 
-class _MyPassFormFieldState extends State<MyPassFormField> {
+class _ClientMyPassFormFieldState extends State<ClientMyPassFormField> {
   bool _isObscure = true;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       onSaved: (String value) {
-        MyTextFormField.password = value;
+        ClientMyTextFormField.password = value;
       },
       validator: (String value) {
         if (value.isEmpty || value == null) {
           return "You must fill this box";
         } else if (widget.regex == 'PassSignUp' &&
-            Accounts.validPassword(value)) {
+            ClientAccounts.validPassword(value)) {
           return 'Your password should contain at least one number and one letter';
         } else if (widget.regex == 'PassSignIn' &&
-            Accounts.foundPassword(value)) {
+            ClientAccounts.foundPassword(value)) {
           return "Your password is not correct";
-        } else if (widget.regex == 'PassEdit1' && Accounts.oldPassword(value)) {
+        } else if (widget.regex == 'PassEdit1' && ClientAccounts.oldPassword(value)) {
           return 'Your input does not match your old password';
         } else if (widget.regex == 'PassEdit2' &&
-            Accounts.validPassword(value, confirmPassword: true)) {
+            ClientAccounts.validPassword(value, confirmPassword: true)) {
           return 'Your password should contain at least one number and one letter';
         } else if (widget.regex == 'PassEdit3' &&
-            Accounts.confirmPassword(value)) {
+            ClientAccounts.confirmPassword(value)) {
           return 'Your input does not match your new password';
         }
         return null;

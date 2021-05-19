@@ -1,8 +1,8 @@
 
-import 'package:chfclient/Classes/Accounts.dart';
+import 'package:chfclient/Classes/ClientAccounts.dart';
 import 'package:flutter/material.dart';
 
-class MyTextFormField extends StatelessWidget {
+class ClientMyTextFormField extends StatelessWidget {
   static String name;
   static String password;
   static String phoneNumber;
@@ -18,7 +18,7 @@ class MyTextFormField extends StatelessWidget {
   String initial;
   bool addToAccounts;
 
-  MyTextFormField(this.label,
+  ClientMyTextFormField(this.label,
       {this.index,
       this.hint,
       this.regex,
@@ -33,21 +33,21 @@ class MyTextFormField extends StatelessWidget {
       onSaved: (String value) {
         if (index == 1) {
           addToAccounts
-              ? Accounts.accounts[Accounts.currentAccount].name = value
+              ? ClientAccounts.accounts[ClientAccounts.currentAccount].name = value
               : name = value;
         } else if (index == 2) {
           addToAccounts
-              ? Accounts.accounts[Accounts.currentAccount].phoneNumber = value
+              ? ClientAccounts.accounts[ClientAccounts.currentAccount].phoneNumber = value
               : phoneNumber = value;
         } else if (index == 3) {
           addToAccounts
-              ? Accounts.accounts[Accounts.currentAccount]
-                  .address[MyTextFormField.addressCount] = value
+              ? ClientAccounts.accounts[ClientAccounts.currentAccount]
+                  .address[ClientMyTextFormField.addressCount] = value
               : address = value;
-          MyTextFormField.addressCount++;
+          ClientMyTextFormField.addressCount++;
         } else if (index == 4) {
           addToAccounts
-              ? Accounts.accounts[Accounts.currentAccount].email = value
+              ? ClientAccounts.accounts[ClientAccounts.currentAccount].email = value
               : email = value;
         }
       },
@@ -55,15 +55,15 @@ class MyTextFormField extends StatelessWidget {
         // print(value);
         if (value == null || value.isEmpty) {
           return "Please enter something";
-        } else if (regex == 'PNSignIn' && Accounts.foundPhoneNumber(value)) {
+        } else if (regex == 'PNSignIn' && ClientAccounts.foundPhoneNumber(value)) {
           return "Your phone number is not found";
         } else if (regex == 'PNSignUp') {
-          if (Accounts.validPhoneNumber(value)) {
+          if (ClientAccounts.validPhoneNumber(value)) {
             return 'Your phone number is not valid';
-          } else if (Accounts.alreadyPhoneNumber(value)) {
+          } else if (ClientAccounts.alreadyPhoneNumber(value)) {
             return 'Your phone number is already registered';
           }
-        } else if (regex == 'Email' && Accounts.validEmail(value)) {
+        } else if (regex == 'Email' && ClientAccounts.validEmail(value)) {
           return 'Your email is not valid';
         }
         return null;

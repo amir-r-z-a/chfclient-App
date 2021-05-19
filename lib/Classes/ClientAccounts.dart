@@ -1,7 +1,7 @@
 import 'package:chfclient/Classes/Client.dart';
-import 'package:chfclient/Common/Text/MyTextFormField.dart';
+import 'package:chfclient/Common/Text/ClientMyTextFormField.dart';
 
-class Accounts {
+class ClientAccounts {
   static List<Client> _accounts = List.empty(growable: true);
   static int _currentAccount = 0;
 
@@ -96,7 +96,7 @@ class Accounts {
     RegExp regPassword =
         new RegExp(r"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$", multiLine: false);
     if (regPassword.hasMatch(input) && confirmPassword) {
-      MyTextFormField.password = input;
+      ClientMyTextFormField.password = input;
     }
     return !(regPassword.hasMatch(input));
   }
@@ -106,7 +106,7 @@ class Accounts {
   }
 
   static bool confirmPassword(String input) {
-    bool flag = MyTextFormField.password == input;
+    bool flag = ClientMyTextFormField.password == input;
     if (flag) {
       accounts[currentAccount].password = input;
     }

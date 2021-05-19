@@ -1,4 +1,4 @@
-import 'package:chfclient/Classes/Accounts.dart';
+import 'package:chfclient/Classes/ClientAccounts.dart';
 import 'package:flutter/material.dart';
 
 class ClientActiveOrdersScreen extends StatefulWidget {
@@ -12,9 +12,9 @@ class _ClientActiveOrdersScreenState extends State<ClientActiveOrdersScreen> {
     return Scaffold(
       body: ListView(
         children: List.generate(
-            Accounts.accounts[Accounts.currentAccount].getActiveOrdersLength(),
+            ClientAccounts.accounts[ClientAccounts.currentAccount].getActiveOrdersLength(),
             (index) =>
-                Accounts.accounts[Accounts.currentAccount].activeOrders[index]),
+                ClientAccounts.accounts[ClientAccounts.currentAccount].activeOrders[index]),
       ),
     );
   }

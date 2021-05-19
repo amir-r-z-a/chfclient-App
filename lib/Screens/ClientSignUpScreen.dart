@@ -1,8 +1,8 @@
-import 'package:chfclient/Classes/Accounts.dart';
+import 'package:chfclient/Classes/ClientAccounts.dart';
 import 'package:chfclient/Classes/Client.dart';
 import 'package:chfclient/Common/Text/GrayText.dart';
-import 'package:chfclient/Common/Text/MyPassFormField.dart';
-import 'package:chfclient/Common/Text/MyTextFormField.dart';
+import 'package:chfclient/Common/Text/ClientMyPassFormField.dart';
+import 'package:chfclient/Common/Text/ClientMyTextFormField.dart';
 import 'package:chfclient/Common/Text/TitleText.dart';
 import 'package:chfclient/Common/Text/WhiteText.dart';
 import 'package:flutter/material.dart';
@@ -39,26 +39,26 @@ class _ClientSignUpScreenState extends State<ClientSignUpScreen> {
                   key: _formkey,
                   child: Column(
                     children: [
-                      MyTextFormField(
+                      ClientMyTextFormField(
                         "Name",
                         hint: "Your name",
                         index: 1,
                       ),
                       Padding(padding: EdgeInsets.all(15)),
-                      MyTextFormField(
+                      ClientMyTextFormField(
                         "Phone number",
                         index: 2,
                         hint: "Your Phone number",
                         regex: 'PNSignUp',
                       ),
                       Padding(padding: EdgeInsets.all(15)),
-                      MyPassFormField(
+                      ClientMyPassFormField(
                         'Password',
                         regex: 'PassSignUp',
                         hint: 'Your password',
                       ),
                       Padding(padding: EdgeInsets.all(15)),
-                      MyTextFormField(
+                      ClientMyTextFormField(
                         "Address",
                         hint: "Your Address",
                         index: 3,
@@ -104,27 +104,27 @@ class _ClientSignUpScreenState extends State<ClientSignUpScreen> {
                       if (_formkey.currentState.validate()) {
                         setState(() {
                           _formkey.currentState.save();
-                          Accounts.addAccount(
+                          ClientAccounts.addAccount(
                             Client(
-                              MyTextFormField.name,
-                              MyTextFormField.phoneNumber,
-                              MyTextFormField.password,
-                              [MyTextFormField.address],
+                              ClientMyTextFormField.name,
+                              ClientMyTextFormField.phoneNumber,
+                              ClientMyTextFormField.password,
+                              [ClientMyTextFormField.address],
                             ),
                           );
                           Navigator.pushNamed(context, '/ClientSignInScreen');
                           print('-------------------------');
                           print("saved");
                           print('Your len is:');
-                          print(Accounts.getLength());
+                          print(ClientAccounts.getLength());
                           print('-------------------------');
-                          for (int i = 0; i < Accounts.getLength(); i++) {
+                          for (int i = 0; i < ClientAccounts.getLength(); i++) {
                             print('index: ');
                             print(i);
-                            print(Accounts.accounts[i].name);
-                            print(Accounts.accounts[i].phoneNumber);
-                            print(Accounts.accounts[i].password);
-                            print(Accounts.accounts[i].address);
+                            print(ClientAccounts.accounts[i].name);
+                            print(ClientAccounts.accounts[i].phoneNumber);
+                            print(ClientAccounts.accounts[i].password);
+                            print(ClientAccounts.accounts[i].address);
                             print('-------------------------');
                           }
                         });

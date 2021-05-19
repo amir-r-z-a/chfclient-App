@@ -1,4 +1,4 @@
-import 'package:chfclient/Classes/Accounts.dart';
+import 'package:chfclient/Classes/ClientAccounts.dart';
 import 'package:chfclient/Classes/ClientActiveOrderTile.dart';
 import 'package:chfclient/Classes/Client.dart';
 import 'package:chfclient/Classes/ClientFoodTile.dart';
@@ -43,6 +43,6 @@ void main() {
     'clientPassword1',
     ['address1', 'address2'],
   );
-  Accounts.addAccount(client);
+  ClientAccounts.addAccount(client);
   runApp(MyApp());
 }
