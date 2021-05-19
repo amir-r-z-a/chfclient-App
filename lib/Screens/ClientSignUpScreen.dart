@@ -1,4 +1,5 @@
 import 'package:chfclient/Classes/Accounts.dart';
+import 'package:chfclient/Classes/Client.dart';
 import 'package:chfclient/Common/Text/GrayText.dart';
 import 'package:chfclient/Common/Text/MyPassFormField.dart';
 import 'package:chfclient/Common/Text/MyTextFormField.dart';
@@ -13,10 +14,11 @@ class ClientSignUpScreen extends StatefulWidget {
 
 class _ClientSignUpScreenState extends State<ClientSignUpScreen> {
   var _formkey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:  SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Container(
           child: Column(
             children: [
@@ -66,8 +68,6 @@ class _ClientSignUpScreenState extends State<ClientSignUpScreen> {
                       //TimePicker for open and close
                       Padding(padding: EdgeInsets.all(10)),
                       Padding(padding: EdgeInsets.all(5)),
-
-
                     ],
                   ),
                 ),
@@ -81,7 +81,7 @@ class _ClientSignUpScreenState extends State<ClientSignUpScreen> {
                     Padding(padding: EdgeInsets.only(right: 10)),
                     GestureDetector(
                       onTap: () {
-                        Navigator.pushNamed(context, "/SignInScreen");
+                        Navigator.pushNamed(context, "/ClientSignInScreen");
                       },
                       child: TitleText(
                         'Sign In',
@@ -104,8 +104,30 @@ class _ClientSignUpScreenState extends State<ClientSignUpScreen> {
                       if (_formkey.currentState.validate()) {
                         setState(() {
                           _formkey.currentState.save();
+                          Accounts.addAccount(
+                            Client(
+                              MyTextFormField.name,
+                              MyTextFormField.phoneNumber,
+                              MyTextFormField.password,
+                              [MyTextFormField.address],
+                            ),
+                          );
+                          Navigator.pushNamed(context, '/ClientSignInScreen');
+                          print('-------------------------');
+                          print("saved");
+                          print('Your len is:');
+                          print(Accounts.getLength());
+                          print('-------------------------');
+                          for (int i = 0; i < Accounts.getLength(); i++) {
+                            print('index: ');
+                            print(i);
+                            print(Accounts.accounts[i].name);
+                            print(Accounts.accounts[i].phoneNumber);
+                            print(Accounts.accounts[i].password);
+                            print(Accounts.accounts[i].address);
+                            print('-------------------------');
                           }
-                      );
+                        });
                       }
                     },
                   ),

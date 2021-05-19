@@ -23,14 +23,14 @@ class _MyAppState extends State<MyApp> {
       routes: {
         '/ClientSignUpScreen': (context) => ClientSignUpScreen(),
         '/ClientSignInScreen': (context) => ClientSignInScreen(),
-        '/MainMenuScreen': (context) => ClientMainMenuScreen(),
+        '/ClientMainMenuScreen': (context) => ClientMainMenuScreen(),
       },
       home:
-          // ClientSignInScreen(),
+          ClientSignInScreen(),
           // ClientActiveOrderTile()
           // ClientFoodTile()
           // ClientOrderTile()
-          ClientMainMenuScreen(),
+          // ClientMainMenuScreen(),
       // InvoiceDetailsScreen()
     );
   }

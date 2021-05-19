@@ -50,7 +50,7 @@ class _ClientSignInScreenState extends State<ClientSignInScreen> {
                       print('index: ');
                       print(Accounts.currentAccount);
                       print("Welcome to Chamir food");
-                      Navigator.pushNamed(context, '/MainMenuScreen');
+                      Navigator.pushNamed(context, '/ClientMainMenuScreen');
                     }
                   },
                   child: WhiteText('Sign In'),
