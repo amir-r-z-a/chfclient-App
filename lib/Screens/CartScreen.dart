@@ -12,9 +12,10 @@ class _CartScreenState extends State<CartScreen> {
     return Scaffold(
       body: ListView(
         children: List.generate(
-            ClientAccounts.accounts[ClientAccounts.currentAccount].getCartListLength(),
-            (index) =>
-                ClientAccounts.accounts[ClientAccounts.currentAccount].cartList[index]),
+            ClientAccounts
+                .accounts[ClientAccounts.currentAccount].cartList[-1].length,
+            (index) => ClientAccounts
+                .accounts[ClientAccounts.currentAccount].cartList[-1][index]),
       ),
     );
   }

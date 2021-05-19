@@ -13,7 +13,7 @@ class Client {
   String _email;
   List<ClientActiveOrderTile> _activeOrders = [];
   List<ClientOrderHistoryTile> _ordersHistory = [];
-  List<CartTile> _cartList = [];
+  Map _cartList = {-1: []};
 
   // List<Restaurant> _favRestaurants;
   // List<CommentTile> _clientComments;
@@ -36,6 +36,10 @@ class Client {
 
   int getCartListLength() {
     return cartList.length;
+  }
+
+  void addOrder(ClientActiveOrderTile clientActiveOrderTile) {
+    activeOrders.add(clientActiveOrderTile);
   }
 
   String get name => _name;
@@ -110,9 +114,9 @@ class Client {
     _activeOrders = value;
   }
 
-  List<CartTile> get cartList => _cartList;
+  Map get cartList => _cartList;
 
-  set cartList(List<CartTile> value) {
+  set cartList(Map value) {
     _cartList = value;
   }
 }
