@@ -11,6 +11,7 @@ import 'package:chfclient/Common/Common%20Classes/RestaurantTypes.dart';
 import 'package:chfclient/Screens/ClientSignInScreen.dart';
 import 'package:chfclient/Screens/ClientSignUpScreen.dart';
 import 'package:chfclient/Screens/DetailsClientFoodTile.dart';
+import 'package:chfclient/Screens/DetailsRestaurantTile.dart';
 import 'package:chfclient/Screens/InvoiceDetailsScreeen.dart';
 import 'package:chfclient/Screens/ClientMainMenuScreen.dart';
 import 'package:flutter/material.dart';
@@ -31,6 +32,7 @@ class _MyAppState extends State<MyApp> {
         '/ClientSignInScreen': (context) => ClientSignInScreen(),
         '/ClientMainMenuScreen': (context) => ClientMainMenuScreen(),
         '/DetailsClientFoodTile': (context) => DetailsClientFoodTile(),
+        '/DetailsRestaurantTile': (context) => DetailsRestaurantTile(),
       },
       home:
           // ClientSignInScreen(),
@@ -177,9 +179,77 @@ void main() {
             '09198612878'),
       ],
     },
+    0,
+    0,
     // email: 'arman@gmail.com',
   );
   RestaurantAccounts.receiveRestaurant(restaurant);
+
+  RestaurantTile restaurant2 = RestaurantTile(
+    'name2',
+    'addres2',
+    {
+      0: 'All',
+      1: 'Cafe',
+    },
+    {
+      0: [
+        ClientFoodTile(
+          'Tea',
+          '25',
+          true,
+          'Cafe',
+          desc: 'desc',
+        ),
+        ClientFoodTile(
+          'Milk',
+          '25',
+          true,
+          'Cafe',
+          desc: 'desc',
+        ),
+        ClientFoodTile(
+          'Juice',
+          '25',
+          true,
+          'Cafe',
+          desc: 'desc',
+        ),
+      ],
+      1: [
+        ClientFoodTile(
+          'Tea',
+          '25',
+          true,
+          'Cafe',
+          desc: 'desc',
+        ),
+        ClientFoodTile(
+          'Milk',
+          '25',
+          true,
+          'Cafe',
+          desc: 'desc',
+        ),
+        ClientFoodTile(
+          'Juice',
+          '25',
+          true,
+          'Cafe',
+          desc: 'desc',
+        ),
+      ],
+    },
+    5.6,
+    12,
+    RestaurantTypes.Cafe,
+    {},
+    0,
+    1,
+    // email: 'arman@gmail.com',
+  );
+  RestaurantAccounts.receiveRestaurant(restaurant2);
+
   runApp(MyApp());
 }
 

@@ -8,5 +8,7 @@ class RestaurantAccounts {
     restaurantList[0].add(restaurantTile);
     //  calculate title
     //  restaurantList[i].add(restaurantTile);
+    //  restaurantTile.i=
+    //  restaurantTile.j=
   }
 }
