@@ -106,11 +106,59 @@ class _RestaurantTileState extends State<RestaurantTile> {
         DetailsRestaurantTile.controller = [];
         Navigator.pushNamed(context, '/DetailsRestaurantTile');
       },
-      child: Container(
-        margin: EdgeInsets.all(10),
-        height: 290,
-        width: 260,
-        color: Colors.red,
+      child: Scaffold(
+        body: Center(
+          child: Container(
+            margin: EdgeInsets.all(10),
+            height: 290,
+            width: 260,
+            decoration: BoxDecoration(
+              border: Border.all()
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Container(
+                  height: 160,
+                  width: 240,
+                  margin: EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                    border: Border.all()
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: [
+                      Text("fast food zafar")
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(children: [
+                    Text("fast food , breakFast")
+                  ],),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: [
+                      Container(
+                        height: 30,
+                        width: 50,
+                        decoration: BoxDecoration(
+                          border: Border.all()
+                        ),
+                        child: Center(child: Text("150 \$")),
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
