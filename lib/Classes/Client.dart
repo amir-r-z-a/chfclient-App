@@ -42,6 +42,14 @@ class Client {
     activeOrders.add(clientActiveOrderTile);
   }
 
+  void addCart(CartTile cartTile, int i) {
+    cartList[-1].add(cartTile);
+    if (cartList[i] == null) {
+      cartList[i] = [];
+    }
+    cartList[i].add(cartTile);
+  }
+
   String get name => _name;
 
   set name(String value) {

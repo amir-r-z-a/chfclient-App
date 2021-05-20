@@ -1,3 +1,4 @@
+import 'package:chfclient/Classes/CartTile.dart';
 import 'package:chfclient/Common/Common%20Classes/RestaurantTypes.dart';
 import 'package:chfclient/Screens/DetailsRestaurantTile.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +11,7 @@ class RestaurantTile extends StatefulWidget {
   String email;
   double _point;
   double _workingRadius;
+  // List<CartTile> _cart;
   int _i;
   int _j;
 
@@ -80,6 +82,12 @@ class RestaurantTile extends StatefulWidget {
     _restaurantComments = value;
   }
 
+  // List<CartTile> get cart => _cart;
+  //
+  // set cart(List<CartTile> value) {
+  //   _cart = value;
+  // }
+
   int get i => _i;
 
   set i(int value) {
@@ -106,58 +114,46 @@ class _RestaurantTileState extends State<RestaurantTile> {
         DetailsRestaurantTile.controller = [];
         Navigator.pushNamed(context, '/DetailsRestaurantTile');
       },
-      child: Scaffold(
-        body: Center(
-          child: Container(
-            margin: EdgeInsets.all(10),
-            height: 290,
-            width: 260,
-            decoration: BoxDecoration(
-              border: Border.all()
+      child: Container(
+        margin: EdgeInsets.all(10),
+        height: 290,
+        width: 260,
+        decoration: BoxDecoration(border: Border.all()),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Container(
+              height: 160,
+              width: 240,
+              margin: EdgeInsets.all(5),
+              decoration: BoxDecoration(border: Border.all()),
             ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Container(
-                  height: 160,
-                  width: 240,
-                  margin: EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                    border: Border.all()
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    children: [
-                      Text("fast food zafar")
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(children: [
-                    Text("fast food , breakFast")
-                  ],),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    children: [
-                      Container(
-                        height: 30,
-                        width: 50,
-                        decoration: BoxDecoration(
-                          border: Border.all()
-                        ),
-                        child: Center(child: Text("150 \$")),
-                      )
-                    ],
-                  ),
-                ),
-              ],
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: [Text("fast food zafar")],
+              ),
             ),
-          ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: [Text("fast food , breakFast")],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  Container(
+                    height: 30,
+                    width: 50,
+                    decoration: BoxDecoration(border: Border.all()),
+                    child: Center(child: Text("150 \$")),
+                  )
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );

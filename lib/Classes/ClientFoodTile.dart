@@ -1,5 +1,6 @@
 import 'package:chfclient/Classes/ClientAccounts.dart';
 import 'package:chfclient/Screens/DetailsClientFoodTile.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ClientFoodTile extends StatefulWidget {
@@ -9,8 +10,9 @@ class ClientFoodTile extends StatefulWidget {
   String desc;
   bool _foodStatus;
   Image _foodImage;
-  static Function function;
-  static Function topTenFoods;
+  int counter = 0;
+  static Function detailsAddMinCart;
+  static Function detailsRestaurant;
 
   ClientFoodTile(
     this._name,
@@ -64,17 +66,33 @@ class _ClientFoodTileState extends State<ClientFoodTile> {
   //   });
   // }
 
-  void addCartFunc() {}
+  void addMinCartFunc(String status) {
+    setState(() {
+      if (status == '+')
+        widget.counter++;
+      else
+        widget.counter--;
+      if (ClientFoodTile.detailsAddMinCart != null) {
+        DetailsClientFoodTile.counter = widget.counter;
+        DetailsClientFoodTile.myContainer = myContainer();
+        DetailsClientFoodTile.myRow = myRow();
+        ClientFoodTile.detailsAddMinCart();
+      }
+      ClientFoodTile.detailsRestaurant();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        DetailsClientFoodTile.addCartFunc = addCartFunc;
         DetailsClientFoodTile.name = widget.name;
         DetailsClientFoodTile.desc = widget.desc != null ? widget.desc : ' ';
         DetailsClientFoodTile.price = widget.price;
         DetailsClientFoodTile.foodStatus = widget.foodStatus;
+        DetailsClientFoodTile.counter = widget.counter;
+        DetailsClientFoodTile.myContainer = myContainer();
+        DetailsClientFoodTile.myRow = myRow();
         Navigator.pushNamed(context, '/DetailsClientFoodTile');
       },
       child: Container(
@@ -133,24 +151,7 @@ class _ClientFoodTileState extends State<ClientFoodTile> {
                 ),
                 Row(
                   children: [
-                    GestureDetector(
-                      onTap: () => addCartFunc(),
-                      child: Container(
-                        height: 25,
-                        width: 70,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(7),
-                          border: Border.all(width: 0.7, color: Colors.black),
-                        ),
-                        child: Center(
-                          child: Text(
-                            'Add',
-                            style: TextStyle(
-                                color: Colors.red, fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      ),
-                    ),
+                    widget.counter == 0 ? myContainer() : myRow(),
                     Padding(padding: EdgeInsets.all(7)),
                   ],
                 ),
@@ -162,6 +163,70 @@ class _ClientFoodTileState extends State<ClientFoodTile> {
         height: 190,
         width: MediaQuery.of(context).size.width,
       ),
+    );
+  }
+
+  Widget myContainer() {
+    return GestureDetector(
+      onTap: () => addMinCartFunc('+'),
+      child: Container(
+        height: 25,
+        width: 70,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(7),
+          border: Border.all(width: 0.7, color: Colors.black),
+        ),
+        child: Center(
+          child: Text(
+            'Add',
+            style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget myRow() {
+    return Row(
+      children: [
+        GestureDetector(
+          onTap: () => addMinCartFunc('+'),
+          child: Container(
+            child: Icon(Icons.add, color: Colors.white),
+            decoration: BoxDecoration(
+              color: Theme.of(context).primaryColor,
+              border:
+                  Border.all(width: 0.5, color: Theme.of(context).primaryColor),
+              borderRadius: BorderRadius.circular(5),
+            ),
+          ),
+        ),
+        Padding(padding: EdgeInsets.all(7)),
+        Text(
+          widget.counter.toString(),
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 20,
+          ),
+        ),
+        Padding(padding: EdgeInsets.all(7)),
+        GestureDetector(
+          onTap: () => addMinCartFunc('-'),
+          child: Container(
+            child: Icon(
+              Icons.minimize,
+              color: Theme.of(context).primaryColor,
+            ),
+            decoration: BoxDecoration(
+              border: Border.all(
+                width: 0.2,
+                color: Colors.black,
+              ),
+              borderRadius: BorderRadius.circular(5),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:chfclient/Classes/ClientFoodTile.dart';
 import 'package:chfclient/Common/Text/ClientMyTextFormField.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +8,11 @@ class DetailsClientFoodTile extends StatefulWidget {
   static String desc;
   static String price;
   static bool foodStatus;
-  static Function addCartFunc;
+  static int counter;
+  static Widget myContainer;
+  static Widget myRow;
+  static Function counterCalculator;
+  static Function goToCartScreen;
 
   @override
   _DetailsClientFoodTileState createState() => _DetailsClientFoodTileState();
@@ -16,9 +21,29 @@ class DetailsClientFoodTile extends StatefulWidget {
 class _DetailsClientFoodTileState extends State<DetailsClientFoodTile> {
   var key1 = GlobalKey<FormState>();
 
+  void refreshPage() {
+    if (this.mounted) {
+      setState(() {});
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    ClientFoodTile.detailsAddMinCart = refreshPage;
     return Scaffold(
+      bottomNavigationBar: DetailsClientFoodTile.counterCalculator() > 0
+          ? Padding(
+              padding: EdgeInsets.all(8.0),
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    primary: Theme.of(context).primaryColor),
+                onPressed: () => DetailsClientFoodTile.goToCartScreen,
+                child: Text('Finished (' +
+                    DetailsClientFoodTile.counterCalculator().toString() +
+                    ')'),
+              ),
+            )
+          : null,
       appBar: AppBar(
         actions: [],
         centerTitle: true,
@@ -78,26 +103,9 @@ class _DetailsClientFoodTileState extends State<DetailsClientFoodTile> {
                 ),
                 Row(
                   children: [
-                    GestureDetector(
-                      onTap: () {
-                        DetailsClientFoodTile.addCartFunc();
-                      },
-                      child: Container(
-                        height: 25,
-                        width: 70,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(7),
-                          border: Border.all(width: 0.7, color: Colors.black),
-                        ),
-                        child: Center(
-                          child: Text(
-                            'Add',
-                            style: TextStyle(
-                                color: Colors.red, fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      ),
-                    ),
+                    DetailsClientFoodTile.counter == 0
+                        ? DetailsClientFoodTile.myContainer
+                        : DetailsClientFoodTile.myRow,
                     Padding(padding: EdgeInsets.all(2)),
                   ],
                 ),
@@ -109,3 +117,19 @@ class _DetailsClientFoodTileState extends State<DetailsClientFoodTile> {
     );
   }
 }
+
+//Container(
+//                         height: 25,
+//                         width: 70,
+//                         decoration: BoxDecoration(
+//                           borderRadius: BorderRadius.circular(7),
+//                           border: Border.all(width: 0.7, color: Colors.black),
+//                         ),
+//                         child: Center(
+//                           child: Text(
+//                             'Add',
+//                             style: TextStyle(
+//                                 color: Colors.red, fontWeight: FontWeight.bold),
+//                           ),
+//                         ),
+//                       ),

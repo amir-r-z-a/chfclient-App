@@ -8,6 +8,7 @@ import 'package:chfclient/Common/Common%20Classes/CommentTile.dart';
 import 'package:chfclient/Common/Common%20Classes/Date.dart';
 import 'package:chfclient/Common/Common%20Classes/RestaurantTile.dart';
 import 'package:chfclient/Common/Common%20Classes/RestaurantTypes.dart';
+import 'package:chfclient/Screens/CartScreen.dart';
 import 'package:chfclient/Screens/ClientSignInScreen.dart';
 import 'package:chfclient/Screens/ClientSignUpScreen.dart';
 import 'package:chfclient/Screens/DetailsClientFoodTile.dart';
@@ -33,6 +34,7 @@ class _MyAppState extends State<MyApp> {
         '/ClientMainMenuScreen': (context) => ClientMainMenuScreen(),
         '/DetailsClientFoodTile': (context) => DetailsClientFoodTile(),
         '/DetailsRestaurantTile': (context) => DetailsRestaurantTile(),
+        '/CartScreen': (context) => CartScreen(),
       },
       home:
           // ClientSignInScreen(),
@@ -64,72 +66,67 @@ void main() {
     ['address1', 'address2'],
   );
   ClientAccounts.addAccount(client);
+  ClientFoodTile Tea1 = ClientFoodTile(
+    'Tea',
+    '25',
+    true,
+    'Cafe',
+    desc: 'desc',
+  );
+  ClientFoodTile HotDog1 = ClientFoodTile(
+    'Hot Dog',
+    '25',
+    true,
+    'Fast Food',
+    desc: 'desc',
+  );
+  ClientFoodTile Milk1 = ClientFoodTile(
+    'Milk',
+    '25',
+    true,
+    'Cafe',
+    desc: 'desc',
+  );
+  ClientFoodTile Pizza1 = ClientFoodTile(
+    'Pizza',
+    '25',
+    true,
+    'Fast Food',
+    desc: 'desc',
+  );
+
+  CommentTile comment11 = CommentTile(
+      'chera qazatoon inqad badechera qazatoon inqad badechera qazatoon inqad badechera qazatoon inqad badechera qazatoon inqad badechera qazatoon inqad bade?',
+      'Milk',
+      Date('2021', '3', '5', '22', '12', '2'),
+      '09121231212',
+      '09198612878');
+  CommentTile comment12 = CommentTile('chera qazatoon inqad khoobe?', 'Milk',
+      Date('2021', '3', '7', '20', '20', '20'), '09121231212', '09198612878');
+  CommentTile comment13 = CommentTile(
+      'chera qazatoon inqad bade va khoobe?',
+      'Hot Dog',
+      Date('2021', '3', '11', '1', '28', '29'),
+      '09121231212',
+      '09198612878');
   RestaurantTile restaurant = RestaurantTile(
     'name1',
     'addres1',
     {0: 'All', 1: 'Cafe', 2: 'Fast Food'},
     {
       0: [
-        ClientFoodTile(
-          'Tea',
-          '25',
-          true,
-          'Cafe',
-          desc: 'desc',
-        ),
-        ClientFoodTile(
-          'Hot Dog',
-          '25',
-          true,
-          'Fast Food',
-          desc: 'desc',
-        ),
-        ClientFoodTile(
-          'Milk',
-          '25',
-          true,
-          'Cafe',
-          desc: 'desc',
-        ),
-        ClientFoodTile(
-          'Pizza',
-          '25',
-          true,
-          'Fast Food',
-          desc: 'desc',
-        ),
+        Tea1,
+        HotDog1,
+        Milk1,
+        Pizza1,
       ],
       1: [
-        ClientFoodTile(
-          'Tea',
-          '25',
-          true,
-          'Cafe',
-          desc: 'desc',
-        ),
-        ClientFoodTile(
-          'Milk',
-          '25',
-          true,
-          'Cafe',
-          desc: 'desc',
-        ),
+        Tea1,
+        Milk1,
       ],
       2: [
-        ClientFoodTile(
-          'Hot Dog',
-          '25',
-          true,
-          'Fast Food',
-          desc: 'desc',
-        ),
-        ClientFoodTile(
-          'Pizza',
-          '25',
-          true,
-          'Fast Food',
-          desc: 'desc',
-        ),
+        HotDog1,
+        Pizza1,
       ],
     },
     4.3,
@@ -137,46 +134,16 @@ void main() {
     RestaurantTypes.FastFood,
     {
       0: [
-        CommentTile(
-            'chera qazatoon inqad badechera qazatoon inqad badechera qazatoon inqad badechera qazatoon inqad badechera qazatoon inqad badechera qazatoon inqad bade?',
-            'Milk',
-            Date('2021', '3', '5', '22', '12', '2'),
-            '09121231212',
-            '09198612878'),
-        CommentTile(
-            'chera qazatoon inqad khoobe?',
-            'Milk',
-            Date('2021', '3', '7', '20', '20', '20'),
-            '09121231212',
-            '09198612878'),
-        CommentTile(
-            'chera qazatoon inqad bade va khoobe?',
-            'Hot Dog',
-            Date('2021', '3', '11', '1', '28', '29'),
-            '09121231212',
-            '09198612878'),
+        comment11,
+        comment12,
+        comment13,
       ],
       1: [
-        CommentTile(
-            'chera qazatoon inqad badechera qazatoon inqad badechera qazatoon inqad badechera qazatoon inqad badechera qazatoon inqad badechera qazatoon inqad bade?',
-            'Milk',
-            Date('2021', '3', '5', '22', '12', '2'),
-            '09121231212',
-            '09198612878'),
-        CommentTile(
-            'chera qazatoon inqad khoobe?',
-            'Milk',
-            Date('2021', '3', '7', '20', '20', '20'),
-            '09121231212',
-            '09198612878'),
+        comment11,
+        comment12,
       ],
       2: [
-        CommentTile(
-            'chera qazatoon inqad bade va khoobe?',
-            'Hot Dog',
-            Date('2021', '3', '11', '1', '28', '29'),
-            '09121231212',
-            '09198612878'),
+        comment13,
       ],
     },
     0,
@@ -185,6 +152,27 @@ void main() {
   );
   RestaurantAccounts.receiveRestaurant(restaurant);
 
+  ClientFoodTile Tea2 = ClientFoodTile(
+    'Tea',
+    '25',
+    true,
+    'Cafe',
+    desc: 'desc',
+  );
+  ClientFoodTile Milk2 = ClientFoodTile(
+    'Milk',
+    '25',
+    true,
+    'Cafe',
+    desc: 'desc',
+  );
+  ClientFoodTile Juice2 = ClientFoodTile(
+    'Juice',
+    '25',
+    true,
+    'Cafe',
+    desc: 'desc',
+  );
   RestaurantTile restaurant2 = RestaurantTile(
     'name2',
     'addres2',
@@ -194,50 +182,14 @@ void main() {
     },
     {
       0: [
-        ClientFoodTile(
-          'Tea',
-          '25',
-          true,
-          'Cafe',
-          desc: 'desc',
-        ),
-        ClientFoodTile(
-          'Milk',
-          '25',
-          true,
-          'Cafe',
-          desc: 'desc',
-        ),
-        ClientFoodTile(
-          'Juice',
-          '25',
-          true,
-          'Cafe',
-          desc: 'desc',
-        ),
+        Tea2,
+        Milk2,
+        Juice2,
       ],
       1: [
-        ClientFoodTile(
-          'Tea',
-          '25',
-          true,
-          'Cafe',
-          desc: 'desc',
-        ),
-        ClientFoodTile(
-          'Milk',
-          '25',
-          true,
-          'Cafe',
-          desc: 'desc',
-        ),
-        ClientFoodTile(
-          'Juice',
-          '25',
-          true,
-          'Cafe',
-          desc: 'desc',
-        ),
+        Tea2,
+        Milk2,
+        Juice2,
       ],
     },
     5.6,

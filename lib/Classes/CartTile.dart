@@ -1,6 +1,67 @@
+import 'package:chfclient/Common/Common%20Classes/Date.dart';
 import 'package:flutter/material.dart';
 
 class CartTile extends StatefulWidget {
+  String _restaurantName;
+  String _restaurantAddress;
+  Map _cartSum;
+  Map _cartName;
+  Map _cartNum;
+
+  // Image _restaurantProfile;
+  Date _cartDate;
+
+  CartTile(
+      this._restaurantName,
+      this._restaurantAddress,
+      this._cartSum,
+      this._cartName,
+      this._cartNum,
+      /*this._restaurantProfile,*/
+      this._cartDate);
+
+  String get restaurantName => _restaurantName;
+
+  set restaurantName(String value) {
+    _restaurantName = value;
+  }
+
+  String get restaurantAddress => _restaurantAddress;
+
+  set restaurantAddress(String value) {
+    _restaurantAddress = value;
+  }
+
+  // Image get restaurantProfile => _restaurantProfile;
+  //
+  // set restaurantProfile(Image value) {
+  //   _restaurantProfile = value;
+  // }
+
+  Date get cartDate => _cartDate;
+
+  set cartDate(Date value) {
+    _cartDate = value;
+  }
+
+  Map get cartSum => _cartSum;
+
+  set cartSum(Map value) {
+    _cartSum = value;
+  }
+
+  Map get cartName => _cartName;
+
+  set cartName(Map value) {
+    _cartName = value;
+  }
+
+  Map get cartNum => _cartNum;
+
+  set cartNum(Map value) {
+    _cartNum = value;
+  }
+
   @override
   _CartTileState createState() => _CartTileState();
 }
@@ -39,7 +100,7 @@ class _CartTileState extends State<CartTile> {
                       Row(
                         children: [
                           Text(
-                            "restauraante Chamooli",
+                            widget.restaurantName,
                             style: TextStyle(fontSize: 20),
                           ),
                         ],
@@ -49,7 +110,7 @@ class _CartTileState extends State<CartTile> {
                         child: Row(
                           children: [
                             Icon(Icons.calendar_today),
-                            Text("15/05/2020"),
+                            Text(widget.cartDate.dateFormatter()),
                             Icon(Icons.watch_later_outlined),
                             Text("12:15")
                           ],
@@ -58,7 +119,7 @@ class _CartTileState extends State<CartTile> {
                       Row(
                         children: [
                           Icon(Icons.location_on),
-                          Text("velenjak , meydan Daneshjoo ...")
+                          Text(widget.restaurantAddress),
                         ],
                       ),
                     ],
@@ -72,7 +133,7 @@ class _CartTileState extends State<CartTile> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text("Sum of Prices"),
-                  Text("105 \$"),
+                  Text(widget.cartSum[-1].toString() + "\$"),
                 ],
               ),
             ),
