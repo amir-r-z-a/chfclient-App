@@ -117,12 +117,18 @@ class _ClientFoodTileState extends State<ClientFoodTile> {
                 Row(
                   children: [
                     Padding(padding: EdgeInsets.all(3)),
-                    Text(
-                      widget.foodStatus ? 'Active' : 'Inactive',
-                      style: TextStyle(
-                          color: widget.foodStatus ? Colors.green : Colors.red,
-                          fontWeight: FontWeight.bold),
-                    )
+                    Row(
+                      children: [
+                        Padding(padding: EdgeInsets.all(18)),
+                        Text(
+                          widget.foodStatus ? 'Active' : 'Inactive',
+                          style: TextStyle(
+                              color:
+                                  widget.foodStatus ? Colors.green : Colors.red,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
                 Row(
