@@ -103,7 +103,7 @@ class _RestaurantTileState extends State<RestaurantTile> {
       onTap: () {
         DetailsRestaurantTile.i = widget.i;
         DetailsRestaurantTile.j = widget.j;
-        DetailsRestaurantTile.chipList = [];
+        DetailsRestaurantTile.controller = [];
         Navigator.pushNamed(context, '/DetailsRestaurantTile');
       },
       child: Container(
