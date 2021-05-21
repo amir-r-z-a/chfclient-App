@@ -1,3 +1,4 @@
+import 'package:chfclient/Classes/ClientFoodTile.dart';
 import 'package:chfclient/Screens/ClientActiveOrdersScreen.dart';
 import 'package:chfclient/Screens/CartScreen.dart';
 import 'package:chfclient/Screens/ClientHomeScreen.dart';

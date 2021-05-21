@@ -1,4 +1,6 @@
 import 'package:chfclient/Classes/CartTile.dart';
+import 'package:chfclient/Classes/ClientAccounts.dart';
+import 'package:chfclient/Common/Common%20Classes/Date.dart';
 import 'package:chfclient/Common/Common%20Classes/RestaurantTypes.dart';
 import 'package:chfclient/Screens/DetailsRestaurantTile.dart';
 import 'package:flutter/material.dart';
@@ -11,8 +13,8 @@ class RestaurantTile extends StatefulWidget {
   String email;
   double _point;
   double _workingRadius;
+
   // List<CartTile> _cart;
-  int _i;
   int _j;
 
   // Image _profileImage;
@@ -29,7 +31,6 @@ class RestaurantTile extends StatefulWidget {
     // this._profileImage,
     this._type,
     this._restaurantComments,
-    this._i,
     this._j, {
     this.email,
   });
@@ -88,12 +89,6 @@ class RestaurantTile extends StatefulWidget {
   //   _cart = value;
   // }
 
-  int get i => _i;
-
-  set i(int value) {
-    _i = value;
-  }
-
   int get j => _j;
 
   set j(int value) {
@@ -109,9 +104,16 @@ class _RestaurantTileState extends State<RestaurantTile> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        DetailsRestaurantTile.i = widget.i;
         DetailsRestaurantTile.j = widget.j;
-        DetailsRestaurantTile.controller = [];
+        DetailsRestaurantTile.index = 0;
+        ClientAccounts.accounts[ClientAccounts.currentAccount].addCart(CartTile(
+            widget.name,
+            widget.address,
+            {-1: 0},
+            {-1: 'All'},
+            {-1: 0},
+            Date('2021', '3', '12', '4', '22', '23'),
+            widget.j));
         Navigator.pushNamed(context, '/DetailsRestaurantTile');
       },
       child: Container(
@@ -131,13 +133,17 @@ class _RestaurantTileState extends State<RestaurantTile> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
-                children: [Text("fast food zafar")],
+                children: [Text(widget.name)],
               ),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
-                children: [Text("fast food , breakFast")],
+                children: [
+                  Text(widget.type
+                      .toString()
+                      .substring(widget.type.toString().indexOf('.') + 1))
+                ],
               ),
             ),
             Padding(
@@ -148,7 +154,7 @@ class _RestaurantTileState extends State<RestaurantTile> {
                     height: 30,
                     width: 50,
                     decoration: BoxDecoration(border: Border.all()),
-                    child: Center(child: Text("150 \$")),
+                    child: Center(child: Text('post' + "\$")),
                   )
                 ],
               ),

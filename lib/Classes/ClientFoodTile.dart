@@ -1,5 +1,6 @@
 import 'package:chfclient/Classes/ClientAccounts.dart';
 import 'package:chfclient/Screens/DetailsClientFoodTile.dart';
+import 'package:chfclient/Screens/DetailsRestaurantTile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -13,6 +14,8 @@ class ClientFoodTile extends StatefulWidget {
   int counter = 0;
   static Function detailsAddMinCart;
   static Function detailsRestaurant;
+  static Function cartTile;
+  static Function cartScreen;
 
   ClientFoodTile(
     this._name,
@@ -68,10 +71,20 @@ class _ClientFoodTileState extends State<ClientFoodTile> {
 
   void addMinCartFunc(String status) {
     setState(() {
-      if (status == '+')
+      if (status == '+') {
         widget.counter++;
-      else
+        ClientAccounts.accounts[ClientAccounts.currentAccount]
+            .cartList[DetailsRestaurantTile.j]
+            .cartAdd(widget.name, widget.price);
+      } else {
         widget.counter--;
+        ClientAccounts.accounts[ClientAccounts.currentAccount]
+            .cartList[DetailsRestaurantTile.j]
+            .cartMin(widget.name, widget.price);
+        if (ClientFoodTile.cartScreen != null) {
+          ClientFoodTile.cartScreen();
+        }
+      }
       if (ClientFoodTile.detailsAddMinCart != null) {
         DetailsClientFoodTile.counter = widget.counter;
         DetailsClientFoodTile.myContainer = myContainer();
@@ -79,6 +92,9 @@ class _ClientFoodTileState extends State<ClientFoodTile> {
         ClientFoodTile.detailsAddMinCart();
       }
       ClientFoodTile.detailsRestaurant();
+      if (ClientFoodTile.cartTile != null) {
+        ClientFoodTile.cartTile();
+      }
     });
   }
 

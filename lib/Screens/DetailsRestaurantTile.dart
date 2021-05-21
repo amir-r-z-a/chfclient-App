@@ -8,7 +8,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class DetailsRestaurantTile extends StatefulWidget {
-  static int i;
   static int j;
   static List<bool> controller;
   static int index = 0;
@@ -30,139 +29,137 @@ class _DetailsRestaurantTileState extends State<DetailsRestaurantTile> {
     int sum = 0;
     for (int i = 0;
         i <
-            RestaurantAccounts
-                .restaurantList[DetailsRestaurantTile.i]
-                    [DetailsRestaurantTile.j]
-                .clientTabBarView[0]
-                .length;
+            RestaurantAccounts.restaurantList[0][DetailsRestaurantTile.j]
+                .clientTabBarView[0].length;
         i++) {
-      sum += RestaurantAccounts
-          .restaurantList[DetailsRestaurantTile.i][DetailsRestaurantTile.j]
-          .clientTabBarView[0][i]
-          .counter;
+      sum += RestaurantAccounts.restaurantList[0][DetailsRestaurantTile.j]
+          .clientTabBarView[0][i].counter;
     }
     return sum;
   }
 
-  void cartNumCalculate(Map cartNum) {
-    // int sum = 0;
-    for (int i = 0;
-        i <
-            RestaurantAccounts
-                .restaurantList[DetailsRestaurantTile.i]
-                    [DetailsRestaurantTile.j]
-                .clientTabBarView[0]
-                .length;
-        i++) {
-      if (RestaurantAccounts
-              .restaurantList[DetailsRestaurantTile.i][DetailsRestaurantTile.j]
-              .clientTabBarView[0][i]
-              .counter >
-          0) {
-        cartNum[cartNum.length] = RestaurantAccounts
-            .restaurantList[DetailsRestaurantTile.i][DetailsRestaurantTile.j]
-            .clientTabBarView[0][i]
-            .counter;
-        // sum += RestaurantAccounts
-        //     .restaurantList[DetailsRestaurantTile.i][DetailsRestaurantTile.j]
-        //     .clientTabBarView[0][i]
-        //     .counter;
-      }
-    }
-    cartNum[-1] = counterCalculator();
-  }
-
-  void cartSumCalculate(Map cartSum) {
-    int sum = 0;
-    for (int i = 0;
-        i <
-            RestaurantAccounts
-                .restaurantList[DetailsRestaurantTile.i]
-                    [DetailsRestaurantTile.j]
-                .clientTabBarView[0]
-                .length;
-        i++) {
-      if (RestaurantAccounts
-              .restaurantList[DetailsRestaurantTile.i][DetailsRestaurantTile.j]
-              .clientTabBarView[0][i]
-              .counter >
-          0) {
-        cartSum[cartSum.length] = RestaurantAccounts
-                .restaurantList[DetailsRestaurantTile.i]
-                    [DetailsRestaurantTile.j]
-                .clientTabBarView[0][i]
-                .counter *
-            int.parse(RestaurantAccounts
-                .restaurantList[DetailsRestaurantTile.i]
-                    [DetailsRestaurantTile.j]
-                .clientTabBarView[0][i]
-                .price);
-        sum += RestaurantAccounts
-                .restaurantList[DetailsRestaurantTile.i]
-                    [DetailsRestaurantTile.j]
-                .clientTabBarView[0][i]
-                .counter *
-            int.parse(RestaurantAccounts
-                .restaurantList[DetailsRestaurantTile.i]
-                    [DetailsRestaurantTile.j]
-                .clientTabBarView[0][i]
-                .price);
-      }
-    }
-    cartSum[-1] = sum;
-  }
-
-  void cartNameCalculate(Map cartName) {
-    for (int i = 0;
-        i <
-            RestaurantAccounts
-                .restaurantList[DetailsRestaurantTile.i]
-                    [DetailsRestaurantTile.j]
-                .clientTabBarView[0]
-                .length;
-        i++) {
-      if (RestaurantAccounts
-              .restaurantList[DetailsRestaurantTile.i][DetailsRestaurantTile.j]
-              .clientTabBarView[0][i]
-              .counter >
-          0) {
-        cartName[cartName.length] = RestaurantAccounts
-            .restaurantList[DetailsRestaurantTile.i][DetailsRestaurantTile.j]
-            .clientTabBarView[0][i]
-            .name;
-      }
-    }
-    cartName[-1] = 'All';
-  }
+  // void cartNumCalculate(Map cartNum) {
+  //   // int sum = 0;
+  //   for (int i = 0;
+  //       i <
+  //           RestaurantAccounts
+  //               .restaurantList[DetailsRestaurantTile.i]
+  //                   [DetailsRestaurantTile.j]
+  //               .clientTabBarView[0]
+  //               .length;
+  //       i++) {
+  //     if (RestaurantAccounts
+  //             .restaurantList[DetailsRestaurantTile.i][DetailsRestaurantTile.j]
+  //             .clientTabBarView[0][i]
+  //             .counter >
+  //         0) {
+  //       cartNum[cartNum.length] = RestaurantAccounts
+  //           .restaurantList[DetailsRestaurantTile.i][DetailsRestaurantTile.j]
+  //           .clientTabBarView[0][i]
+  //           .counter;
+  //       // sum += RestaurantAccounts
+  //       //     .restaurantList[DetailsRestaurantTile.i][DetailsRestaurantTile.j]
+  //       //     .clientTabBarView[0][i]
+  //       //     .counter;
+  //     }
+  //   }
+  //   cartNum[-1] = counterCalculator();
+  // }
+  //
+  // void cartSumCalculate(Map cartSum) {
+  //   int sum = 0;
+  //   for (int i = 0;
+  //       i <
+  //           RestaurantAccounts
+  //               .restaurantList[DetailsRestaurantTile.i]
+  //                   [DetailsRestaurantTile.j]
+  //               .clientTabBarView[0]
+  //               .length;
+  //       i++) {
+  //     if (RestaurantAccounts
+  //             .restaurantList[DetailsRestaurantTile.i][DetailsRestaurantTile.j]
+  //             .clientTabBarView[0][i]
+  //             .counter >
+  //         0) {
+  //       cartSum[cartSum.length] = RestaurantAccounts
+  //               .restaurantList[DetailsRestaurantTile.i]
+  //                   [DetailsRestaurantTile.j]
+  //               .clientTabBarView[0][i]
+  //               .counter *
+  //           int.parse(RestaurantAccounts
+  //               .restaurantList[DetailsRestaurantTile.i]
+  //                   [DetailsRestaurantTile.j]
+  //               .clientTabBarView[0][i]
+  //               .price);
+  //       sum += RestaurantAccounts
+  //               .restaurantList[DetailsRestaurantTile.i]
+  //                   [DetailsRestaurantTile.j]
+  //               .clientTabBarView[0][i]
+  //               .counter *
+  //           int.parse(RestaurantAccounts
+  //               .restaurantList[DetailsRestaurantTile.i]
+  //                   [DetailsRestaurantTile.j]
+  //               .clientTabBarView[0][i]
+  //               .price);
+  //     }
+  //   }
+  //   cartSum[-1] = sum;
+  // }
+  //
+  // void cartNameCalculate(Map cartName) {
+  //   for (int i = 0;
+  //       i <
+  //           RestaurantAccounts
+  //               .restaurantList[DetailsRestaurantTile.i]
+  //                   [DetailsRestaurantTile.j]
+  //               .clientTabBarView[0]
+  //               .length;
+  //       i++) {
+  //     if (RestaurantAccounts
+  //             .restaurantList[DetailsRestaurantTile.i][DetailsRestaurantTile.j]
+  //             .clientTabBarView[0][i]
+  //             .counter >
+  //         0) {
+  //       cartName[cartName.length] = RestaurantAccounts
+  //           .restaurantList[DetailsRestaurantTile.i][DetailsRestaurantTile.j]
+  //           .clientTabBarView[0][i]
+  //           .name;
+  //     }
+  //   }
+  //   cartName[-1] = 'All';
+  // }
 
   void goToCartScreen() {
-    Map cartSum = {};
-    Map cartName = {};
-    Map cartNum = {};
-    cartSumCalculate(cartSum);
-    cartNameCalculate(cartName);
-    cartNumCalculate(cartNum);
-    CartTile cartTile = CartTile(
-        RestaurantAccounts
-            .restaurantList[DetailsRestaurantTile.i][DetailsRestaurantTile.j]
-            .name,
-        RestaurantAccounts
-            .restaurantList[DetailsRestaurantTile.i][DetailsRestaurantTile.j]
-            .address,
-        cartSum,
-        cartName,
-        cartNum,
-        /*RestaurantAccounts
-                .restaurantList[DetailsRestaurantTile.i]
-                    [DetailsRestaurantTile.j]
-                .profileImage,*/
-        Date('2021', '3', '12', '4', '22', '23'));
+    // Map<int, int> cartSum = {};
+    // Map<int, String> cartName = {};
+    // Map<int, int> cartNum = {};
+    // cartSumCalculate(cartSum);
+    // cartNameCalculate(cartName);
+    // cartNumCalculate(cartNum);
+
+    // CartTile cartTile = CartTile(
+    //     RestaurantAccounts
+    //         .restaurantList[DetailsRestaurantTile.i][DetailsRestaurantTile.j]
+    //         .name,
+    //     RestaurantAccounts
+    //         .restaurantList[DetailsRestaurantTile.i][DetailsRestaurantTile.j]
+    //         .address,
+    //     cartSum,
+    //     cartName,
+    //     cartNum,
+    //     /*RestaurantAccounts
+    //             .restaurantList[DetailsRestaurantTile.i]
+    //                 [DetailsRestaurantTile.j]
+    //             .profileImage,*/
+    //     Date('2021', '3', '12', '4', '22', '23'),
+    //     DetailsRestaurantTile.j);
+
     // RestaurantAccounts
     //     .restaurantList[DetailsRestaurantTile.i][DetailsRestaurantTile.j].cart
     //     .add(cartTile);
-    ClientAccounts.accounts[ClientAccounts.currentAccount]
-        .addCart(cartTile, DetailsRestaurantTile.i);
-    Navigator.pushNamed(context, '/CartScreen');
+
+    // ClientAccounts.accounts[ClientAccounts.currentAccount].addCart(cartTile);
+    Navigator.pushNamed(context, '/DetailsCartTile');
   }
 
   @override
@@ -175,10 +172,7 @@ class _DetailsRestaurantTileState extends State<DetailsRestaurantTile> {
     for (int i = 0;
         i <
             RestaurantAccounts
-                .restaurantList[DetailsRestaurantTile.i]
-                    [DetailsRestaurantTile.j]
-                .tabBarTitle
-                .length;
+                .restaurantList[0][DetailsRestaurantTile.j].tabBarTitle.length;
         i++) {
       DetailsRestaurantTile.controller.add(true);
     }
@@ -211,15 +205,13 @@ class _DetailsRestaurantTileState extends State<DetailsRestaurantTile> {
                 child: Row(
                   children: List.generate(
                     RestaurantAccounts
-                        .restaurantList[DetailsRestaurantTile.i]
-                            [DetailsRestaurantTile.j]
+                        .restaurantList[0][DetailsRestaurantTile.j]
                         .tabBarTitle
                         .length,
                     (index) {
                       return MyTabBarChip(
                           RestaurantAccounts
-                              .restaurantList[DetailsRestaurantTile.i]
-                                  [DetailsRestaurantTile.j]
+                              .restaurantList[0][DetailsRestaurantTile.j]
                               .tabBarTitle[index],
                           index);
                     },
@@ -229,14 +221,10 @@ class _DetailsRestaurantTileState extends State<DetailsRestaurantTile> {
             ),
             Column(
               children: List.generate(
-                  RestaurantAccounts
-                      .restaurantList[DetailsRestaurantTile.i]
-                          [DetailsRestaurantTile.j]
-                      .clientTabBarView[DetailsRestaurantTile.index]
-                      .length,
+                  RestaurantAccounts.restaurantList[0][DetailsRestaurantTile.j]
+                      .clientTabBarView[DetailsRestaurantTile.index].length,
                   (index) => RestaurantAccounts
-                      .restaurantList[DetailsRestaurantTile.i]
-                          [DetailsRestaurantTile.j]
+                      .restaurantList[0][DetailsRestaurantTile.j]
                       .clientTabBarView[DetailsRestaurantTile.index][index]),
             ),
           ]),

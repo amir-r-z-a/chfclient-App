@@ -8,7 +8,6 @@ class RestaurantAccounts {
     restaurantList[0].add(restaurantTile);
     //  calculate title
     //  restaurantList[i].add(restaurantTile);
-    //  restaurantTile.i=
-    //  restaurantTile.j=
+    //  restaurantTile.j= (hame restaurant ha bar asas All sanjide mishavand)
   }
 }

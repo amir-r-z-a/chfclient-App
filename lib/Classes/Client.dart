@@ -42,12 +42,11 @@ class Client {
     activeOrders.add(clientActiveOrderTile);
   }
 
-  void addCart(CartTile cartTile, int i) {
-    cartList[-1].add(cartTile);
-    if (cartList[i] == null) {
-      cartList[i] = [];
+  void addCart(CartTile cartTile) {
+    if (cartList[cartTile.j] == null) {
+      cartList[-1].add(cartTile);
+      cartList[cartTile.j] = cartTile;
     }
-    cartList[i].add(cartTile);
   }
 
   String get name => _name;

@@ -37,7 +37,7 @@ class _DetailsClientFoodTileState extends State<DetailsClientFoodTile> {
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                     primary: Theme.of(context).primaryColor),
-                onPressed: () => DetailsClientFoodTile.goToCartScreen,
+                onPressed: () => DetailsClientFoodTile.goToCartScreen(),
                 child: Text('Finished (' +
                     DetailsClientFoodTile.counterCalculator().toString() +
                     ')'),

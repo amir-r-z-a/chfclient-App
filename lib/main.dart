@@ -11,6 +11,7 @@ import 'package:chfclient/Common/Common%20Classes/RestaurantTypes.dart';
 import 'package:chfclient/Screens/CartScreen.dart';
 import 'package:chfclient/Screens/ClientSignInScreen.dart';
 import 'package:chfclient/Screens/ClientSignUpScreen.dart';
+import 'package:chfclient/Screens/DetailsCartTile.dart';
 import 'package:chfclient/Screens/DetailsClientFoodTile.dart';
 import 'package:chfclient/Screens/DetailsRestaurantTile.dart';
 import 'package:chfclient/Screens/InvoiceDetailsScreeen.dart';
@@ -34,7 +35,7 @@ class _MyAppState extends State<MyApp> {
         '/ClientMainMenuScreen': (context) => ClientMainMenuScreen(),
         '/DetailsClientFoodTile': (context) => DetailsClientFoodTile(),
         '/DetailsRestaurantTile': (context) => DetailsRestaurantTile(),
-        '/CartScreen': (context) => CartScreen(),
+        '/DetailsCartTile': (context) => DetailsCartTile(),
       },
       home:
           // ClientSignInScreen(),
@@ -147,7 +148,6 @@ void main() {
       ],
     },
     0,
-    0,
     // email: 'arman@gmail.com',
   );
   RestaurantAccounts.receiveRestaurant(restaurant);
@@ -196,7 +196,6 @@ void main() {
     12,
     RestaurantTypes.Cafe,
     {},
-    0,
     1,
     // email: 'arman@gmail.com',
   );
