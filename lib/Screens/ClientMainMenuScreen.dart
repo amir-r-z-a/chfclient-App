@@ -5,12 +5,57 @@ import 'package:chfclient/Screens/ClientHomeScreen.dart';
 import 'package:chfclient/Screens/ClientOrdersHistoryScreen.dart';
 import 'package:flutter/material.dart';
 
+class customListTile extends StatefulWidget {
+  IconData icon;
+  String text;
+  Function ontap;
+
+  customListTile(this.icon, this.text, this.ontap);
+
+  @override
+  _customListTileState createState() => _customListTileState();
+}
+
+class _customListTileState extends State<customListTile> {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+      child: InkWell(
+        splashColor: Colors.deepOrange,
+        onTap: widget.ontap,
+        child: Container(
+          height: 40,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  Icon(widget.icon),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      widget.text,
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  )
+                ],
+              ),
+              Icon(Icons.arrow_right),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
 class ClientMainMenuScreen extends StatefulWidget {
   @override
   _ClientMainMenuScreenState createState() => _ClientMainMenuScreenState();
 }
 
 class _ClientMainMenuScreenState extends State<ClientMainMenuScreen> {
+
   int _currentSelect = 1;
   List<Widget> screens = [
     CartScreen(),
@@ -29,7 +74,24 @@ class _ClientMainMenuScreenState extends State<ClientMainMenuScreen> {
                 ClientOrdersHistoryScreen(),
                 ClientActiveOrdersScreen(),
               ]),
-        drawer: Drawer(),
+        drawer: Drawer(
+          child: ListView(
+            children: [
+              DrawerHeader(
+                  decoration: BoxDecoration(
+                      gradient: LinearGradient(colors: [
+                        Colors.orange,
+                        Colors.deepOrange,
+                      ])),
+                  child: Text('here is header')),
+              customListTile(Icons.person, 'Profile',()=>{}),
+              customListTile(Icons.comment , 'My Comments ',()=>{}),
+              customListTile(Icons.monetization_on, 'My Wallet',()=>{}),
+              customListTile(Icons.phone, 'Contact Us', () => {}),
+              customListTile(Icons.logout, "Log Out", () => {}),
+            ],
+          )
+        ),
         appBar: AppBar(
           bottom: _currentSelect == 2
               ? TabBar(tabs: [
