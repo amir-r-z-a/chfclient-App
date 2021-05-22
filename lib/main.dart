@@ -53,14 +53,14 @@ class _MyAppState extends State<MyApp> {
 
           // ClientOrderTile()
 
-          // ClientMainMenuScreen(),
+          ClientMainMenuScreen(),
 
-          FinishedClientFoodTile(
-        'Tea',
-        '25',
-        'Cafe',
-        desc: 'desc',
-      ),
+      //     FinishedClientFoodTile(
+      //   'Tea',
+      //   '25',
+      //   'Cafe',
+      //   desc: 'desc',
+      // ),
 
       // InvoiceDetailsScreen()
     );

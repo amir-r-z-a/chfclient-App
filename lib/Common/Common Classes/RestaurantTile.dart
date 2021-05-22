@@ -95,6 +95,32 @@ class RestaurantTile extends StatefulWidget {
     _j = value;
   }
 
+  int getClientTabBarViewLength() {
+    return clientTabBarView.length;
+  }
+
+  String getCategory(String input) {
+    for (int i = 0; i < getClientTabBarViewLength(); i++) {
+      for (int j = 0; j < clientTabBarView[i].length; j++) {
+        if (clientTabBarView[i][j].name == input) {
+          return clientTabBarView[i][j].category;
+        }
+      }
+    }
+    return '-1';
+  }
+
+  String getDesc(String input) {
+    for (int i = 0; i < getClientTabBarViewLength(); i++) {
+      for (int j = 0; j < clientTabBarView[i].length; j++) {
+        if (clientTabBarView[i][j].name == input) {
+          return clientTabBarView[i][j].desc;
+        }
+      }
+    }
+    return '-1';
+  }
+
   @override
   _RestaurantTileState createState() => _RestaurantTileState();
 }

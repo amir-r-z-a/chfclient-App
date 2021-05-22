@@ -99,9 +99,9 @@ class CartTile extends StatefulWidget {
         return;
       }
     }
-    cartName[getCartNameLength()] = foodName;
-    cartSum[getCartSumLength()] = int.parse(price);
-    cartNum[getCartNumLength()] = 1;
+    cartName[getCartNameLength() - 1] = foodName;
+    cartSum[getCartSumLength() - 1] = int.parse(price);
+    cartNum[getCartNumLength() - 1] = 1;
   }
 
   void cartMin(String foodName, String price) {
@@ -128,7 +128,7 @@ class _CartTileState extends State<CartTile> {
 
   @override
   Widget build(BuildContext context) {
-    CartScreen.cartTile=refreshPage;
+    CartScreen.cartTile = refreshPage;
 
     return Container(
       width: MediaQuery.of(context).size.width,
