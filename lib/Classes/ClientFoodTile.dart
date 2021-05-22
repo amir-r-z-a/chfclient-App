@@ -81,9 +81,6 @@ class _ClientFoodTileState extends State<ClientFoodTile> {
         ClientAccounts.accounts[ClientAccounts.currentAccount]
             .cartList[DetailsRestaurantTile.j]
             .cartMin(widget.name, widget.price);
-        if (ClientFoodTile.cartScreen != null) {
-          ClientFoodTile.cartScreen();
-        }
       }
       if (ClientFoodTile.detailsAddMinCart != null) {
         DetailsClientFoodTile.counter = widget.counter;
@@ -94,6 +91,9 @@ class _ClientFoodTileState extends State<ClientFoodTile> {
       ClientFoodTile.detailsRestaurant();
       if (ClientFoodTile.cartTile != null) {
         ClientFoodTile.cartTile();
+      }
+      if (ClientFoodTile.cartScreen != null) {
+        ClientFoodTile.cartScreen();
       }
     });
   }

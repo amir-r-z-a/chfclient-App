@@ -4,6 +4,8 @@ import 'package:chfclient/Classes/ClientFoodTile.dart';
 import 'package:flutter/material.dart';
 
 class CartScreen extends StatefulWidget {
+  static Function cartTile;
+
   @override
   _CartScreenState createState() => _CartScreenState();
 }
@@ -24,11 +26,16 @@ class _CartScreenState extends State<CartScreen> {
         children: List.generate(
             ClientAccounts.accounts[ClientAccounts.currentAccount].cartList[-1]
                 .length, (index) {
+          int len = ClientAccounts
+              .accounts[ClientAccounts.currentAccount].cartList[-1].length;
           if (ClientAccounts.accounts[ClientAccounts.currentAccount]
-                  .cartList[-1][index].cartNum[-1] !=
+                  .cartList[-1][len - index - 1].cartNum[-1] !=
               0) {
-            return ClientAccounts
-                .accounts[ClientAccounts.currentAccount].cartList[-1][index];
+            if (CartScreen.cartTile != null) {
+              CartScreen.cartTile();
+            }
+            return ClientAccounts.accounts[ClientAccounts.currentAccount]
+                .cartList[-1][len - index - 1];
           }
           return Container(
             height: 0,

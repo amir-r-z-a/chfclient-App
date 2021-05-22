@@ -3,6 +3,7 @@ import 'package:chfclient/Classes/ClientActiveOrderTile.dart';
 import 'package:chfclient/Classes/Client.dart';
 import 'package:chfclient/Classes/ClientFoodTile.dart';
 import 'package:chfclient/Classes/ClientOrderHistoryTile.dart';
+import 'package:chfclient/Classes/FinishedClientFoodTile.dart';
 import 'package:chfclient/Classes/RestaurantAccounts.dart';
 import 'package:chfclient/Common/Common%20Classes/CommentTile.dart';
 import 'package:chfclient/Common/Common%20Classes/Date.dart';
@@ -52,7 +53,14 @@ class _MyAppState extends State<MyApp> {
 
           // ClientOrderTile()
 
-          ClientMainMenuScreen(),
+          // ClientMainMenuScreen(),
+
+          FinishedClientFoodTile(
+        'Tea',
+        '25',
+        'Cafe',
+        desc: 'desc',
+      ),
 
       // InvoiceDetailsScreen()
     );

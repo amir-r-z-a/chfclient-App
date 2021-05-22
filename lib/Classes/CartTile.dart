@@ -3,6 +3,7 @@ import 'package:chfclient/Classes/ClientAccounts.dart';
 import 'package:chfclient/Classes/ClientFoodTile.dart';
 import 'package:chfclient/Classes/RestaurantAccounts.dart';
 import 'package:chfclient/Common/Common%20Classes/Date.dart';
+import 'package:chfclient/Screens/CartScreen.dart';
 import 'package:chfclient/Screens/DetailsRestaurantTile.dart';
 import 'package:flutter/material.dart';
 
@@ -97,10 +98,10 @@ class CartTile extends StatefulWidget {
         cartNum[i]++;
         return;
       }
-      cartName[getCartNameLength()] = foodName;
-      cartSum[getCartSumLength()] = int.parse(price);
-      cartNum[getCartNumLength()] = 1;
     }
+    cartName[getCartNameLength()] = foodName;
+    cartSum[getCartSumLength()] = int.parse(price);
+    cartNum[getCartNumLength()] = 1;
   }
 
   void cartMin(String foodName, String price) {
@@ -127,7 +128,8 @@ class _CartTileState extends State<CartTile> {
 
   @override
   Widget build(BuildContext context) {
-    ClientFoodTile.cartTile = refreshPage;
+    CartScreen.cartTile=refreshPage;
+
     return Container(
       width: MediaQuery.of(context).size.width,
       height: 220,
@@ -200,6 +202,7 @@ class _CartTileState extends State<CartTile> {
                   onPressed: () {
                     DetailsRestaurantTile.j = widget.j;
                     DetailsRestaurantTile.index = 0;
+                    ClientFoodTile.cartTile = refreshPage;
                     Navigator.pushNamed(context, '/DetailsRestaurantTile');
                   },
                   child: Text("Continue"),
