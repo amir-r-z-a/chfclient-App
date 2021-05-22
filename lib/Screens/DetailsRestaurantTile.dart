@@ -19,7 +19,9 @@ class DetailsRestaurantTile extends StatefulWidget {
 
 class _DetailsRestaurantTileState extends State<DetailsRestaurantTile> {
   void refreshPage() {
-    setState(() {});
+    if (this.mounted) {
+      setState(() {});
+    }
   }
 
   static void changeChip() {
@@ -166,6 +168,7 @@ class _DetailsRestaurantTileState extends State<DetailsRestaurantTile> {
 
   @override
   Widget build(BuildContext context) {
+    DetailsCartTile.detailsRestaurant = refreshPage;
     DetailsClientFoodTile.goToCartScreen = goToCartScreen;
     DetailsClientFoodTile.counterCalculator = counterCalculator;
     ClientFoodTile.detailsRestaurant = refreshPage;

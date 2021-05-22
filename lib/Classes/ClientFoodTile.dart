@@ -1,4 +1,5 @@
 import 'package:chfclient/Classes/ClientAccounts.dart';
+import 'package:chfclient/Screens/DetailsCartTile.dart';
 import 'package:chfclient/Screens/DetailsClientFoodTile.dart';
 import 'package:chfclient/Screens/DetailsRestaurantTile.dart';
 import 'package:flutter/cupertino.dart';
@@ -69,6 +70,12 @@ class _ClientFoodTileState extends State<ClientFoodTile> {
   //   });
   // }
 
+  void refreshPage() {
+    if (this.mounted) {
+      setState(() {});
+    }
+  }
+
   void addMinCartFunc(String status) {
     setState(() {
       if (status == '+') {
@@ -100,6 +107,7 @@ class _ClientFoodTileState extends State<ClientFoodTile> {
 
   @override
   Widget build(BuildContext context) {
+    DetailsCartTile.clientFoods.add(refreshPage);
     return GestureDetector(
       onTap: () {
         DetailsClientFoodTile.name = widget.name;
@@ -109,6 +117,7 @@ class _ClientFoodTileState extends State<ClientFoodTile> {
         DetailsClientFoodTile.counter = widget.counter;
         DetailsClientFoodTile.myContainer = myContainer();
         DetailsClientFoodTile.myRow = myRow();
+        DetailsCartTile.flag = true;
         Navigator.pushNamed(context, '/DetailsClientFoodTile');
       },
       child: Container(
@@ -230,7 +239,7 @@ class _ClientFoodTileState extends State<ClientFoodTile> {
           onTap: () => addMinCartFunc('-'),
           child: Container(
             child: Icon(
-              Icons.minimize,
+              Icons.remove,
               color: Theme.of(context).primaryColor,
             ),
             decoration: BoxDecoration(

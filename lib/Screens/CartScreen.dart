@@ -1,6 +1,7 @@
 import 'package:chfclient/Classes/CartTile.dart';
 import 'package:chfclient/Classes/ClientAccounts.dart';
 import 'package:chfclient/Classes/ClientFoodTile.dart';
+import 'package:chfclient/Screens/DetailsCartTile.dart';
 import 'package:flutter/material.dart';
 
 class CartScreen extends StatefulWidget {
@@ -21,6 +22,7 @@ class _CartScreenState extends State<CartScreen> {
   Widget build(BuildContext context) {
     CartTile.cartScreen = refreshPage;
     ClientFoodTile.cartScreen = refreshPage;
+    DetailsCartTile.cartScreen = refreshPage;
     return Scaffold(
       body: ListView(
         children: List.generate(
