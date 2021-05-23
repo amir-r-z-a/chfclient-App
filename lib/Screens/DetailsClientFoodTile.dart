@@ -1,6 +1,6 @@
 import 'package:chfclient/Classes/ClientFoodTile.dart';
 import 'package:chfclient/Common/Text/ClientMyTextFormField.dart';
-import 'package:chfclient/Screens/DetailsCartTile.dart';
+import 'package:chfclient/Screens/OrderRegistrationScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -48,7 +48,7 @@ class _DetailsClientFoodTileState extends State<DetailsClientFoodTile> {
       appBar: AppBar(
         leading: GestureDetector(
             onTap: () {
-              DetailsCartTile.flag = false;
+              OrderRegistrationScreen.flag = false;
               Navigator.pop(context);
             },
             child: Icon(Icons.arrow_back)),

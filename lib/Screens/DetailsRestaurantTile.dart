@@ -3,7 +3,7 @@ import 'package:chfclient/Classes/ClientAccounts.dart';
 import 'package:chfclient/Classes/ClientFoodTile.dart';
 import 'package:chfclient/Classes/RestaurantAccounts.dart';
 import 'package:chfclient/Common/Common%20Classes/Date.dart';
-import 'package:chfclient/Screens/DetailsCartTile.dart';
+import 'package:chfclient/Screens/OrderRegistrationScreen.dart';
 import 'package:chfclient/Screens/DetailsClientFoodTile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -162,13 +162,13 @@ class _DetailsRestaurantTileState extends State<DetailsRestaurantTile> {
     //     .add(cartTile);
 
     // ClientAccounts.accounts[ClientAccounts.currentAccount].addCart(cartTile);
-    DetailsCartTile.j = DetailsRestaurantTile.j;
+    OrderRegistrationScreen.j = DetailsRestaurantTile.j;
     Navigator.pushNamed(context, '/DetailsCartTile');
   }
 
   @override
   Widget build(BuildContext context) {
-    DetailsCartTile.detailsRestaurant = refreshPage;
+    OrderRegistrationScreen.detailsRestaurant = refreshPage;
     DetailsClientFoodTile.goToCartScreen = goToCartScreen;
     DetailsClientFoodTile.counterCalculator = counterCalculator;
     ClientFoodTile.detailsRestaurant = refreshPage;
