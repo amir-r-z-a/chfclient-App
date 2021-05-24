@@ -1,4 +1,8 @@
+import 'package:chfclient/Classes/ClientAccounts.dart';
+import 'package:chfclient/Classes/ClientAdreesTile.dart';
 import 'package:chfclient/Classes/ClientFoodTile.dart';
+import 'package:chfclient/Classes/RestaurantAccounts.dart';
+import 'package:chfclient/Common/Common%20Classes/RestaurantTile.dart';
 import 'package:chfclient/Screens/ClientActiveOrdersScreen.dart';
 import 'package:chfclient/Screens/CartScreen.dart';
 import 'package:chfclient/Screens/ClientHomeScreen.dart';
@@ -49,22 +53,73 @@ class _customListTileState extends State<customListTile> {
     );
   }
 }
+
 class ClientMainMenuScreen extends StatefulWidget {
   @override
   _ClientMainMenuScreenState createState() => _ClientMainMenuScreenState();
 }
 
 class _ClientMainMenuScreenState extends State<ClientMainMenuScreen> {
+  // void refreshPage() {
+  //   if (this.mounted) {
+  //     setState(() {});
+  //   }
+  // }
 
   int _currentSelect = 1;
   List<Widget> screens = [
     CartScreen(),
     ClientHomeScreen(),
   ];
-  String appBarText = 'Cart';
+  String appBarText = ClientAccounts
+          .accounts[ClientAccounts.currentAccount].address[
+      ClientAccounts.accounts[ClientAccounts.currentAccount].currentAddress];
+
+  void addressButtonSheet() {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return ListView(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Text(
+                  'Address List',
+                  style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+                ),
+                GestureDetector(
+                  onTap: () {},
+                  child: Row(
+                    children: [
+                      Text(
+                        'New Address',
+                      ),
+                      Icon(Icons.add)
+                    ],
+                  ),
+                )
+              ],
+            ),
+            Column(
+              children: List.generate(
+                  ClientAccounts.accounts[ClientAccounts.currentAccount]
+                      .getAddressLength(),
+                  (index) => ClientAddressTile()),
+            )
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
+    for (int i = 0; i < RestaurantAccounts.getRestaurantListLength(); i++) {
+      ClientAccounts.accounts[ClientAccounts.currentAccount].favRestaurantsKey
+          .add(false);
+    }
+    // ClientAddressTile.mainMenu = refreshPage;
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -75,23 +130,35 @@ class _ClientMainMenuScreenState extends State<ClientMainMenuScreen> {
                 ClientActiveOrdersScreen(),
               ]),
         drawer: Drawer(
-          child: ListView(
-            children: [
-              DrawerHeader(
-                  decoration: BoxDecoration(
-                      gradient: LinearGradient(colors: [
-                        Colors.orange,
-                        Colors.deepOrange,
-                      ])),
-                  child: Text('here is header')),
-              customListTile(Icons.person, 'Profile',()=>{}),
-              customListTile(Icons.comment , 'My Comments ',()=>{}),
-              customListTile(Icons.monetization_on, 'My Wallet',()=>{}),
-              customListTile(Icons.phone, 'Contact Us', () => {}),
-              customListTile(Icons.logout, "Log Out", () => {}),
-            ],
-          )
-        ),
+            child: ListView(
+          children: [
+            DrawerHeader(
+                decoration: BoxDecoration(
+                    gradient: LinearGradient(colors: [
+                  Colors.orange,
+                  Colors.deepOrange,
+                ])),
+                child: Text('here is header')),
+            customListTile(Icons.person, 'Profile',
+                () => Navigator.pushNamed(context, '/ProfileScreen')),
+            customListTile(Icons.credit_card_outlined, 'My Wallet',
+                () => Navigator.pushNamed(context, '/WalletScreen')),
+            customListTile(Icons.favorite_border, 'My Fav Restaurants ',
+                () => Navigator.pushNamed(context, '/FavRestaurantsScreen')),
+            customListTile(Icons.comment, 'My Comments ',
+                () => Navigator.pushNamed(context, '/CommentsScreen')),
+            customListTile(Icons.phone, 'Contact Us', () => {}),
+            customListTile(
+              Icons.logout,
+              "Log Out",
+              () {
+                Navigator.popUntil(
+                    context, ModalRoute.withName('/ClientSignInScreen'));
+                Navigator.pushNamed(context, '/ClientSignInScreen');
+              },
+            ),
+          ],
+        )),
         appBar: AppBar(
           bottom: _currentSelect == 2
               ? TabBar(tabs: [
@@ -104,7 +171,18 @@ class _ClientMainMenuScreenState extends State<ClientMainMenuScreen> {
                 ])
               : null,
           centerTitle: true,
-          title: Text(appBarText),
+          title: _currentSelect != 1
+              ? Text(appBarText)
+              : GestureDetector(
+                  onTap: () => addressButtonSheet(),
+                  child: Row(
+                    children: [
+                      Padding(padding: EdgeInsets.fromLTRB(80, 0, 0, 0)),
+                      Icon(Icons.keyboard_arrow_down),
+                      Text(ClientAccounts.digester(appBarText, 10)),
+                    ],
+                  ),
+                ),
         ),
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: _currentSelect,
@@ -114,7 +192,10 @@ class _ClientMainMenuScreenState extends State<ClientMainMenuScreen> {
               if (_currentSelect == 0) {
                 appBarText = 'Cart';
               } else if (_currentSelect == 1) {
-                appBarText = 'Home';
+                appBarText = ClientAccounts
+                        .accounts[ClientAccounts.currentAccount].address[
+                    ClientAccounts.accounts[ClientAccounts.currentAccount]
+                        .currentAddress];
               } else {
                 appBarText = 'Orders';
               }

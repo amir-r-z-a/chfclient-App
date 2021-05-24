@@ -116,9 +116,9 @@ class _ClientSignUpScreenState extends State<ClientSignUpScreen> {
                           print('-------------------------');
                           print("saved");
                           print('Your len is:');
-                          print(ClientAccounts.getLength());
+                          print(ClientAccounts.getClientAccountsLength());
                           print('-------------------------');
-                          for (int i = 0; i < ClientAccounts.getLength(); i++) {
+                          for (int i = 0; i < ClientAccounts.getClientAccountsLength(); i++) {
                             print('index: ');
                             print(i);
                             print(ClientAccounts.accounts[i].name);

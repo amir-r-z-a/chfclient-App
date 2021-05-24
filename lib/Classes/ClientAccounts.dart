@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:chfclient/Classes/Client.dart';
+import 'package:chfclient/Common/Common%20Classes/CommentTile.dart';
 import 'package:chfclient/Common/Text/ClientMyTextFormField.dart';
 
 class ClientAccounts {
@@ -23,12 +26,12 @@ class ClientAccounts {
     accounts.add(client);
   }
 
-  static int getLength() {
+  static int getClientAccountsLength() {
     return _accounts.length;
   }
 
   static bool foundPhoneNumber(String input) {
-    for (int i = 0; i < getLength(); i++) {
+    for (int i = 0; i < getClientAccountsLength(); i++) {
       if (accounts[i].phoneNumber == input) {
         currentAccount = i;
         return false;
@@ -47,7 +50,7 @@ class ClientAccounts {
   }
 
   static bool alreadyPhoneNumber(String input) {
-    for (int i = 0; i < getLength(); i++) {
+    for (int i = 0; i < getClientAccountsLength(); i++) {
       if (accounts[i].phoneNumber == input) {
         return true;
       }
@@ -59,7 +62,7 @@ class ClientAccounts {
     if (oldPhoneNumber == input) {
       return false;
     }
-    for (int i = 0; i < getLength(); i++) {
+    for (int i = 0; i < getClientAccountsLength(); i++) {
       if (accounts[i].phoneNumber == input) {
         return true;
       }
@@ -111,5 +114,33 @@ class ClientAccounts {
       accounts[currentAccount].password = input;
     }
     return !flag;
+  }
+
+  static String commentsIDGenerator(CommentTile commentTile) {
+    bool flag;
+    String randomID;
+    do {
+      flag = false;
+      bool key = false;
+      randomID = '#' +
+          String.fromCharCode(commentTile.foodName.codeUnitAt(0)) +
+          commentTile.clientPhoneNumber
+              .substring(commentTile.clientPhoneNumber.length - 4) +
+          '-' +
+          (Random().nextInt(899) + 100).toString();
+      for (int i = 0; i < getClientAccountsLength(); i++) {
+        for (int j = 0; j < accounts[i].clientComments.length; j++) {
+          if (accounts[i].clientComments[j].id == randomID) {
+            flag = true;
+            key = true;
+            break;
+          }
+          if (key) {
+            break;
+          }
+        }
+      }
+    } while (flag);
+    return randomID;
   }
 }

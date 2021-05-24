@@ -1,12 +1,17 @@
 import 'package:chfclient/Classes/ClientActiveOrderTile.dart';
 import 'package:chfclient/Classes/CartTile.dart';
 import 'package:chfclient/Classes/ClientOrderHistoryTile.dart';
+import 'package:chfclient/Classes/RestaurantAccounts.dart';
+import 'package:chfclient/Common/Common%20Classes/CommentTile.dart';
+import 'package:chfclient/Common/Common%20Classes/Date.dart';
+import 'package:chfclient/Common/Common%20Classes/RestaurantTile.dart';
 
 class Client {
   String _name;
   String _lastName;
   String _phoneNumber;
   List _address;
+  int currentAddress = 0;
 
   // Location _location;
   String _password;
@@ -14,10 +19,11 @@ class Client {
   List<ClientActiveOrderTile> _activeOrders = [];
   List<ClientOrderHistoryTile> _ordersHistory = [];
   Map _cartList = {-1: []};
-
-  // List<Restaurant> _favRestaurants;
-  // List<CommentTile> _clientComments;
-  double _wallet;
+  List<RestaurantTile> _favRestaurants = [];
+  List<bool> _favRestaurantsKey = [];
+  List<CommentTile> _clientComments = [];
+  double _wallet = 0;
+  Date lastIncrease;
 
   Client(
     this._name,
@@ -38,6 +44,18 @@ class Client {
     return cartList.length;
   }
 
+  int getAddressLength() {
+    return address.length;
+  }
+
+  int getFavRestaurantsLength() {
+    return favRestaurants.length;
+  }
+
+  int getClientCommentsLength() {
+    return clientComments.length;
+  }
+
   void addOrder(ClientActiveOrderTile clientActiveOrderTile) {
     activeOrders.add(clientActiveOrderTile);
   }
@@ -48,6 +66,42 @@ class Client {
       cartList[cartTile.j] = cartTile;
     }
   }
+
+  void addComment(CommentTile commentTile) {
+    clientComments.add(commentTile);
+  }
+
+  static bool validWallet(String input) {
+    //^([1-9][0-9]*)|([1-9][0-9]*\\.[0-9]+)$
+    RegExp regPrice = new RegExp(
+        r'^((\d{1,3}|\s*){1})((\,\d{3}|\d)*)(\s*|\.(\d{2}))$',
+        caseSensitive: false,
+        multiLine: false);
+    if (!regPrice.hasMatch(input)) {
+      return true;
+    }
+    return false;
+  }
+
+  void addWallet(double credit) {
+    wallet += credit;
+  }
+
+  void minusWallet(double credit) {
+    wallet -= credit;
+  }
+
+  void changeLastIncrease(Date date) {
+    lastIncrease = date;
+  }
+
+  // List<bool> createFavRestaurant() {
+  //   List<bool> list = [];
+  //   for (int i = 0; i < RestaurantAccounts.getRestaurantListLength(); i++) {
+  //     list.add(false);
+  //   }
+  //   return list;
+  // }
 
   String get name => _name;
 
@@ -85,13 +139,11 @@ class Client {
     _email = value;
   }
 
-  // List<Restaurant> get favRestaurant => _favRestaurants;
-  //
-  // set favRestaurant(List<Restaurant> value) {
-  //   _favRestaurants = value;
-  // }
-  //
-  // List<CommentTile> get clientComments => _clientComments;
+  List<RestaurantTile> get favRestaurants => _favRestaurants;
+
+  set favRestaurants(List<RestaurantTile> value) {
+    _favRestaurants = value;
+  } // List<CommentTile> get clientComments => _clientComments;
   //
   // set clientComments(List<CommentTile> value) {
   //   _clientComments = value;
@@ -125,5 +177,17 @@ class Client {
 
   set cartList(Map value) {
     _cartList = value;
+  }
+
+  List<bool> get favRestaurantsKey => _favRestaurantsKey;
+
+  set favRestaurantsKey(List<bool> value) {
+    _favRestaurantsKey = value;
+  }
+
+  List<CommentTile> get clientComments => _clientComments;
+
+  set clientComments(List<CommentTile> value) {
+    _clientComments = value;
   }
 }

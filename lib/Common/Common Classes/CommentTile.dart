@@ -1,5 +1,7 @@
 import 'package:chfclient/Classes/ClientAccounts.dart';
+import 'package:chfclient/Classes/RestaurantAccounts.dart';
 import 'package:chfclient/Common/Common%20Classes/Date.dart';
+import 'package:chfclient/Screens/ClientDetailsCommentTile.dart';
 import 'package:flutter/material.dart';
 
 class CommentTile extends StatefulWidget {
@@ -58,6 +60,16 @@ class CommentTile extends StatefulWidget {
     _foodName = value;
   }
 
+  String getNameOfRestaurant() {
+    for (int i = 0; i < RestaurantAccounts.getRestaurantListLength(); i++) {
+      if (RestaurantAccounts.restaurantList[0][i].phoneNumber ==
+          destinationRestaurant) {
+        return RestaurantAccounts.restaurantList[0][i].name;
+      }
+    }
+    return '-1';
+  }
+
   @override
   _CommentTileState createState() => _CommentTileState();
 }
@@ -71,11 +83,11 @@ class _CommentTileState extends State<CommentTile> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // DetailsCommentTile.question = widget.question;
-        // DetailsCommentTile.answer = widget.answer;
+        ClientDetailsCommentTile.question = widget.question;
+        ClientDetailsCommentTile.answer = widget.answer;
         // DetailsCommentTile.id = widget.id;
         // DetailsCommentTile.function = refreshPage;
-        Navigator.pushNamed(context, '/DetailsCommentTile');
+        Navigator.pushNamed(context, '/ClientDetailsCommentTile');
       },
       child: SizedBox(
         height: 300,
@@ -87,7 +99,12 @@ class _CommentTileState extends State<CommentTile> {
               children: [
                 Text(widget.date.dateFormatter() +
                     '\n' +
-                    ClientAccounts.digester(widget.foodName, 50) +
+                    ClientAccounts.digester(
+                        widget.getNameOfRestaurant() +
+                            '(' +
+                            widget.foodName +
+                            ')',
+                        50) +
                     '\n' +
                     widget.id +
                     '\n\n\n\n\n\n'),

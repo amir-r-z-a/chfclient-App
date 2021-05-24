@@ -14,7 +14,8 @@ class OrderRegistrationScreen extends StatefulWidget {
   static Function detailsRestaurant;
 
   @override
-  _OrderRegistrationScreenState createState() => _OrderRegistrationScreenState();
+  _OrderRegistrationScreenState createState() =>
+      _OrderRegistrationScreenState();
 }
 
 class _OrderRegistrationScreenState extends State<OrderRegistrationScreen> {
@@ -93,12 +94,12 @@ class _OrderRegistrationScreenState extends State<OrderRegistrationScreen> {
                               TextStyle(color: Theme.of(context).primaryColor),
                         )),
                     TextButton(
-                        onPressed: () => Navigator.pop(context),
-                        child: Text(
-                          'Cancel',
-                          style:
-                              TextStyle(color: Theme.of(context).primaryColor),
-                        ))
+                      onPressed: () => Navigator.pop(context),
+                      child: Text(
+                        'Cancel',
+                        style: TextStyle(color: Theme.of(context).primaryColor),
+                      ),
+                    )
                   ],
                 )
               ],
@@ -109,16 +110,81 @@ class _OrderRegistrationScreenState extends State<OrderRegistrationScreen> {
     );
   }
 
+  // void payment() {
+  //   showDialog<void>(
+  //     context: context,
+  //     barrierDismissible: false,
+  //     builder: (BuildContext context) {
+  //       return AlertDialog(
+  //         title: Text('Payment'),
+  //         content: Container(
+  //           height: 190,
+  //           child: Column(
+  //             children: [
+  //               Container(
+  //                 decoration: BoxDecoration(
+  //                   border: Border.all(
+  //                     width: 0.3,
+  //                   ),
+  //                 ),
+  //                 child: Row(
+  //                   children: [
+  //                     Radio(
+  //                       value: 0,
+  //                       groupValue: selectedRadio,
+  //                       onChanged: (value) => setSelectedRadio(value),
+  //                     ),
+  //                     Text('Online Payment'),
+  //                   ],
+  //                 ),
+  //               ),
+  //               Container(
+  //                 decoration: BoxDecoration(
+  //                   border: Border.all(
+  //                     width: 0.3,
+  //                   ),
+  //                 ),
+  //                 child: Row(
+  //                   children: [
+  //                     Radio(
+  //                       value: 1,
+  //                       groupValue: selectedRadio,
+  //                       onChanged: (value) => setSelectedRadio(value),
+  //                     ),
+  //                     Text('Wallet'),
+  //                   ],
+  //                 ),
+  //               ),
+  //               Row(
+  //                 mainAxisAlignment: MainAxisAlignment.end,
+  //                 children: [
+  //                   TextButton(
+  //                       onPressed: () => Navigator.pop(context),
+  //                       child: Text('Payment')),
+  //                   TextButton(
+  //                       onPressed: () => Navigator.pop(context),
+  //                       child: Text('Cancel'))
+  //                 ],
+  //               ),
+  //             ],
+  //           ),
+  //         ),
+  //       );
+  //     },
+  //   );
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: Padding(
         padding: EdgeInsets.all(8.00),
         child: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-                primary: Theme.of(context).primaryColor),
-            onPressed: () {},
-            child: Text('Continue')),
+          style:
+              ElevatedButton.styleFrom(primary: Theme.of(context).primaryColor),
+          onPressed: () => Navigator.pushNamed(context, '/PaymentScreen'),
+          child: Text('Continue'),
+        ),
       ),
       appBar: AppBar(
         centerTitle: true,
@@ -141,14 +207,17 @@ class _OrderRegistrationScreenState extends State<OrderRegistrationScreen> {
                   return FinishedClientFoodTile(
                     ClientAccounts.accounts[ClientAccounts.currentAccount]
                         .cartList[OrderRegistrationScreen.j].cartName[index],
-                    (ClientAccounts.accounts[ClientAccounts.currentAccount]
-                                .cartList[OrderRegistrationScreen.j].cartSum[index] /
+                    (ClientAccounts
+                                .accounts[ClientAccounts.currentAccount]
+                                .cartList[OrderRegistrationScreen.j]
+                                .cartSum[index] /
                             ClientAccounts
                                 .accounts[ClientAccounts.currentAccount]
                                 .cartList[OrderRegistrationScreen.j]
                                 .cartNum[index])
                         .toString(),
-                    RestaurantAccounts.restaurantList[0][OrderRegistrationScreen.j]
+                    RestaurantAccounts.restaurantList[0]
+                            [OrderRegistrationScreen.j]
                         .getCategory(ClientAccounts
                             .accounts[ClientAccounts.currentAccount]
                             .cartList[OrderRegistrationScreen.j]

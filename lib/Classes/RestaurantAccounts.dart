@@ -4,6 +4,10 @@ class RestaurantAccounts {
   static Map titleRestaurantList = {0: 'All', 1: 'Top Restaurant'};
   static Map restaurantList = {0: []};
 
+  static int getRestaurantListLength() {
+    return restaurantList[0].length;
+  }
+
   static void receiveRestaurant(RestaurantTile restaurantTile) {
     restaurantList[0].add(restaurantTile);
     //  calculate title

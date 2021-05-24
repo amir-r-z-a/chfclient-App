@@ -1,4 +1,5 @@
 import 'package:chfclient/Classes/ClientAccounts.dart';
+import 'package:chfclient/Common/Common%20Classes/CommentTile.dart';
 import 'package:chfclient/Screens/OrderRegistrationScreen.dart';
 import 'package:chfclient/Screens/DetailsClientFoodTile.dart';
 import 'package:chfclient/Screens/DetailsRestaurantTile.dart';
@@ -13,6 +14,7 @@ class ClientFoodTile extends StatefulWidget {
   bool _foodStatus;
   Image _foodImage;
   int counter = 0;
+  List<CommentTile> comments = [];
   static Function detailsAddMinCart;
   static Function detailsRestaurant;
   static Function cartTile;
@@ -25,6 +27,10 @@ class ClientFoodTile extends StatefulWidget {
     this._category, {
     this.desc,
   });
+
+  void addComment(CommentTile commentTile) {
+    comments.add(commentTile);
+  }
 
   String get name => _name;
 
@@ -115,6 +121,8 @@ class _ClientFoodTileState extends State<ClientFoodTile> {
         DetailsClientFoodTile.price = widget.price;
         DetailsClientFoodTile.foodStatus = widget.foodStatus;
         DetailsClientFoodTile.counter = widget.counter;
+        DetailsClientFoodTile.comments = widget.comments;
+        DetailsClientFoodTile.addComment = widget.addComment;
         DetailsClientFoodTile.myContainer = myContainer();
         DetailsClientFoodTile.myRow = myRow();
         OrderRegistrationScreen.flag = true;
@@ -217,11 +225,11 @@ class _ClientFoodTileState extends State<ClientFoodTile> {
         GestureDetector(
           onTap: () => addMinCartFunc('+'),
           child: Container(
-            child: Icon(Icons.add, color: Colors.white),
+            child: Icon(Icons.add_outlined, color: Colors.white),
             decoration: BoxDecoration(
               color: Theme.of(context).primaryColor,
               border:
-                  Border.all(width: 0.5, color: Theme.of(context).primaryColor),
+                  Border.all(width: 0.7, color: Theme.of(context).primaryColor),
               borderRadius: BorderRadius.circular(5),
             ),
           ),
@@ -244,7 +252,7 @@ class _ClientFoodTileState extends State<ClientFoodTile> {
             ),
             decoration: BoxDecoration(
               border: Border.all(
-                width: 0.2,
+                width: 0.7,
                 color: Colors.black,
               ),
               borderRadius: BorderRadius.circular(5),

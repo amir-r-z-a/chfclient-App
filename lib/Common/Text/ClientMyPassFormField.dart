@@ -37,7 +37,8 @@ class _ClientMyPassFormFieldState extends State<ClientMyPassFormField> {
         } else if (widget.regex == 'PassSignIn' &&
             ClientAccounts.foundPassword(value)) {
           return "Your password is not correct";
-        } else if (widget.regex == 'PassEdit1' && ClientAccounts.oldPassword(value)) {
+        } else if (widget.regex == 'PassEdit1' &&
+            ClientAccounts.oldPassword(value)) {
           return 'Your input does not match your old password';
         } else if (widget.regex == 'PassEdit2' &&
             ClientAccounts.validPassword(value, confirmPassword: true)) {

@@ -1,13 +1,16 @@
 import 'package:chfclient/Classes/CartTile.dart';
 import 'package:chfclient/Classes/ClientAccounts.dart';
+import 'package:chfclient/Classes/RestaurantAccounts.dart';
 import 'package:chfclient/Common/Common%20Classes/Date.dart';
 import 'package:chfclient/Common/Common%20Classes/RestaurantTypes.dart';
+import 'package:chfclient/Screens/ClientHomeScreen.dart';
 import 'package:chfclient/Screens/DetailsRestaurantTile.dart';
 import 'package:flutter/material.dart';
 
 class RestaurantTile extends StatefulWidget {
   String _name;
   String _address;
+  String _phoneNumber;
   Map _tabBarTitle;
   Map _clientTabBarView;
   String email;
@@ -21,9 +24,12 @@ class RestaurantTile extends StatefulWidget {
   RestaurantTypes _type;
   Map _restaurantComments;
 
+  // static Function homeScreen;
+
   RestaurantTile(
     this._name,
     this._address,
+    this._phoneNumber,
     this._tabBarTitle,
     this._clientTabBarView,
     this._point,
@@ -45,6 +51,12 @@ class RestaurantTile extends StatefulWidget {
 
   set address(String value) {
     _address = value;
+  }
+
+  String get phoneNumber => _phoneNumber;
+
+  set phoneNumber(String value) {
+    _phoneNumber = value;
   }
 
   Map get tabBarTitle => _tabBarTitle;
@@ -126,8 +138,15 @@ class RestaurantTile extends StatefulWidget {
 }
 
 class _RestaurantTileState extends State<RestaurantTile> {
+  // void refreshPage() {
+  //   if (this.mounted) {
+  //     setState(() {});
+  //   }
+  // }
+
   @override
   Widget build(BuildContext context) {
+    // ClientHomeScreen.restaurantTile = refreshPage;
     return GestureDetector(
       onTap: () {
         DetailsRestaurantTile.j = widget.j;
@@ -175,13 +194,47 @@ class _RestaurantTileState extends State<RestaurantTile> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
                     height: 30,
                     width: 50,
                     decoration: BoxDecoration(border: Border.all()),
                     child: Center(child: Text('post' + "\$")),
-                  )
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        ClientAccounts.accounts[ClientAccounts.currentAccount]
+                                .favRestaurantsKey[widget.j] =
+                            !ClientAccounts
+                                .accounts[ClientAccounts.currentAccount]
+                                .favRestaurantsKey[widget.j];
+                        if (ClientAccounts
+                            .accounts[ClientAccounts.currentAccount]
+                            .favRestaurantsKey[widget.j]) {
+                          ClientAccounts.accounts[ClientAccounts.currentAccount]
+                              .favRestaurants
+                              .add(RestaurantAccounts.restaurantList[0]
+                                  [widget.j]);
+                        } else {
+                          ClientAccounts.accounts[ClientAccounts.currentAccount]
+                              .favRestaurants
+                              .remove(RestaurantAccounts.restaurantList[0]
+                                  [widget.j]);
+                        }
+                        // RestaurantTile.homeScreen();
+                      });
+                    },
+                    child: ClientAccounts
+                            .accounts[ClientAccounts.currentAccount]
+                            .favRestaurantsKey[widget.j]
+                        ? Icon(
+                            Icons.favorite,
+                            color: Theme.of(context).primaryColor,
+                          )
+                        : Icon(Icons.favorite_border),
+                  ),
                 ],
               ),
             ),

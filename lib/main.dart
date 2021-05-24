@@ -10,13 +10,19 @@ import 'package:chfclient/Common/Common%20Classes/Date.dart';
 import 'package:chfclient/Common/Common%20Classes/RestaurantTile.dart';
 import 'package:chfclient/Common/Common%20Classes/RestaurantTypes.dart';
 import 'package:chfclient/Screens/CartScreen.dart';
+import 'package:chfclient/Screens/ClientDetailsCommentTile.dart';
 import 'package:chfclient/Screens/ClientSignInScreen.dart';
 import 'package:chfclient/Screens/ClientSignUpScreen.dart';
+import 'package:chfclient/Screens/CommentsScreen.dart';
+import 'package:chfclient/Screens/FavRestaurantsScreen.dart';
 import 'package:chfclient/Screens/OrderRegistrationScreen.dart';
 import 'package:chfclient/Screens/DetailsClientFoodTile.dart';
 import 'package:chfclient/Screens/DetailsRestaurantTile.dart';
 import 'package:chfclient/Screens/InvoiceDetailsScreeen.dart';
 import 'package:chfclient/Screens/ClientMainMenuScreen.dart';
+import 'package:chfclient/Screens/PaymentScreen.dart';
+import 'package:chfclient/Screens/ClientProfileScreen.dart';
+import 'package:chfclient/Screens/WalletScreen.dart';
 import 'package:flutter/material.dart';
 
 class MyApp extends StatefulWidget {
@@ -37,6 +43,12 @@ class _MyAppState extends State<MyApp> {
         '/DetailsClientFoodTile': (context) => DetailsClientFoodTile(),
         '/DetailsRestaurantTile': (context) => DetailsRestaurantTile(),
         '/DetailsCartTile': (context) => OrderRegistrationScreen(),
+        '/PaymentScreen': (context) => PaymentScreen(),
+        '/FavRestaurantsScreen': (context) => FavRestaurantsScreen(),
+        '/ProfileScreen': (context) => ClientProfileScreen(),
+        '/CommentsScreen': (context) => CommentsScreen(),
+        '/ClientDetailsCommentTile': (context) => ClientDetailsCommentTile(),
+        '/WalletScreen': (context) => WalletScreen(),
       },
       home:
           // ClientSignInScreen(),
@@ -121,6 +133,7 @@ void main() {
   RestaurantTile restaurant = RestaurantTile(
     'name1',
     'addres1',
+    '09198612878',
     {0: 'All', 1: 'Cafe', 2: 'Fast Food'},
     {
       0: [
@@ -184,6 +197,7 @@ void main() {
   RestaurantTile restaurant2 = RestaurantTile(
     'name2',
     'addres2',
+    '09121111111',
     {
       0: 'All',
       1: 'Cafe',
