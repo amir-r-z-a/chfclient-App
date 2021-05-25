@@ -1,5 +1,6 @@
 import 'package:chfclient/Classes/ClientActiveOrderTile.dart';
 import 'package:chfclient/Classes/CartTile.dart';
+import 'package:chfclient/Classes/ClientAdreesTile.dart';
 import 'package:chfclient/Classes/ClientOrderHistoryTile.dart';
 import 'package:chfclient/Classes/RestaurantAccounts.dart';
 import 'package:chfclient/Common/Common%20Classes/CommentTile.dart';
@@ -10,7 +11,7 @@ class Client {
   String _name;
   String _lastName;
   String _phoneNumber;
-  List _address;
+  List<ClientAddressTile> _address = [];
   int currentAddress = 0;
 
   // Location _location;
@@ -29,8 +30,13 @@ class Client {
     this._name,
     this._phoneNumber,
     this._password,
-    this._address,
-  );
+    String address,
+  ) {
+    addAddress(address);
+    for (int i = 0; i < RestaurantAccounts.getRestaurantListLength(); i++) {
+      favRestaurantsKey.add(false);
+    }
+  }
 
   int getOrdersHistoryLength() {
     return ordersHistory.length;
@@ -67,6 +73,34 @@ class Client {
     }
   }
 
+  void removeCart(int j) {
+    cartList.remove(j);
+    for (int i = 0; i < cartList[-1].length; i++) {
+      if (cartList[-1][i].j == j) {
+        cartList[-1].removeAt(i);
+      }
+    }
+    RestaurantAccounts.zeroNumberOfFoods(j);
+  }
+
+  void newCart(int j) {
+    CartTile cartTile = CartTile(
+        RestaurantAccounts.restaurantList[0][j].name,
+        RestaurantAccounts.restaurantList[0][j].address,
+        {-1: 0},
+        {-1: 'All'},
+        {-1: 0},
+        Date('2021', '3', '12', '4', '22', '23'),
+        j);
+    cartList[j] = cartTile;
+    for (int i = 0; i < cartList[-1].length; i++) {
+      if (cartList[-1][i].j == j) {
+        cartList[-1][i] = cartTile;
+      }
+    }
+    RestaurantAccounts.zeroNumberOfFoods(j);
+  }
+
   void addComment(CommentTile commentTile) {
     clientComments.add(commentTile);
   }
@@ -83,6 +117,14 @@ class Client {
     return false;
   }
 
+  bool validPayment(double sumPrice) {
+    bool ans = wallet >= sumPrice;
+    if (ans) {
+      minusWallet(sumPrice);
+    }
+    return ans;
+  }
+
   void addWallet(double credit) {
     wallet += credit;
   }
@@ -93,6 +135,10 @@ class Client {
 
   void changeLastIncrease(Date date) {
     lastIncrease = date;
+  }
+
+  void addAddress(String input) {
+    address.add(ClientAddressTile(input, getAddressLength()));
   }
 
   // List<bool> createFavRestaurant() {

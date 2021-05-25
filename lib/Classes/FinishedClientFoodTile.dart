@@ -12,7 +12,7 @@ class FinishedClientFoodTile extends StatefulWidget {
 
   // bool _foodStatus;
   Image _foodImage;
-  int counter = 0;
+  int _counter;
 
   // static Function detailsAddMinCart;
   // static Function detailsRestaurant;
@@ -22,6 +22,7 @@ class FinishedClientFoodTile extends StatefulWidget {
   FinishedClientFoodTile(
     this._name,
     this._price,
+    this._counter,
     // this._foodStatus,
     this._category, {
     this.desc,
@@ -55,6 +56,12 @@ class FinishedClientFoodTile extends StatefulWidget {
 
   set foodImage(Image value) {
     _foodImage = value;
+  }
+
+  int get counter => _counter;
+
+  set counter(int value) {
+    _counter = value;
   }
 
   @override
@@ -103,61 +110,67 @@ class _FinishedClientFoodTileState extends State<FinishedClientFoodTile> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        decoration: BoxDecoration(
-          border: Border.symmetric(
-              horizontal: BorderSide(color: Color(0xffDCDCDC), width: 1)),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Padding(padding: EdgeInsets.symmetric(vertical: 3)),
-                Row(
+      decoration: BoxDecoration(
+        border: Border.symmetric(
+            horizontal: BorderSide(color: Color(0xffDCDCDC), width: 1)),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Padding(padding: EdgeInsets.symmetric(vertical: 3)),
+              Row(
+                children: [
+                  Padding(padding: EdgeInsets.all(7)),
+                  Text(
+                    widget.category,
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 28),
+                  ),
+                ],
+              ),
+              Padding(padding: EdgeInsets.all(2)),
+              Row(children: [
+                Padding(padding: EdgeInsets.all(7)),
+                Container(
+                  decoration:
+                      BoxDecoration(border: Border.all(color: Colors.black)),
+                  height: 95,
+                  width: 95,
+                ),
+                Padding(padding: EdgeInsets.all(5)),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Padding(padding: EdgeInsets.all(7)),
-                    Text(
-                      widget.category,
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 28),
-                    ),
+                    Text(ClientAccounts.digester(widget.name,
+                        MediaQuery.of(context).size.width.floor() - 372)),
+                    Padding(padding: EdgeInsets.all(3)),
+                    Text(ClientAccounts.digester(
+                        widget.desc == null ? ' ' : widget.desc,
+                        MediaQuery.of(context).size.width.floor() - 372)),
+                    Padding(padding: EdgeInsets.all(13)),
+                    Text(ClientAccounts.digester(
+                        'Price: ' + '\$' + widget.price.toString(),
+                        MediaQuery.of(context).size.width.floor() - 372)),
                   ],
                 ),
-                Padding(padding: EdgeInsets.all(2)),
-                Row(children: [
-                  Padding(padding: EdgeInsets.all(7)),
-                  Container(
-                    decoration: BoxDecoration(
-                        border: Border.all(color: Colors.black)),
-                    height: 95,
-                    width: 95,
-                  ),
-                  Padding(padding: EdgeInsets.all(5)),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(ClientAccounts.digester(widget.name,
-                          MediaQuery.of(context).size.width.floor() - 372)),
-                      Padding(padding: EdgeInsets.all(3)),
-                      Text(ClientAccounts.digester(
-                          widget.desc == null ? ' ' : widget.desc,
-                          MediaQuery.of(context).size.width.floor() - 372)),
-                      Padding(padding: EdgeInsets.all(13)),
-                      Text(ClientAccounts.digester(
-                          'Price: ' + '\$' + widget.price.toString(),
-                          MediaQuery.of(context).size.width.floor() - 372)),
-                    ],
-                  ),
-                ]),
-              ],
-            ),
-            Padding(padding: EdgeInsets.all(2)),
-          ],
-        ),
-        // color: Colors.green,
-        height: 160,
-        width: MediaQuery.of(context).size.width,
+              ]),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(widget.counter.toString()),
+                  Padding(padding: EdgeInsets.fromLTRB(0, 0, 7, 0)),
+                ],
+              )
+            ],
+          ),
+          Padding(padding: EdgeInsets.all(2)),
+        ],
+      ),
+      // color: Colors.green,
+      height: 160,
+      width: MediaQuery.of(context).size.width,
     );
   }
 }

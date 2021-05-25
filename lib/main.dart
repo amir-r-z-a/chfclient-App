@@ -65,6 +65,8 @@ class _MyAppState extends State<MyApp> {
 
           // ClientOrderTile()
 
+      // ClientActiveOrderTile()
+
           ClientMainMenuScreen(),
 
       //     FinishedClientFoodTile(
@@ -80,13 +82,6 @@ class _MyAppState extends State<MyApp> {
 }
 
 void main() {
-  Client client = Client(
-    'Client1',
-    '09198612878',
-    'clientPassword1',
-    ['address1', 'address2'],
-  );
-  ClientAccounts.addAccount(client);
   ClientFoodTile Tea1 = ClientFoodTile(
     'Tea',
     '25',
@@ -222,6 +217,15 @@ void main() {
     // email: 'arman@gmail.com',
   );
   RestaurantAccounts.receiveRestaurant(restaurant2);
+
+  Client client = Client(
+    'Client1',
+    '09198612878',
+    'clientPassword1',
+    'address1',
+  );
+  ClientAccounts.addAccount(client);
+  client.addAddress('address2');
 
   runApp(MyApp());
 }

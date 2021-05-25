@@ -1,12 +1,13 @@
 import 'package:chfclient/Classes/Client.dart';
 import 'package:chfclient/Classes/ClientAccounts.dart';
+import 'package:chfclient/Classes/ClientAdreesTile.dart';
 import 'package:flutter/material.dart';
 
 class ClientMyTextFormField extends StatelessWidget {
   static String name;
   static String password;
   static String phoneNumber;
-  static List address;
+  static String address;
   static String email;
 
   static String question;
@@ -49,9 +50,8 @@ class ClientMyTextFormField extends StatelessWidget {
               : phoneNumber = value;
         } else if (index == 3) {
           addToAccounts
-              ? ClientAccounts.accounts[ClientAccounts.currentAccount].address
-                  .add(value)
-              : address.add(value);
+              ? ClientAccounts.accounts[ClientAccounts.currentAccount].addAddress(value)
+              : address = value;
         } else if (index == 4) {
           addToAccounts
               ? ClientAccounts.accounts[ClientAccounts.currentAccount].email =

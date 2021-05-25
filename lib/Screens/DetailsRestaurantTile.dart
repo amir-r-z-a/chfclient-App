@@ -1,6 +1,7 @@
 import 'package:chfclient/Classes/CartTile.dart';
 import 'package:chfclient/Classes/ClientAccounts.dart';
 import 'package:chfclient/Classes/ClientFoodTile.dart';
+import 'package:chfclient/Classes/FinishedClientFoodTile.dart';
 import 'package:chfclient/Classes/RestaurantAccounts.dart';
 import 'package:chfclient/Common/Common%20Classes/Date.dart';
 import 'package:chfclient/Screens/OrderRegistrationScreen.dart';
@@ -132,7 +133,7 @@ class _DetailsRestaurantTileState extends State<DetailsRestaurantTile> {
   //   cartName[-1] = 'All';
   // }
 
-  void goToCartScreen() {
+  void goToOrderRegistration() {
     // Map<int, int> cartSum = {};
     // Map<int, String> cartName = {};
     // Map<int, int> cartNum = {};
@@ -163,13 +164,44 @@ class _DetailsRestaurantTileState extends State<DetailsRestaurantTile> {
 
     // ClientAccounts.accounts[ClientAccounts.currentAccount].addCart(cartTile);
     OrderRegistrationScreen.j = DetailsRestaurantTile.j;
+    ClientAccounts
+        .accounts[ClientAccounts.currentAccount]
+        .cartList[DetailsRestaurantTile.j]
+        .cartFoods = List<FinishedClientFoodTile>();
+    for (int i = 0;
+        i <
+            ClientAccounts.accounts[ClientAccounts.currentAccount]
+                    .cartList[DetailsRestaurantTile.j]
+                    .getCartNameLength() -
+                1;
+        i++) {
+      ClientAccounts.accounts[ClientAccounts.currentAccount]
+          .cartList[DetailsRestaurantTile.j].cartFoods
+          .add(FinishedClientFoodTile(
+        ClientAccounts.accounts[ClientAccounts.currentAccount]
+            .cartList[DetailsRestaurantTile.j].cartName[i],
+        (ClientAccounts.accounts[ClientAccounts.currentAccount]
+                    .cartList[DetailsRestaurantTile.j].cartSum[i] /
+                ClientAccounts.accounts[ClientAccounts.currentAccount]
+                    .cartList[DetailsRestaurantTile.j].cartNum[i])
+            .toString(),
+        ClientAccounts.accounts[ClientAccounts.currentAccount]
+            .cartList[DetailsRestaurantTile.j].cartNum[i],
+        RestaurantAccounts.restaurantList[0][DetailsRestaurantTile.j]
+            .getCategory(ClientAccounts.accounts[ClientAccounts.currentAccount]
+                .cartList[DetailsRestaurantTile.j].cartName[i]),
+        desc: RestaurantAccounts.restaurantList[0][DetailsRestaurantTile.j]
+            .getDesc(ClientAccounts.accounts[ClientAccounts.currentAccount]
+                .cartList[DetailsRestaurantTile.j].cartName[i]),
+      ));
+    }
     Navigator.pushNamed(context, '/DetailsCartTile');
   }
 
   @override
   Widget build(BuildContext context) {
     OrderRegistrationScreen.detailsRestaurant = refreshPage;
-    DetailsClientFoodTile.goToCartScreen = goToCartScreen;
+    DetailsClientFoodTile.goToOrderRegistration = goToOrderRegistration;
     DetailsClientFoodTile.counterCalculator = counterCalculator;
     ClientFoodTile.detailsRestaurant = refreshPage;
     MyTabBarChip.function = refreshPage;
@@ -189,7 +221,7 @@ class _DetailsRestaurantTileState extends State<DetailsRestaurantTile> {
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                     primary: Theme.of(context).primaryColor),
-                onPressed: () => goToCartScreen(),
+                onPressed: () => goToOrderRegistration(),
                 child:
                     Text('Finished (' + counterCalculator().toString() + ')'),
               ),

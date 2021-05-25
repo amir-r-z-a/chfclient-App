@@ -64,7 +64,8 @@ class _WalletScreenState extends State<WalletScreen> {
                 title: Text('Current Balance: \$' +
                     ClientAccounts
                         .accounts[ClientAccounts.currentAccount].wallet
-                        .toString()),
+                        .toString() +
+                    '0'),
                 subtitle: Text('Last Increase: ' +
                     (ClientAccounts.accounts[ClientAccounts.currentAccount]
                                 .lastIncrease !=
@@ -101,6 +102,13 @@ class _WalletScreenState extends State<WalletScreen> {
                             // setState(() {
                             // initState();
                             ClientMyTextFormField.wallet++;
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        super.widget));
+                            // Navigator.pop(context);
+                            // Navigator.pushNamed(context, '/WalletScreen');
                             // rebuildAllChildren(context);
                             // });
                           },
@@ -121,7 +129,8 @@ class _WalletScreenState extends State<WalletScreen> {
                             child: ClientMyTextFormField(
                               '',
                               suffix: 'Dollar',
-                              initial: ClientMyTextFormField.wallet.toString(),
+                              initial:
+                                  ClientMyTextFormField.wallet.toString() + '0',
                               index: 6,
                               regex: 'Wallet',
                               contentPadding: EdgeInsets.fromLTRB(125, 0, 0, 0),

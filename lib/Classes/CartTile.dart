@@ -1,6 +1,7 @@
 import 'package:chfclient/Classes/Client.dart';
 import 'package:chfclient/Classes/ClientAccounts.dart';
 import 'package:chfclient/Classes/ClientFoodTile.dart';
+import 'package:chfclient/Classes/FinishedClientFoodTile.dart';
 import 'package:chfclient/Classes/RestaurantAccounts.dart';
 import 'package:chfclient/Common/Common%20Classes/Date.dart';
 import 'package:chfclient/Screens/CartScreen.dart';
@@ -10,9 +11,10 @@ import 'package:flutter/material.dart';
 class CartTile extends StatefulWidget {
   String _restaurantName;
   String _restaurantAddress;
-  Map<int, int> _cartSum;
+  Map<int, double> _cartSum;
   Map<int, String> _cartName;
   Map<int, int> _cartNum;
+  List _cartFoods;
   static Function cartScreen;
 
   // Image _restaurantProfile;
@@ -71,6 +73,12 @@ class CartTile extends StatefulWidget {
     _cartNum = value;
   }
 
+  List<FinishedClientFoodTile> get cartFoods => _cartFoods;
+
+  set cartFoods(List<FinishedClientFoodTile> value) {
+    _cartFoods = value;
+  }
+
   int get j => _j;
 
   set j(int value) {
@@ -90,29 +98,33 @@ class CartTile extends StatefulWidget {
   }
 
   void cartAdd(String foodName, String price) {
-    cartSum[-1] += int.parse(price);
+    cartSum[-1] += double.parse(price);
     cartNum[-1]++;
     for (int i = 0; i < getCartNameLength(); i++) {
       if (cartName[i] == foodName) {
-        cartSum[i] += int.parse(price);
+        cartSum[i] += double.parse(price);
         cartNum[i]++;
         return;
       }
     }
     cartName[getCartNameLength() - 1] = foodName;
-    cartSum[getCartSumLength() - 1] = int.parse(price);
+    cartSum[getCartSumLength() - 1] = double.parse(price);
     cartNum[getCartNumLength() - 1] = 1;
   }
 
   void cartMin(String foodName, String price) {
-    cartSum[-1] -= int.parse(price);
+    cartSum[-1] -= double.parse(price);
     cartNum[-1]--;
     for (int i = 0; i < getCartNameLength(); i++) {
       if (cartName[i] == foodName) {
-        cartSum[i] -= int.parse(price);
+        cartSum[i] -= double.parse(price);
         cartNum[i]--;
       }
     }
+  }
+
+  int getCartFoodsLength() {
+    return cartFoods.length;
   }
 
   @override
@@ -199,6 +211,8 @@ class _CartTileState extends State<CartTile> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      primary: Theme.of(context).primaryColor),
                   onPressed: () {
                     DetailsRestaurantTile.j = widget.j;
                     DetailsRestaurantTile.index = 0;
@@ -208,35 +222,13 @@ class _CartTileState extends State<CartTile> {
                   child: Text("Continue"),
                 ),
                 ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      primary: Theme.of(context).primaryColor),
                   onPressed: () {
                     ClientAccounts
-                        .accounts[ClientAccounts.currentAccount].cartList
-                        .remove(widget.j);
-                    for (int i = 0;
-                        i <
-                            ClientAccounts
-                                .accounts[ClientAccounts.currentAccount]
-                                .cartList[-1]
-                                .length;
-                        i++) {
-                      if (ClientAccounts.accounts[ClientAccounts.currentAccount]
-                              .cartList[-1][i].j ==
-                          widget.j) {
-                        ClientAccounts.accounts[ClientAccounts.currentAccount]
-                            .cartList[-1]
-                            .removeAt(i);
-                      }
-                    }
-                    for (int i = 0;
-                        i <
-                            RestaurantAccounts.restaurantList[0][widget.j]
-                                .clientTabBarView[0].length;
-                        i++) {
-                      RestaurantAccounts.restaurantList[0][widget.j]
-                          .clientTabBarView[0][i].counter = 0;
-                    }
+                        .accounts[ClientAccounts.currentAccount] /*.cartList*/
+                        .removeCart(widget.j);
                     CartTile.cartScreen();
-
                     //  show alertDialog before delete
                   },
                   child: Text("Delete"),

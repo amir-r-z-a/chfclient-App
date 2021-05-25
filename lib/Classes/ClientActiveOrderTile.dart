@@ -1,7 +1,75 @@
+import 'package:chfclient/Classes/FinishedClientFoodTile.dart';
+import 'package:chfclient/Common/Common%20Classes/Date.dart';
 import 'package:flutter/material.dart';
 
 class ClientActiveOrderTile extends StatefulWidget {
-  const ClientActiveOrderTile({Key key}) : super(key: key);
+  // const ClientActiveOrderTile({Key key}) : super(key: key);
+  String _restaurantName;
+  Date _orderDate;
+  String _orderAddress;
+  String _restaurantAddress;
+  Map<int, double> _orderSum;
+  Map<int, String> _orderName;
+  Map<int, int> _orderNum;
+  List<FinishedClientFoodTile> _orderFoods;
+
+  ClientActiveOrderTile(
+      this._restaurantName,
+      this._orderDate,
+      this._orderAddress,
+      this._restaurantAddress,
+      this._orderSum,
+      this._orderName,
+      this._orderNum,
+      this._orderFoods);
+
+  Map<int, double> get orderSum => _orderSum;
+
+  set orderSum(Map<int, double> value) {
+    _orderSum = value;
+  }
+
+  String get restaurantAddress => _restaurantAddress;
+
+  set restaurantAddress(String value) {
+    _restaurantAddress = value;
+  }
+
+  Map<int, String> get orderName => _orderName;
+
+  set orderName(Map<int, String> value) {
+    _orderName = value;
+  }
+
+  Map<int, int> get orderNum => _orderNum;
+
+  set orderNum(Map<int, int> value) {
+    _orderNum = value;
+  }
+
+  String get orderAddress => _orderAddress;
+
+  set orderAddress(String value) {
+    _orderAddress = value;
+  }
+
+  Date get orderDate => _orderDate;
+
+  set orderDate(Date value) {
+    _orderDate = value;
+  }
+
+  String get restaurantName => _restaurantName;
+
+  set restaurantName(String value) {
+    _restaurantName = value;
+  }
+
+  List<FinishedClientFoodTile> get orderFoods => _orderFoods;
+
+  set orderFoods(List<FinishedClientFoodTile> value) {
+    _orderFoods = value;
+  }
 
   @override
   _ClientActiveOrderTileState createState() => _ClientActiveOrderTileState();
@@ -36,7 +104,7 @@ class _ClientActiveOrderTileState extends State<ClientActiveOrderTile> {
                     Row(
                       children: [
                         Text(
-                          "restauraante Chamooli",
+                          widget.restaurantName,
                           style: TextStyle(fontSize: 20),
                         ),
                       ],
@@ -46,7 +114,7 @@ class _ClientActiveOrderTileState extends State<ClientActiveOrderTile> {
                       child: Row(
                         children: [
                           Icon(Icons.calendar_today),
-                          Text("15/05/2020"),
+                          Text(widget.orderDate.dateFormatter()),
                           Icon(Icons.watch_later_outlined),
                           Text("12:15")
                         ],
@@ -55,7 +123,7 @@ class _ClientActiveOrderTileState extends State<ClientActiveOrderTile> {
                     Row(
                       children: [
                         Icon(Icons.location_on),
-                        Text("velenjak , meydan Daneshjoo ...")
+                        Text(widget.orderAddress),
                       ],
                     ),
                   ],
@@ -69,7 +137,7 @@ class _ClientActiveOrderTileState extends State<ClientActiveOrderTile> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text("Sum of Prices"),
-                Text("105 \$"),
+                Text("\$" + widget.orderSum[-1].toString()),
               ],
             ),
           ),

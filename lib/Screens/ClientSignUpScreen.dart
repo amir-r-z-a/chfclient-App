@@ -109,7 +109,7 @@ class _ClientSignUpScreenState extends State<ClientSignUpScreen> {
                               ClientMyTextFormField.name,
                               ClientMyTextFormField.phoneNumber,
                               ClientMyTextFormField.password,
-                              [ClientMyTextFormField.address],
+                              ClientMyTextFormField.address,
                             ),
                           );
                           Navigator.pushNamed(context, '/ClientSignInScreen');
@@ -118,7 +118,9 @@ class _ClientSignUpScreenState extends State<ClientSignUpScreen> {
                           print('Your len is:');
                           print(ClientAccounts.getClientAccountsLength());
                           print('-------------------------');
-                          for (int i = 0; i < ClientAccounts.getClientAccountsLength(); i++) {
+                          for (int i = 0;
+                              i < ClientAccounts.getClientAccountsLength();
+                              i++) {
                             print('index: ');
                             print(i);
                             print(ClientAccounts.accounts[i].name);

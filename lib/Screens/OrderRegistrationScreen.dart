@@ -4,6 +4,7 @@ import 'package:chfclient/Classes/FinishedClientFoodTile.dart';
 import 'package:chfclient/Classes/RestaurantAccounts.dart';
 import 'package:chfclient/Common/Common%20Classes/Date.dart';
 import 'package:chfclient/Screens/DetailsRestaurantTile.dart';
+import 'package:chfclient/Screens/PaymentScreen.dart';
 import 'package:flutter/material.dart';
 
 class OrderRegistrationScreen extends StatefulWidget {
@@ -20,36 +21,8 @@ class OrderRegistrationScreen extends StatefulWidget {
 
 class _OrderRegistrationScreenState extends State<OrderRegistrationScreen> {
   void deleteFunc() {
-    CartTile cartTile = CartTile(
-        RestaurantAccounts.restaurantList[0][OrderRegistrationScreen.j].name,
-        RestaurantAccounts.restaurantList[0][OrderRegistrationScreen.j].address,
-        {-1: 0},
-        {-1: 'All'},
-        {-1: 0},
-        Date('2021', '3', '12', '4', '22', '23'),
-        OrderRegistrationScreen.j);
     ClientAccounts.accounts[ClientAccounts.currentAccount]
-        .cartList[OrderRegistrationScreen.j] = cartTile;
-    for (int i = 0;
-        i <
-            ClientAccounts
-                .accounts[ClientAccounts.currentAccount].cartList[-1].length;
-        i++) {
-      if (ClientAccounts
-              .accounts[ClientAccounts.currentAccount].cartList[-1][i].j ==
-          OrderRegistrationScreen.j) {
-        ClientAccounts.accounts[ClientAccounts.currentAccount].cartList[-1][i] =
-            cartTile;
-      }
-    }
-    for (int i = 0;
-        i <
-            RestaurantAccounts.restaurantList[0][OrderRegistrationScreen.j]
-                .clientTabBarView[0].length;
-        i++) {
-      RestaurantAccounts.restaurantList[0][OrderRegistrationScreen.j]
-          .clientTabBarView[0][i].counter = 0;
-    }
+        .newCart(OrderRegistrationScreen.j);
     for (int i = 0; i < OrderRegistrationScreen.clientFoods.length; i++) {
       OrderRegistrationScreen.clientFoods[i]();
     }
@@ -182,7 +155,10 @@ class _OrderRegistrationScreenState extends State<OrderRegistrationScreen> {
         child: ElevatedButton(
           style:
               ElevatedButton.styleFrom(primary: Theme.of(context).primaryColor),
-          onPressed: () => Navigator.pushNamed(context, '/PaymentScreen'),
+          onPressed: () {
+            PaymentScreen.j = OrderRegistrationScreen.j;
+            Navigator.pushNamed(context, '/PaymentScreen');
+          },
           child: Text('Continue'),
         ),
       ),
@@ -198,37 +174,15 @@ class _OrderRegistrationScreenState extends State<OrderRegistrationScreen> {
           Column(
             children: List.generate(
               ClientAccounts.accounts[ClientAccounts.currentAccount]
-                      .cartList[OrderRegistrationScreen.j].cartName.length -
+                      .cartList[OrderRegistrationScreen.j]
+                      .getCartNameLength() -
                   1,
               (index) {
                 if (ClientAccounts.accounts[ClientAccounts.currentAccount]
-                        .cartList[OrderRegistrationScreen.j].cartNum[index] !=
+                        .cartList[DetailsRestaurantTile.j].cartNum[index] !=
                     0) {
-                  return FinishedClientFoodTile(
-                    ClientAccounts.accounts[ClientAccounts.currentAccount]
-                        .cartList[OrderRegistrationScreen.j].cartName[index],
-                    (ClientAccounts
-                                .accounts[ClientAccounts.currentAccount]
-                                .cartList[OrderRegistrationScreen.j]
-                                .cartSum[index] /
-                            ClientAccounts
-                                .accounts[ClientAccounts.currentAccount]
-                                .cartList[OrderRegistrationScreen.j]
-                                .cartNum[index])
-                        .toString(),
-                    RestaurantAccounts.restaurantList[0]
-                            [OrderRegistrationScreen.j]
-                        .getCategory(ClientAccounts
-                            .accounts[ClientAccounts.currentAccount]
-                            .cartList[OrderRegistrationScreen.j]
-                            .cartName[index]),
-                    desc: RestaurantAccounts.restaurantList[0]
-                            [OrderRegistrationScreen.j]
-                        .getDesc(ClientAccounts
-                            .accounts[ClientAccounts.currentAccount]
-                            .cartList[OrderRegistrationScreen.j]
-                            .cartName[index]),
-                  );
+                  return ClientAccounts.accounts[ClientAccounts.currentAccount]
+                      .cartList[OrderRegistrationScreen.j].cartFoods[index];
                 }
                 return Container(
                   height: 0,
@@ -236,7 +190,7 @@ class _OrderRegistrationScreenState extends State<OrderRegistrationScreen> {
                 );
               },
             ),
-          )
+          ),
         ],
       ),
     );

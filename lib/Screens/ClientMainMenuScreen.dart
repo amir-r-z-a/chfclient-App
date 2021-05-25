@@ -60,11 +60,11 @@ class ClientMainMenuScreen extends StatefulWidget {
 }
 
 class _ClientMainMenuScreenState extends State<ClientMainMenuScreen> {
-  // void refreshPage() {
-  //   if (this.mounted) {
-  //     setState(() {});
-  //   }
-  // }
+  void refreshPage() {
+    if (this.mounted) {
+      setState(() {});
+    }
+  }
 
   int _currentSelect = 1;
   List<Widget> screens = [
@@ -72,8 +72,10 @@ class _ClientMainMenuScreenState extends State<ClientMainMenuScreen> {
     ClientHomeScreen(),
   ];
   String appBarText = ClientAccounts
-          .accounts[ClientAccounts.currentAccount].address[
-      ClientAccounts.accounts[ClientAccounts.currentAccount].currentAddress];
+      .accounts[ClientAccounts.currentAccount]
+      .address[
+          ClientAccounts.accounts[ClientAccounts.currentAccount].currentAddress]
+      .address;
 
   void addressButtonSheet() {
     showModalBottomSheet(
@@ -105,7 +107,8 @@ class _ClientMainMenuScreenState extends State<ClientMainMenuScreen> {
               children: List.generate(
                   ClientAccounts.accounts[ClientAccounts.currentAccount]
                       .getAddressLength(),
-                  (index) => ClientAddressTile()),
+                  (index) => ClientAccounts
+                      .accounts[ClientAccounts.currentAccount].address[index]),
             )
           ],
         );
@@ -115,11 +118,7 @@ class _ClientMainMenuScreenState extends State<ClientMainMenuScreen> {
 
   @override
   Widget build(BuildContext context) {
-    for (int i = 0; i < RestaurantAccounts.getRestaurantListLength(); i++) {
-      ClientAccounts.accounts[ClientAccounts.currentAccount].favRestaurantsKey
-          .add(false);
-    }
-    // ClientAddressTile.mainMenu = refreshPage;
+    ClientAddressTile.mainMenu = refreshPage;
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -193,9 +192,10 @@ class _ClientMainMenuScreenState extends State<ClientMainMenuScreen> {
                 appBarText = 'Cart';
               } else if (_currentSelect == 1) {
                 appBarText = ClientAccounts
-                        .accounts[ClientAccounts.currentAccount].address[
-                    ClientAccounts.accounts[ClientAccounts.currentAccount]
-                        .currentAddress];
+                    .accounts[ClientAccounts.currentAccount]
+                    .address[ClientAccounts
+                        .accounts[ClientAccounts.currentAccount].currentAddress]
+                    .address;
               } else {
                 appBarText = 'Orders';
               }

@@ -19,7 +19,7 @@ class DetailsClientFoodTile extends StatefulWidget {
   static Widget myContainer;
   static Widget myRow;
   static Function counterCalculator;
-  static Function goToCartScreen;
+  static Function goToOrderRegistration;
   static Function addComment;
 
   static int getCommentsLength() {
@@ -49,7 +49,7 @@ class _DetailsClientFoodTileState extends State<DetailsClientFoodTile> {
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
                     primary: Theme.of(context).primaryColor),
-                onPressed: () => DetailsClientFoodTile.goToCartScreen(),
+                onPressed: () => DetailsClientFoodTile.goToOrderRegistration(),
                 child: Text('Finished (' +
                     DetailsClientFoodTile.counterCalculator().toString() +
                     ')'),
