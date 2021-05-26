@@ -231,7 +231,12 @@ class _DetailsRestaurantTileState extends State<DetailsRestaurantTile> {
       body: ListView(
         children: [
           Column(children: [
-            Padding(padding: EdgeInsets.all(100)),
+            Container(
+              // height: 200,
+              // width: 200,
+              child: Image.asset("assets/images/1.jpg"),
+            ),
+            // Padding(padding: EdgeInsets.all(100)),
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Container(

@@ -56,13 +56,18 @@ class _ClientAddressTileState extends State<ClientAddressTile> {
                   height: 100,
                   child: ListView(
                     children: [
-                      Text(widget.address),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(widget.address),
+                      ),
                       Container(
-                        child: Row(
-                          children: [
-                            Icon(Icons.mode_edit),
-                            Text('Edit')
-                          ], //icon edit was not corrected
+                        child: Card(
+                          child: Row(
+                            children: [
+                              Icon(Icons.mode_edit),
+                              Text('           Edit')
+                            ], //icon edit was not corrected
+                          ),
                         ),
                         decoration: BoxDecoration(
                           border: Border.symmetric(
@@ -70,8 +75,10 @@ class _ClientAddressTileState extends State<ClientAddressTile> {
                         ),
                       ),
                       Container(
-                        child: Row(
-                          children: [Icon(Icons.delete), Text('Delete')],
+                        child: Card(
+                          child: Row(
+                            children: [Icon(Icons.delete), Text('           Delete')],
+                          ),
                         ),
                         decoration: BoxDecoration(
                           border: Border.symmetric(
