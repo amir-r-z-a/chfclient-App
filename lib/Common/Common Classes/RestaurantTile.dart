@@ -163,85 +163,88 @@ class _RestaurantTileState extends State<RestaurantTile> {
             widget.j));
         Navigator.pushNamed(context, '/DetailsRestaurantTile');
       },
-      child: Container(
-        margin: EdgeInsets.all(10),
-        height: 290,
-        width: 260,
-        decoration: BoxDecoration(border: Border.all()),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Container(
-              height: 160,
-              width: 240,
-              margin: EdgeInsets.all(5),
-              decoration: BoxDecoration(border: Border.all()),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: [Text(widget.name)],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: [
-                  Text(widget.type
-                      .toString()
-                      .substring(widget.type.toString().indexOf('.') + 1))
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    height: 30,
-                    width: 50,
-                    decoration: BoxDecoration(border: Border.all()),
-                    child: Center(child: Text('post' + "\$")),
+      child: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Card(
+          elevation: 5,
+          child: Container(
+            margin: EdgeInsets.all(10),
+            height: 290,
+            width: 260,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Container(
+                  height: 160,
+                  width: 240,
+                  margin: EdgeInsets.all(5),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(
+                        width: 3
+                      )),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: [Text(widget.name)],
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        ClientAccounts.accounts[ClientAccounts.currentAccount]
-                                .favRestaurantsKey[widget.j] =
-                            !ClientAccounts
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: [
+                      Text(widget.type
+                          .toString()
+                          .substring(widget.type.toString().indexOf('.') + 1))
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            ClientAccounts.accounts[ClientAccounts.currentAccount]
+                                    .favRestaurantsKey[widget.j] =
+                                !ClientAccounts
+                                    .accounts[ClientAccounts.currentAccount]
+                                    .favRestaurantsKey[widget.j];
+                            if (ClientAccounts
                                 .accounts[ClientAccounts.currentAccount]
-                                .favRestaurantsKey[widget.j];
-                        if (ClientAccounts
-                            .accounts[ClientAccounts.currentAccount]
-                            .favRestaurantsKey[widget.j]) {
-                          ClientAccounts.accounts[ClientAccounts.currentAccount]
-                              .favRestaurants
-                              .add(RestaurantAccounts.restaurantList[0]
-                                  [widget.j]);
-                        } else {
-                          ClientAccounts.accounts[ClientAccounts.currentAccount]
-                              .favRestaurants
-                              .remove(RestaurantAccounts.restaurantList[0]
-                                  [widget.j]);
-                        }
-                      });
-                      // ClientAccounts.accounts[ClientAccounts.currentAccount]
-                      //     .refreshAllRestaurantTile();
-                    },
-                    child: ClientAccounts
-                            .accounts[ClientAccounts.currentAccount]
-                            .favRestaurantsKey[widget.j]
-                        ? Icon(
-                            Icons.favorite,
-                            color: Theme.of(context).primaryColor,
-                          )
-                        : Icon(Icons.favorite_border),
+                                .favRestaurantsKey[widget.j]) {
+                              ClientAccounts.accounts[ClientAccounts.currentAccount]
+                                  .favRestaurants
+                                  .add(RestaurantAccounts.restaurantList[0]
+                                      [widget.j]);
+                            } else {
+                              ClientAccounts.accounts[ClientAccounts.currentAccount]
+                                  .favRestaurants
+                                  .remove(RestaurantAccounts.restaurantList[0]
+                                      [widget.j]);
+                            }
+                          });
+                          // ClientAccounts.accounts[ClientAccounts.currentAccount]
+                          //     .refreshAllRestaurantTile();
+                        },
+                        child: ClientAccounts
+                                .accounts[ClientAccounts.currentAccount]
+                                .favRestaurantsKey[widget.j]
+                            ? Icon(
+                                Icons.favorite,
+                                color: Theme.of(context).primaryColor,
+                              )
+                            : Icon(Icons.favorite_border),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
