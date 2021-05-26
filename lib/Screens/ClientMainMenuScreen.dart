@@ -11,8 +11,8 @@ import 'package:chfclient/Screens/ClientOrdersHistoryScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong/latlong.dart';
-class customListTile extends StatefulWidget {
 
+class customListTile extends StatefulWidget {
   IconData icon;
   String text;
   Function ontap;
@@ -59,11 +59,15 @@ class _customListTileState extends State<customListTile> {
 
 class ClientMainMenuScreen extends StatefulWidget {
   static List<LatLng> tappedPoints = [];
+  static bool activeOrder = false;
+
   @override
   _ClientMainMenuScreenState createState() => _ClientMainMenuScreenState();
 }
 
 class _ClientMainMenuScreenState extends State<ClientMainMenuScreen> {
+  var _key1 = GlobalKey<FormState>();
+
   void refreshPage() {
     if (this.mounted) {
       setState(() {});
@@ -96,60 +100,88 @@ class _ClientMainMenuScreenState extends State<ClientMainMenuScreen> {
                 ),
                 GestureDetector(
                   onTap: () {
-
-                    showModalBottomSheet(context: context
-                        ,
+                    showModalBottomSheet(
+                        context: context,
                         // isScrollControlled: true
-                         builder: (context){
-                          var markers = ClientMainMenuScreen.tappedPoints.map((latlng) {
+                        builder: (context) {
+                          var markers =
+                              ClientMainMenuScreen.tappedPoints.map((latlng) {
                             return Marker(
                               width: 80.0,
                               height: 80.0,
                               point: latlng,
                               builder: (ctx) => Container(
-                                child: Icon(Icons.location_on,size: 50,color: Colors.red,),
+                                child: Icon(
+                                  Icons.location_on,
+                                  size: 50,
+                                  color: Colors.red,
+                                ),
                               ),
                             );
                           }).toList();
-                      return ListView(
-                        children: [
-                          Column(
+                          return ListView(
                             children: [
-                              Padding(
-                                padding: EdgeInsets.only(top: 8.0, bottom: 8.0),
-                                child: Text('Hold to add pins'),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: SizedBox(
-                                  height: 300,
-                                  child: FlutterMap(
-                                    options: MapOptions(
-                                        center: LatLng(35.715298, 51.404343),
-                                        zoom: 13.0,
-                                      onTap:  _handleTap
-                                    ),
-                                    layers: [
-                                      TileLayerOptions(
-                                        urlTemplate:
-                                        "https://api.mapbox.com/styles/v1/amirrza/ckov1rtrs059m17p8xugrutr4/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoiYW1pcnJ6YSIsImEiOiJja292MW0zeGwwNDN1MnBwYzlhbDVyOHByIn0.Mwa8L0WNjyIKc-v32nKOhQ",
-                                      ),
-                                      MarkerLayerOptions(markers: markers)
-                                    ],
+                              Column(
+                                children: [
+                                  Padding(
+                                    padding:
+                                        EdgeInsets.only(top: 8.0, bottom: 8.0),
+                                    child: Text('Hold to add pins'),
                                   ),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: ClientMyTextFormField("Address", index:  7, hint: "your new address",),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: SizedBox(
+                                      height: 300,
+                                      child: FlutterMap(
+                                        options: MapOptions(
+                                            center:
+                                                LatLng(35.715298, 51.404343),
+                                            zoom: 13.0,
+                                            onTap: _handleTap),
+                                        layers: [
+                                          TileLayerOptions(
+                                            urlTemplate:
+                                                "https://api.mapbox.com/styles/v1/amirrza/ckov1rtrs059m17p8xugrutr4/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoiYW1pcnJ6YSIsImEiOiJja292MW0zeGwwNDN1MnBwYzlhbDVyOHByIn0.Mwa8L0WNjyIKc-v32nKOhQ",
+                                          ),
+                                          MarkerLayerOptions(markers: markers)
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                  Form(
+                                    key: _key1,
+                                    child: Column(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: ClientMyTextFormField(
+                                            "Address",
+                                            index: 3,
+                                            hint: "your new address",
+                                            addToAccounts: true,
+                                          ),
+                                        ),
+                                        ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                              primary: Theme.of(context)
+                                                  .primaryColor),
+                                          onPressed: () {
+                                            if (_key1.currentState.validate()) {
+                                              _key1.currentState.save();
+                                              Navigator.pop(context);
+                                            }
+                                          },
+                                          child: Text('Save'),
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                  // ElevatedButton(onPressed: ()=> print(ProfileScreen.tappedPoints), child: Text("save"))
+                                ],
                               )
-                              // ElevatedButton(onPressed: ()=> print(ProfileScreen.tappedPoints), child: Text("save"))
                             ],
-                          )
-                        ],
-                      );
-                    }
-                    );
+                          );
+                        });
                   },
                   child: Row(
                     children: [
@@ -177,9 +209,15 @@ class _ClientMainMenuScreenState extends State<ClientMainMenuScreen> {
 
   @override
   Widget build(BuildContext context) {
-    ClientAddressTile.mainMenu = refreshPage;
+    if (ClientMainMenuScreen.activeOrder) {
+      setState(() {
+        _currentSelect = 2;
+        ClientMainMenuScreen.activeOrder = false;
+      });
+    }
     return DefaultTabController(
       length: 2,
+      initialIndex: 1,
       child: Scaffold(
         body: _currentSelect != 2
             ? screens[_currentSelect]
@@ -271,13 +309,13 @@ class _ClientMainMenuScreenState extends State<ClientMainMenuScreen> {
       ),
     );
   }
+
   void _handleTap(LatLng latlng) {
     setState(() {
       print(ClientMainMenuScreen.tappedPoints);
-      if(ClientMainMenuScreen.tappedPoints.isEmpty){
+      if (ClientMainMenuScreen.tappedPoints.isEmpty) {
         ClientMainMenuScreen.tappedPoints.add(latlng);
-      }
-      else{
+      } else {
         ClientMainMenuScreen.tappedPoints.clear();
         ClientMainMenuScreen.tappedPoints.add(latlng);
       }

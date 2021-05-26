@@ -10,6 +10,7 @@ import 'package:chfclient/Common/Common%20Classes/Date.dart';
 import 'package:chfclient/Common/Common%20Classes/RestaurantTile.dart';
 import 'package:chfclient/Common/Common%20Classes/RestaurantTypes.dart';
 import 'package:chfclient/Screens/CartScreen.dart';
+import 'package:chfclient/Screens/ClientActiveOrdersScreen.dart';
 import 'package:chfclient/Screens/ClientDetailsCommentTile.dart';
 import 'package:chfclient/Screens/ClientSignInScreen.dart';
 import 'package:chfclient/Screens/ClientSignUpScreen.dart';
@@ -49,6 +50,7 @@ class _MyAppState extends State<MyApp> {
         '/CommentsScreen': (context) => CommentsScreen(),
         '/ClientDetailsCommentTile': (context) => ClientDetailsCommentTile(),
         '/WalletScreen': (context) => WalletScreen(),
+        '/ClientActiveOrdersScreen': (context) => ClientActiveOrdersScreen(),
       },
       home:
           // ClientSignInScreen(),
@@ -65,7 +67,7 @@ class _MyAppState extends State<MyApp> {
 
           // ClientOrderTile()
 
-      // ClientActiveOrderTile()
+          // ClientActiveOrderTile()
 
           ClientMainMenuScreen(),
 

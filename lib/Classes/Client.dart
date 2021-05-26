@@ -141,6 +141,18 @@ class Client {
     address.add(ClientAddressTile(input, getAddressLength()));
   }
 
+  void refreshAllAddress() {
+    for (int i = 0; i < getAddressLength(); i++) {
+      address[i].refreshPage();
+    }
+  }
+
+  // void refreshAllRestaurantTile() {
+  //   for (int i = 0; i < getFavRestaurantsLength(); i++) {
+  //     favRestaurants[i].refreshPage();
+  //   }
+  // }
+
   // List<bool> createFavRestaurant() {
   //   List<bool> list = [];
   //   for (int i = 0; i < RestaurantAccounts.getRestaurantListLength(); i++) {

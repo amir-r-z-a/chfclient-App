@@ -11,15 +11,14 @@ class ClientHomeScreen extends StatefulWidget {
 }
 
 class _ClientHomeScreenState extends State<ClientHomeScreen> {
-  // void refreshPage() {
-  //   if (this.mounted) {
-  //     setState(() {});
-  //   }
-  // }
+  void refreshPage() {
+    if (this.mounted) {
+      setState(() {});
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    // RestaurantTile.homeScreen = refreshPage;
     return ListView(
       children: [
         Text(
@@ -34,6 +33,10 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
               // if (ClientHomeScreen.restaurantTile != null) {
               //   ClientHomeScreen.restaurantTile();
               // }
+              if (RestaurantAccounts.restaurantList[0][index].refreshPage !=
+                  null) {
+                // RestaurantAccounts.restaurantList[0][index].refreshPage();
+              }
               return RestaurantAccounts.restaurantList[0][index];
             }),
           ),

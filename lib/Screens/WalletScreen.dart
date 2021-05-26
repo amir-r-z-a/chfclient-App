@@ -37,6 +37,7 @@ class _WalletScreenState extends State<WalletScreen> {
                     ClientAccounts.accounts[ClientAccounts.currentAccount]
                         .changeLastIncrease(
                             Date('2021', '3', '12', '4', '22', '23'));
+                    ClientMyTextFormField.wallet = 0;
                   });
                 }
               },

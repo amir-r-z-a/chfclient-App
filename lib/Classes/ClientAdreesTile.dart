@@ -2,10 +2,9 @@ import 'package:chfclient/Classes/ClientAccounts.dart';
 import 'package:flutter/material.dart';
 
 class ClientAddressTile extends StatefulWidget {
-  static Function mainMenu;
-  static Function paymentScreen;
   String address;
   int index;
+  Function refreshPage;
 
   ClientAddressTile(this.address, this.index);
 
@@ -14,17 +13,22 @@ class ClientAddressTile extends StatefulWidget {
 }
 
 class _ClientAddressTileState extends State<ClientAddressTile> {
+  void refreshPage() {
+    if (this.mounted) {
+      setState(() {});
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    widget.refreshPage = refreshPage;
     return ListTile(
       leading: GestureDetector(
         onTap: () {
-          setState(() {
-            ClientAccounts.accounts[ClientAccounts.currentAccount]
-                .currentAddress = widget.index;
-          });
-          ClientAddressTile.mainMenu();
-          ClientAddressTile.paymentScreen();
+          ClientAccounts.accounts[ClientAccounts.currentAccount]
+              .currentAddress = widget.index;
+          ClientAccounts.accounts[ClientAccounts.currentAccount]
+              .refreshAllAddress();
         },
         child: ClientAccounts
                     .accounts[ClientAccounts.currentAccount].currentAddress ==

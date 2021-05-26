@@ -16,6 +16,7 @@ class RestaurantTile extends StatefulWidget {
   String email;
   double _point;
   double _workingRadius;
+  Function refreshPage;
 
   // List<CartTile> _cart;
   int _j;
@@ -138,14 +139,15 @@ class RestaurantTile extends StatefulWidget {
 }
 
 class _RestaurantTileState extends State<RestaurantTile> {
-  // void refreshPage() {
-  //   if (this.mounted) {
-  //     setState(() {});
-  //   }
-  // }
+  void refreshPage() {
+    if (this.mounted) {
+      setState(() {});
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    widget.refreshPage = refreshPage;
     // ClientHomeScreen.restaurantTile = refreshPage;
     return GestureDetector(
       onTap: () {
@@ -223,8 +225,9 @@ class _RestaurantTileState extends State<RestaurantTile> {
                               .remove(RestaurantAccounts.restaurantList[0]
                                   [widget.j]);
                         }
-                        // RestaurantTile.homeScreen();
                       });
+                      // ClientAccounts.accounts[ClientAccounts.currentAccount]
+                      //     .refreshAllRestaurantTile();
                     },
                     child: ClientAccounts
                             .accounts[ClientAccounts.currentAccount]
