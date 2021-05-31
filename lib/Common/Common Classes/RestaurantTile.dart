@@ -180,14 +180,12 @@ class _RestaurantTileState extends State<RestaurantTile> {
                   margin: EdgeInsets.all(5),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
-                      border: Border.all(
-                        width: 3
-                      )),
+                      border: Border.all(width: 3)),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
-                    children: [Text(widget.name)],
+                    children: [Text(ClientAccounts.digester(widget.name, 30))],
                   ),
                 ),
                 Padding(
@@ -203,12 +201,13 @@ class _RestaurantTileState extends State<RestaurantTile> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       GestureDetector(
                         onTap: () {
                           setState(() {
-                            ClientAccounts.accounts[ClientAccounts.currentAccount]
+                            ClientAccounts
+                                    .accounts[ClientAccounts.currentAccount]
                                     .favRestaurantsKey[widget.j] =
                                 !ClientAccounts
                                     .accounts[ClientAccounts.currentAccount]
@@ -216,12 +215,14 @@ class _RestaurantTileState extends State<RestaurantTile> {
                             if (ClientAccounts
                                 .accounts[ClientAccounts.currentAccount]
                                 .favRestaurantsKey[widget.j]) {
-                              ClientAccounts.accounts[ClientAccounts.currentAccount]
+                              ClientAccounts
+                                  .accounts[ClientAccounts.currentAccount]
                                   .favRestaurants
                                   .add(RestaurantAccounts.restaurantList[0]
                                       [widget.j]);
                             } else {
-                              ClientAccounts.accounts[ClientAccounts.currentAccount]
+                              ClientAccounts
+                                  .accounts[ClientAccounts.currentAccount]
                                   .favRestaurants
                                   .remove(RestaurantAccounts.restaurantList[0]
                                       [widget.j]);
