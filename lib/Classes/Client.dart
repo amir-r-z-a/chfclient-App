@@ -6,6 +6,7 @@ import 'package:chfclient/Classes/RestaurantAccounts.dart';
 import 'package:chfclient/Common/Common%20Classes/CommentTile.dart';
 import 'package:chfclient/Common/Common%20Classes/Date.dart';
 import 'package:chfclient/Common/Common%20Classes/RestaurantTile.dart';
+import 'package:flutter/cupertino.dart';
 
 class Client {
   String _name;
@@ -145,6 +146,19 @@ class Client {
     for (int i = 0; i < getAddressLength(); i++) {
       address[i].refreshPage();
     }
+  }
+
+  bool deleteAddress(int index) {
+    if (address.length > 1) {
+      address.removeAt(index);
+      currentAddress = index + 1;
+      return true;
+    }
+    return false;
+  }
+
+  void editAddress(String input, int index) {
+    address[index].address = input;
   }
 
   // void refreshAllRestaurantTile() {

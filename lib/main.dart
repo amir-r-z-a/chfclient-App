@@ -128,8 +128,8 @@ void main() {
       '09121231212',
       '09198612878');
   RestaurantTile restaurant = RestaurantTile(
-    'name1',
-    'addres1',
+    'nameeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee1',
+    'Iran, Tehran, Pasdaran, Khiaban Bahar Qarbi, Kooche Mehr, 11111111111111111111111111111111111',
     '09198612878',
     {0: 'All', 1: 'Cafe', 2: 'Fast Food'},
     {
@@ -224,7 +224,7 @@ void main() {
     'Client1',
     '09198612878',
     'clientPassword1',
-    'address1',
+    'Iran, Tehran, Gisha, Khiaban Piroozi Qarbi, Kooche Farahzadi,11111111111111111111111111111111111',
   );
   ClientAccounts.addAccount(client);
   client.addAddress('address2');

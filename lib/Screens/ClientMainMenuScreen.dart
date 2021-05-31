@@ -101,8 +101,8 @@ class _ClientMainMenuScreenState extends State<ClientMainMenuScreen> {
                 GestureDetector(
                   onTap: () {
                     showModalBottomSheet(
+                        isScrollControlled: true,
                         context: context,
-                        // isScrollControlled: true
                         builder: (context) {
                           var markers =
                               ClientMainMenuScreen.tappedPoints.map((latlng) {
@@ -119,67 +119,74 @@ class _ClientMainMenuScreenState extends State<ClientMainMenuScreen> {
                               ),
                             );
                           }).toList();
-                          return ListView(
-                            children: [
-                              Column(
-                                children: [
-                                  Padding(
-                                    padding:
-                                        EdgeInsets.only(top: 8.0, bottom: 8.0),
-                                    child: Text('Hold to add pins'),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: SizedBox(
-                                      height: 300,
-                                      child: FlutterMap(
-                                        options: MapOptions(
-                                            center:
-                                                LatLng(35.715298, 51.404343),
-                                            zoom: 13.0,
-                                            onTap: _handleTap),
-                                        layers: [
-                                          TileLayerOptions(
-                                            urlTemplate:
-                                                "https://api.mapbox.com/styles/v1/amirrza/ckov1rtrs059m17p8xugrutr4/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoiYW1pcnJ6YSIsImEiOiJja292MW0zeGwwNDN1MnBwYzlhbDVyOHByIn0.Mwa8L0WNjyIKc-v32nKOhQ",
-                                          ),
-                                          MarkerLayerOptions(markers: markers)
-                                        ],
+                          return SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.75,
+                            child: ListView(
+                              children: [
+                                Column(
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.only(
+                                          top: 8.0, bottom: 8.0),
+                                      child: Text('Hold to add pins'),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: SizedBox(
+                                        height: 300,
+                                        child: FlutterMap(
+                                          options: MapOptions(
+                                              center:
+                                                  LatLng(35.715298, 51.404343),
+                                              zoom: 13.0,
+                                              onTap: _handleTap),
+                                          layers: [
+                                            TileLayerOptions(
+                                              urlTemplate:
+                                                  "https://api.mapbox.com/styles/v1/amirrza/ckov1rtrs059m17p8xugrutr4/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoiYW1pcnJ6YSIsImEiOiJja292MW0zeGwwNDN1MnBwYzlhbDVyOHByIn0.Mwa8L0WNjyIKc-v32nKOhQ",
+                                            ),
+                                            MarkerLayerOptions(markers: markers)
+                                          ],
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  Form(
-                                    key: _key1,
-                                    child: Column(
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: ClientMyTextFormField(
-                                            "Address",
-                                            index: 3,
-                                            hint: "your new address",
-                                            addToAccounts: true,
+                                    Form(
+                                      key: _key1,
+                                      child: Column(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: ClientMyTextFormField(
+                                              "Address",
+                                              index: 3,
+                                              hint: "Your new address",
+                                              addToAccounts: true,
+                                            ),
                                           ),
-                                        ),
-                                        ElevatedButton(
-                                          style: ElevatedButton.styleFrom(
-                                              primary: Theme.of(context)
-                                                  .primaryColor),
-                                          onPressed: () {
-                                            if (_key1.currentState.validate()) {
-                                              _key1.currentState.save();
-                                              Navigator.pop(context);
-                                            }
-                                          },
-                                          child: Text('Save'),
-                                        ),
-                                      ],
-                                    ),
-                                  )
-                                  // ElevatedButton(onPressed: ()=> print(ProfileScreen.tappedPoints), child: Text("save"))
-                                ],
-                              )
-                            ],
+                                          SizedBox(
+                                            width: 350,
+                                            child: ElevatedButton(
+                                              style: ElevatedButton.styleFrom(
+                                                  primary: Theme.of(context)
+                                                      .primaryColor),
+                                              onPressed: () {
+                                                if (_key1.currentState
+                                                    .validate()) {
+                                                  _key1.currentState.save();
+                                                  Navigator.pop(context);
+                                                }
+                                              },
+                                              child: Text('Save'),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                    // ElevatedButton(onPressed: ()=> print(ProfileScreen.tappedPoints), child: Text("save"))
+                                  ],
+                                )
+                              ],
+                            ),
                           );
                         });
                   },
@@ -209,6 +216,7 @@ class _ClientMainMenuScreenState extends State<ClientMainMenuScreen> {
 
   @override
   Widget build(BuildContext context) {
+    ClientAddressTile.mainMenu = refreshPage;
     if (ClientMainMenuScreen.activeOrder) {
       setState(() {
         _currentSelect = 2;
@@ -230,10 +238,11 @@ class _ClientMainMenuScreenState extends State<ClientMainMenuScreen> {
           children: [
             DrawerHeader(
                 decoration: BoxDecoration(
-                    gradient: LinearGradient(colors: [
-                  Colors.orange,
-                  Colors.deepOrange,
-                ])),
+                  gradient: LinearGradient(colors: [
+                    Colors.orange,
+                    Colors.deepOrange,
+                  ]),
+                ),
                 child: Text('here is header')),
             customListTile(Icons.person, 'Profile',
                 () => Navigator.pushNamed(context, '/ProfileScreen')),
@@ -274,8 +283,8 @@ class _ClientMainMenuScreenState extends State<ClientMainMenuScreen> {
                   child: Row(
                     children: [
                       Padding(padding: EdgeInsets.fromLTRB(80, 0, 0, 0)),
+                      Text(/*' ' + */ ClientAccounts.digester(appBarText, 10)),
                       Icon(Icons.keyboard_arrow_down),
-                      Text(ClientAccounts.digester(appBarText, 10)),
                     ],
                   ),
                 ),

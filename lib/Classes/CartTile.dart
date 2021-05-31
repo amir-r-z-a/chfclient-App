@@ -15,6 +15,10 @@ class CartTile extends StatefulWidget {
   Map<int, String> _cartName;
   Map<int, int> _cartNum;
   List _cartFoods;
+  List<int> _listAbsoluteCartIndex = [];
+  bool controller = true;
+  bool more = true;
+
   static Function cartScreen;
 
   // Image _restaurantProfile;
@@ -85,6 +89,12 @@ class CartTile extends StatefulWidget {
     _j = value;
   }
 
+  List<int> get listAbsoluteCartIndex => _listAbsoluteCartIndex;
+
+  set listAbsoluteCartIndex(List<int> value) {
+    _listAbsoluteCartIndex = value;
+  }
+
   int getCartNameLength() {
     return cartName.length;
   }
@@ -95,6 +105,21 @@ class CartTile extends StatefulWidget {
 
   int getCartSumLength() {
     return cartSum.length;
+  }
+
+  int getListAbsoluteCartLength() {
+    return listAbsoluteCartIndex.length;
+  }
+
+  bool getListAbsoluteCart() {
+    listAbsoluteCartIndex = [];
+    for (int i = 0; i < getCartNumLength() - 1; i++) {
+      if (cartNum[i] != 0) {
+        listAbsoluteCartIndex.add(i);
+      }
+    }
+    controller = getListAbsoluteCartLength() > 3;
+    return controller;
   }
 
   void cartAdd(String foodName, String price) {
@@ -134,7 +159,9 @@ class CartTile extends StatefulWidget {
 class _CartTileState extends State<CartTile> {
   void refreshPage() {
     if (this.mounted) {
-      setState(() {});
+      setState(() {
+        widget.more = true;
+      });
     }
   }
 
@@ -144,99 +171,192 @@ class _CartTileState extends State<CartTile> {
 
     return Container(
       width: MediaQuery.of(context).size.width,
-      height: 220,
+      // height: 220,
       margin: EdgeInsets.all(12),
-      decoration: BoxDecoration(border: Border.all()),
-      child: Column(
-        children: [
-          Container(
+      child: Card(
+        elevation: 7,
+        child: Column(
+          children: [
+            Container(
               child: Row(
-            children: [
-              Container(
-                margin: EdgeInsets.fromLTRB(12, 12, 0, 0),
-                height: 90,
-                width: 90,
-                decoration: BoxDecoration(
-                  border: Border.all(),
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(left: 10),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        Text(
-                          widget.restaurantName,
-                          style: TextStyle(fontSize: 20),
-                        ),
-                      ],
+                children: [
+                  Container(
+                    margin: EdgeInsets.fromLTRB(12, 12, 0, 0),
+                    height: 90,
+                    width: 90,
+                    decoration: BoxDecoration(
+                      border: Border.all(),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(left: 10),
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 8),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Icon(Icons.calendar_today),
-                          Text(widget.cartDate.dateFormatter()),
-                          Icon(Icons.watch_later_outlined),
-                          Text("12:15")
+                          Row(
+                            children: [
+                              Text(
+                                ClientAccounts.digester(
+                                    widget.restaurantName, 20),
+                                style: TextStyle(fontSize: 20),
+                              ),
+                            ],
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              children: [
+                                Icon(Icons.calendar_today),
+                                Text('  ' +
+                                    widget.cartDate.dateFormatter().substring(
+                                        0,
+                                        widget.cartDate
+                                            .dateFormatter()
+                                            .indexOf(','))),
+                                Icon(Icons.watch_later_outlined),
+                                Text(' ' +
+                                    widget.cartDate.dateFormatter().substring(
+                                        widget.cartDate
+                                                .dateFormatter()
+                                                .indexOf(',') +
+                                            1))
+                              ],
+                            ),
+                          ),
+                          Row(
+                            children: [
+                              Icon(Icons.location_on),
+                              Text(' ' +
+                                  ClientAccounts.digester(
+                                      widget.restaurantAddress, 20)),
+                            ],
+                          ),
                         ],
                       ),
                     ),
-                    Row(
-                      children: [
-                        Icon(Icons.location_on),
-                        Text(widget.restaurantAddress),
-                      ],
+                  )
+                ],
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.all(17),
+              child: Column(
+                children: [
+                  Column(
+                    children: List.generate(
+                      widget.getListAbsoluteCart() && widget.more
+                          ? 3
+                          : widget.getListAbsoluteCartLength(),
+                      (index) {
+                        if (widget
+                                .cartNum[widget.listAbsoluteCartIndex[index]] !=
+                            0) {
+                          return Container(
+                            padding: EdgeInsets.symmetric(vertical: 5),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(widget.cartName[
+                                        widget.listAbsoluteCartIndex[index]] +
+                                    ' (' +
+                                    widget.cartNum[
+                                            widget.listAbsoluteCartIndex[index]]
+                                        .toString() +
+                                    ')'),
+                                Text('\$' +
+                                    (widget.cartSum[widget
+                                                .listAbsoluteCartIndex[index]] /
+                                            widget.cartNum[widget
+                                                .listAbsoluteCartIndex[index]])
+                                        .toString())
+                              ],
+                            ),
+                          );
+                        }
+                        return Container(
+                          height: 0,
+                          width: 0,
+                        );
+                      },
                     ),
-                  ],
-                ),
-              )
-            ],
-          )),
-          Container(
-            margin: EdgeInsets.fromLTRB(12, 18, 12, 0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text("Sum of Prices"),
-                Text(widget.cartSum[-1].toString() + "\$"),
-              ],
+                  ),
+                  widget.getListAbsoluteCart()
+                      ? Padding(
+                          padding: const EdgeInsets.only(left: 150.0),
+                          child: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                widget.more = !widget.more;
+                              });
+                            },
+                            child: Row(
+                              children: [
+                                Text(widget.more ? 'more' : 'fewer'),
+                                Icon(widget.more
+                                    ? Icons.keyboard_arrow_down_outlined
+                                    : Icons.keyboard_arrow_up_outlined),
+                              ],
+                            ),
+                          ),
+                        )
+                      : Container(
+                          height: 0,
+                          width: 0,
+                        ),
+                ],
+              ),
             ),
-          ),
-          Container(
-            margin: EdgeInsets.fromLTRB(50, 18, 50, 0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      primary: Theme.of(context).primaryColor),
-                  onPressed: () {
-                    DetailsRestaurantTile.j = widget.j;
-                    DetailsRestaurantTile.index = 0;
-                    ClientFoodTile.cartTile = refreshPage;
-                    Navigator.pushNamed(context, '/DetailsRestaurantTile');
-                  },
-                  child: Text("Continue"),
-                ),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      primary: Theme.of(context).primaryColor),
-                  onPressed: () {
-                    ClientAccounts
-                        .accounts[ClientAccounts.currentAccount] /*.cartList*/
-                        .removeCart(widget.j);
-                    CartTile.cartScreen();
-                    //  show alertDialog before delete
-                  },
-                  child: Text("Delete"),
-                ),
-              ],
+            Container(
+              margin: EdgeInsets.fromLTRB(17, 18, 12, 17),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text("Total"),
+                  Text("\$" + widget.cartSum[-1].toString()),
+                ],
+              ),
             ),
-          ),
-        ],
+            Container(
+              margin: EdgeInsets.symmetric(vertical: 12),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  SizedBox(
+                    width: 175,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          primary: Theme.of(context).primaryColor),
+                      onPressed: () {
+                        DetailsRestaurantTile.j = widget.j;
+                        DetailsRestaurantTile.index = 0;
+                        ClientFoodTile.cartTile = refreshPage;
+                        Navigator.pushNamed(context, '/DetailsRestaurantTile');
+                      },
+                      child: Text("Continue"),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 175,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          primary: Theme.of(context).primaryColor),
+                      onPressed: () {
+                        ClientAccounts.accounts[
+                                ClientAccounts.currentAccount] /*.cartList*/
+                            .removeCart(widget.j);
+                        CartTile.cartScreen();
+                        //  show alertDialog before delete
+                      },
+                      child: Text("Delete"),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

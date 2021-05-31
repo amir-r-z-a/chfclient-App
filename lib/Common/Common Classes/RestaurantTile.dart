@@ -180,7 +180,7 @@ class _RestaurantTileState extends State<RestaurantTile> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
-                children: [Text(widget.name)],
+                children: [Text(ClientAccounts.digester(widget.name, 30))],
               ),
             ),
             Padding(

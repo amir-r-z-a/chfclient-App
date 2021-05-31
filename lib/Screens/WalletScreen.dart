@@ -26,6 +26,7 @@ class _WalletScreenState extends State<WalletScreen> {
     return Form(
       key: _key1,
       child: Scaffold(
+        // backgroundColor: Color(0xff2E765E),
         bottomNavigationBar: Padding(
             child: ElevatedButton(
               onPressed: () {
@@ -142,6 +143,11 @@ class _WalletScreenState extends State<WalletScreen> {
                               if (ClientMyTextFormField.wallet >= 1) {
                                 ClientMyTextFormField.wallet--;
                               }
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                          super.widget));
                             });
                           },
                           child: Container(
