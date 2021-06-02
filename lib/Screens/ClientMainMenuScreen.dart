@@ -61,6 +61,7 @@ class ClientMainMenuScreen extends StatefulWidget {
   static LatLng location;
   static List<LatLng> tappedPoints = [];
   static bool activeOrder = false;
+  static bool changeAppBarAddress = false;
 
   @override
   _ClientMainMenuScreenState createState() => _ClientMainMenuScreenState();
@@ -80,11 +81,13 @@ class _ClientMainMenuScreenState extends State<ClientMainMenuScreen> {
     CartScreen(),
     ClientHomeScreen(),
   ];
-  String appBarText = ClientAccounts
+  String appBarText = '        -';
+
+  /*ClientAccounts
       .accounts[ClientAccounts.currentAccount]
       .address[
           ClientAccounts.accounts[ClientAccounts.currentAccount].currentAddress]
-      .address;
+      .address*/
 
   void addressButtonSheet() {
     ClientAddressTile.trailing = false;
@@ -179,6 +182,15 @@ class _ClientMainMenuScreenState extends State<ClientMainMenuScreen> {
                                                 if (_key1.currentState
                                                     .validate()) {
                                                   _key1.currentState.save();
+                                                  if (ClientAccounts.accounts[
+                                                              ClientAccounts
+                                                                  .currentAccount]
+                                                          .getAddressLength() ==
+                                                      1) {
+                                                    setState(() {
+                                                      appBarTitle(1);
+                                                    });
+                                                  }
                                                   Navigator.pop(context);
                                                 }
                                               },
@@ -220,14 +232,42 @@ class _ClientMainMenuScreenState extends State<ClientMainMenuScreen> {
     );
   }
 
+  void appBarTitle(int value) {
+    setState(() {
+      _currentSelect = value;
+      if (_currentSelect == 0) {
+        appBarText = 'Cart';
+      } else if (_currentSelect == 1) {
+        appBarText = ClientAccounts.accounts[ClientAccounts.currentAccount]
+                    .getAddressLength() ==
+                0
+            ? '        -'
+            : ClientAccounts
+                .accounts[ClientAccounts.currentAccount]
+                .address[ClientAccounts
+                    .accounts[ClientAccounts.currentAccount].currentAddress]
+                .address;
+      } else {
+        appBarText = 'Orders';
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     ClientAddressTile.mainMenu = refreshPage;
     if (ClientMainMenuScreen.activeOrder) {
-      setState(() {
-        _currentSelect = 2;
-        ClientMainMenuScreen.activeOrder = false;
-      });
+      // setState(() {
+      _currentSelect = 2;
+      appBarTitle(2);
+      ClientMainMenuScreen.activeOrder = false;
+      // });
+    }
+    if (ClientMainMenuScreen.changeAppBarAddress) {
+      // setState(() {
+      appBarTitle(1);
+      ClientMainMenuScreen.changeAppBarAddress = false;
+      // });
     }
     return DefaultTabController(
       length: 2,
@@ -300,28 +340,7 @@ class _ClientMainMenuScreenState extends State<ClientMainMenuScreen> {
         ),
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: _currentSelect,
-          onTap: (value) {
-            setState(() {
-              _currentSelect = value;
-              if (_currentSelect == 0) {
-                appBarText = 'Cart';
-              } else if (_currentSelect == 1) {
-                appBarText = ClientAccounts
-                            .accounts[ClientAccounts.currentAccount]
-                            .getAddressLength() ==
-                        0
-                    ? '          -'
-                    : ClientAccounts
-                        .accounts[ClientAccounts.currentAccount]
-                        .address[ClientAccounts
-                            .accounts[ClientAccounts.currentAccount]
-                            .currentAddress]
-                        .address;
-              } else {
-                appBarText = 'Orders';
-              }
-            });
-          },
+          onTap: (value) => appBarTitle(value),
           items: [
             BottomNavigationBarItem(
                 icon: Icon(Icons.shopping_cart_outlined), label: 'Cart'),

@@ -1,5 +1,6 @@
 import 'package:chfclient/Classes/ClientAccounts.dart';
 import 'package:chfclient/Common/Text/ClientMyTextFormField.dart';
+import 'package:chfclient/Screens/ClientMainMenuScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -157,8 +158,13 @@ class _ClientAddressTileState extends State<ClientAddressTile> {
               .currentAddress = widget.index;
           ClientAccounts.accounts[ClientAccounts.currentAccount]
               .refreshAllAddress();
+          ClientMainMenuScreen.changeAppBarAddress = true;
+          ClientAddressTile.mainMenu();
           if (ClientAddressTile.paymentScreen != null) {
             ClientAddressTile.paymentScreen();
+          }
+          if (ClientAddressTile.paymentAddressesScreen != null) {
+            ClientAddressTile.paymentAddressesScreen();
           }
           // setState(() {
           //
@@ -247,8 +253,11 @@ class _ClientAddressTileState extends State<ClientAddressTile> {
                                                     ClientAccounts
                                                         .currentAccount]
                                                 .deleteAddress(widget.index);
-                                            ClientAddressTile.mainMenu();
+                                            // ClientAddressTile.mainMenu();
                                             Navigator.pop(context);
+                                            ClientMainMenuScreen
+                                                .changeAppBarAddress = true;
+                                            ClientAddressTile.mainMenu();
                                             if (ClientAddressTile
                                                     .paymentScreen !=
                                                 null) {

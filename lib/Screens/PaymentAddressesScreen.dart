@@ -37,139 +37,96 @@ class _PaymentAddressesScreenState extends State<PaymentAddressesScreen> {
     });
   }
 
-  void addressButtonSheet() {
+  void addAddress() {
     showModalBottomSheet(
-      context: context,
-      builder: (context) {
-        return ListView(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Text(
-                  'Address List',
-                  style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+        isScrollControlled: true,
+        context: context,
+        builder: (context) {
+          var markers = PaymentAddressesScreen.tappedPoints.map((latlng) {
+            return Marker(
+              width: 80.0,
+              height: 80.0,
+              point: latlng,
+              builder: (ctx) => Container(
+                child: Icon(
+                  Icons.location_on,
+                  size: 50,
+                  color: Colors.red,
                 ),
-                GestureDetector(
-                  onTap: () {
-                    showModalBottomSheet(
-                        isScrollControlled: true,
-                        context: context,
-                        builder: (context) {
-                          var markers =
-                              PaymentAddressesScreen.tappedPoints.map((latlng) {
-                            return Marker(
-                              width: 80.0,
-                              height: 80.0,
-                              point: latlng,
-                              builder: (ctx) => Container(
-                                child: Icon(
-                                  Icons.location_on,
-                                  size: 50,
-                                  color: Colors.red,
-                                ),
-                              ),
-                            );
-                          }).toList();
-                          return SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.75,
-                            child: ListView(
-                              children: [
-                                Column(
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.only(
-                                          top: 8.0, bottom: 8.0),
-                                      child: Text('Hold to add pins'),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: SizedBox(
-                                        height: 300,
-                                        child: FlutterMap(
-                                          options: MapOptions(
-                                              center:
-                                                  LatLng(35.715298, 51.404343),
-                                              zoom: 13.0,
-                                              onTap: _handleTap),
-                                          layers: [
-                                            TileLayerOptions(
-                                              urlTemplate:
-                                                  "https://api.mapbox.com/styles/v1/amirrza/ckov1rtrs059m17p8xugrutr4/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoiYW1pcnJ6YSIsImEiOiJja292MW0zeGwwNDN1MnBwYzlhbDVyOHByIn0.Mwa8L0WNjyIKc-v32nKOhQ",
-                                            ),
-                                            MarkerLayerOptions(markers: markers)
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    Form(
-                                      key: _key1,
-                                      child: Column(
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: ClientMyTextFormField(
-                                              "Address",
-                                              index: 3,
-                                              regex: 'Address',
-                                              hint: "Your new address",
-                                              addToAccounts: true,
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            width: 350,
-                                            child: ElevatedButton(
-                                              style: ElevatedButton.styleFrom(
-                                                  primary: Theme.of(context)
-                                                      .primaryColor),
-                                              onPressed: () {
-                                                ClientMyTextFormField.location =
-                                                    PaymentAddressesScreen
-                                                        .location;
-                                                if (_key1.currentState
-                                                    .validate()) {
-                                                  setState(() {
-                                                    _key1.currentState.save();
-                                                    Navigator.pop(context);
-                                                  });
-                                                }
-                                              },
-                                              child: Text('Save'),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                    // ElevatedButton(onPressed: ()=> print(ProfileScreen.tappedPoints), child: Text("save"))
-                                  ],
-                                )
-                              ],
+              ),
+            );
+          }).toList();
+          return SizedBox(
+            height: MediaQuery.of(context).size.height * 0.75,
+            child: ListView(
+              children: [
+                Column(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(top: 8.0, bottom: 8.0),
+                      child: Text('Hold to add pins'),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: SizedBox(
+                        height: 300,
+                        child: FlutterMap(
+                          options: MapOptions(
+                              center: LatLng(35.715298, 51.404343),
+                              zoom: 13.0,
+                              onTap: _handleTap),
+                          layers: [
+                            TileLayerOptions(
+                              urlTemplate:
+                                  "https://api.mapbox.com/styles/v1/amirrza/ckov1rtrs059m17p8xugrutr4/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoiYW1pcnJ6YSIsImEiOiJja292MW0zeGwwNDN1MnBwYzlhbDVyOHByIn0.Mwa8L0WNjyIKc-v32nKOhQ",
                             ),
-                          );
-                        });
-                  },
-                  child: Row(
-                    children: [
-                      Text(
-                        'New Address',
+                            MarkerLayerOptions(markers: markers)
+                          ],
+                        ),
                       ),
-                      Icon(Icons.add)
-                    ],
-                  ),
+                    ),
+                    Form(
+                      key: _key1,
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: ClientMyTextFormField(
+                              "Address",
+                              index: 3,
+                              regex: 'Address',
+                              hint: "Your new address",
+                              addToAccounts: true,
+                            ),
+                          ),
+                          SizedBox(
+                            width: 350,
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  primary: Theme.of(context).primaryColor),
+                              onPressed: () {
+                                ClientMyTextFormField.location =
+                                    PaymentAddressesScreen.location;
+                                if (_key1.currentState.validate()) {
+                                  setState(() {
+                                    _key1.currentState.save();
+                                    Navigator.pop(context);
+                                  });
+                                }
+                              },
+                              child: Text('Save'),
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                    // ElevatedButton(onPressed: ()=> print(ProfileScreen.tappedPoints), child: Text("save"))
+                  ],
                 )
               ],
             ),
-            Column(
-              children: List.generate(
-                  ClientAccounts.accounts[ClientAccounts.currentAccount]
-                      .getAddressLength(),
-                  (index) => ClientAccounts
-                      .accounts[ClientAccounts.currentAccount].address[index]),
-            )
-          ],
-        );
-      },
-    );
+          );
+        });
   }
 
   @override
@@ -192,7 +149,7 @@ class _PaymentAddressesScreenState extends State<PaymentAddressesScreen> {
       body: ListView(
         children: [
           GestureDetector(
-            onTap: () => addressButtonSheet(),
+            onTap: () => addAddress(),
             child: Container(
               margin: EdgeInsets.all(15),
               child: DottedBorder(

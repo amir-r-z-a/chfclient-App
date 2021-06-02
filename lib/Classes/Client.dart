@@ -145,7 +145,7 @@ class Client {
 
   void refreshAllAddress() {
     for (int i = 0; i < getAddressLength(); i++) {
-      address[i].refreshPage();
+        address[i].refreshPage();
     }
   }
 

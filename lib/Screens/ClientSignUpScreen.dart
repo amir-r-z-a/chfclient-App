@@ -59,69 +59,7 @@ class _ClientSignUpScreenState extends State<ClientSignUpScreen> {
                         regex: 'PassSignUp',
                         hint: 'Your password',
                       ),
-                      Padding(padding: EdgeInsets.all(15)),
-
-                      // DateTimePicker(
-                      //   initialValue: '',
-                      //   firstDate: DateTime(2000),
-                      //   lastDate: DateTime(2100),
-                      //   dateLabelText: 'Date',
-                      //   onChanged: (val) => print(val),
-                      //   validator: (val) {
-                      //     print(val);
-                      //     return null;
-                      //   },
-                      //   onSaved: (val) => print(val),
-                      // ),
-
-                      // TextButton(
-                      //   onPressed: () {
-                      //     DatePicker.showDatePicker(context,
-                      //         showTitleActions: true,
-                      //         minTime: DateTime(2018, 3, 5),
-                      //         maxTime: DateTime(2019, 6, 7), onChanged: (date) {
-                      //       print('change $date');
-                      //     }, onConfirm: (date) {
-                      //       print('confirm $date');
-                      //     },
-                      //         currentTime: DateTime.now(),
-                      //         locale: LocaleType.zh);
-                      //   },
-                      //   child: Text(
-                      //     'show date time picker (Chinese)',
-                      //     style: TextStyle(color: Colors.blue),
-                      //   ),
-                      // ),
-
-                      // DateTimePicker(
-                      //   type: DateTimePickerType.dateTimeSeparate,
-                      //   dateMask: 'd MMM, yyyy',
-                      //   initialValue: DateTime.now().toString(),
-                      //   firstDate: DateTime(2000),
-                      //   lastDate: DateTime(2100),
-                      //   icon: Icon(Icons.event),
-                      //   dateLabelText: 'Date',
-                      //   timeLabelText: "Hour",
-                      //   selectableDayPredicate: (date) {
-                      //     // Disable weekend days to select from the calendar
-                      //     if (date.weekday == 6 || date.weekday == 7) {
-                      //       return false;
-                      //     }
-                      //
-                      //     return true;
-                      //   },
-                      //   onChanged: (val) => print(val),
-                      //   validator: (val) {
-                      //     print(val);
-                      //     return null;
-                      //   },
-                      //   onSaved: (val) => print(val),
-                      // ),
-
-                      // Padding(padding: EdgeInsets.all(15)),
-                      //TimePicker for open and close
-                      Padding(padding: EdgeInsets.all(10)),
-                      Padding(padding: EdgeInsets.all(5)),
+                      Padding(padding: EdgeInsets.all(50)),
                     ],
                   ),
                 ),
