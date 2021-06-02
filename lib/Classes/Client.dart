@@ -6,7 +6,8 @@ import 'package:chfclient/Classes/RestaurantAccounts.dart';
 import 'package:chfclient/Common/Common%20Classes/CommentTile.dart';
 import 'package:chfclient/Common/Common%20Classes/Date.dart';
 import 'package:chfclient/Common/Common%20Classes/RestaurantTile.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:chfclient/Common/Text/ClientMyTextFormField.dart';
+import 'package:latlong/latlong.dart';
 
 class Client {
   String _name;
@@ -14,8 +15,7 @@ class Client {
   String _phoneNumber;
   List<ClientAddressTile> _address = [];
   int currentAddress = 0;
-
-  // Location _location;
+  LatLng currentLocation;
   String _password;
   String _email;
   List<ClientActiveOrderTile> _activeOrders = [];
@@ -25,15 +25,15 @@ class Client {
   List<bool> _favRestaurantsKey = [];
   List<CommentTile> _clientComments = [];
   double _wallet = 0;
-  Date lastIncrease;
+  Date _lastIncrease;
 
   Client(
     this._name,
     this._phoneNumber,
     this._password,
-    String address,
+    // String address,
   ) {
-    addAddress(address);
+    // addAddress(address);
     for (int i = 0; i < RestaurantAccounts.getRestaurantListLength(); i++) {
       favRestaurantsKey.add(false);
     }
@@ -138,8 +138,9 @@ class Client {
     lastIncrease = date;
   }
 
-  void addAddress(String input) {
-    address.add(ClientAddressTile(input, getAddressLength()));
+  void addAddress(String input, LatLng location) {
+    address.add(ClientAddressTile(input, getAddressLength(), location));
+    ClientMyTextFormField.location = null;
   }
 
   void refreshAllAddress() {
@@ -148,13 +149,16 @@ class Client {
     }
   }
 
-  bool deleteAddress(int index) {
-    if (address.length > 1) {
-      address.removeAt(index);
-      currentAddress = index + 1;
-      return true;
+  void deleteAddress(int index) {
+    if (index < currentAddress ||
+        (!(getAddressLength() == 1 && index == 0 && currentAddress == 0) &&
+            (currentAddress == index && index == getAddressLength() - 1))) {
+      currentAddress--;
     }
-    return false;
+    address.removeAt(index);
+    for (int i = index; i < getAddressLength(); i++) {
+      address[i].index--;
+    }
   }
 
   void editAddress(String input, int index) {
@@ -261,5 +265,11 @@ class Client {
 
   set clientComments(List<CommentTile> value) {
     _clientComments = value;
+  }
+
+  Date get lastIncrease => _lastIncrease;
+
+  set lastIncrease(Date value) {
+    _lastIncrease = value;
   }
 }

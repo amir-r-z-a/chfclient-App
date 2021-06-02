@@ -4,10 +4,18 @@ import 'package:chfclient/Classes/ClientAdreesTile.dart';
 import 'package:chfclient/Classes/FinishedClientFoodTile.dart';
 import 'package:chfclient/Classes/RestaurantAccounts.dart';
 import 'package:chfclient/Common/Common%20Classes/Date.dart';
+import 'package:chfclient/Common/Text/ClientMyTextFormField.dart';
 import 'package:chfclient/Screens/ClientMainMenuScreen.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:dotted_border/dotted_border.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong/latlong.dart';
 
 class PaymentScreen extends StatefulWidget {
+  static LatLng location;
+  static List<LatLng> tappedPoints = [];
   static int j;
 
   @override
@@ -15,6 +23,8 @@ class PaymentScreen extends StatefulWidget {
 }
 
 class _PaymentScreenState extends State<PaymentScreen> {
+  var _key1 = GlobalKey<FormState>();
+
   void refreshPage() {
     if (this.mounted) {
       setState(() {});
@@ -71,43 +81,227 @@ class _PaymentScreenState extends State<PaymentScreen> {
   }
 
   void enoughWallet() {
-    List<FinishedClientFoodTile> orderFoods = List<FinishedClientFoodTile>();
-    for (int i = 0;
-        i <
-            ClientAccounts.accounts[ClientAccounts.currentAccount]
-                .cartList[PaymentScreen.j]
-                .getCartFoodsLength();
-        i++) {
-      orderFoods.add(ClientAccounts.accounts[ClientAccounts.currentAccount]
-          .cartList[PaymentScreen.j].cartFoods[i]);
+    if (ClientAccounts.accounts[ClientAccounts.currentAccount]
+            .getAddressLength() !=
+        0) {
+      List<FinishedClientFoodTile> orderFoods = List<FinishedClientFoodTile>();
+      for (int i = 0;
+          i <
+              ClientAccounts.accounts[ClientAccounts.currentAccount]
+                  .cartList[PaymentScreen.j]
+                  .getCartFoodsLength();
+          i++) {
+        orderFoods.add(ClientAccounts.accounts[ClientAccounts.currentAccount]
+            .cartList[PaymentScreen.j].cartFoods[i]);
+      }
+      ClientAccounts.accounts[ClientAccounts.currentAccount]
+          .addOrder(ClientActiveOrderTile(
+        RestaurantAccounts.restaurantList[0][PaymentScreen.j].name,
+        Date('2021', '3', '12', '4', '22', '23'),
+        ClientAccounts
+            .accounts[ClientAccounts.currentAccount]
+            .address[ClientAccounts
+                .accounts[ClientAccounts.currentAccount].currentAddress]
+            .address,
+        RestaurantAccounts.restaurantList[0][PaymentScreen.j].address,
+        ClientAccounts.accounts[ClientAccounts.currentAccount]
+            .cartList[PaymentScreen.j].cartSum,
+        ClientAccounts.accounts[ClientAccounts.currentAccount]
+            .cartList[PaymentScreen.j].cartName,
+        ClientAccounts.accounts[ClientAccounts.currentAccount]
+            .cartList[PaymentScreen.j].cartNum,
+        orderFoods,
+      ));
+      ClientAccounts.accounts[ClientAccounts.currentAccount]
+          .removeCart(PaymentScreen.j);
+      ClientMainMenuScreen.activeOrder = true;
+      Navigator.popUntil(context, ModalRoute.withName('/ClientMainMenuScreen'));
+      Navigator.pushNamed(context, '/ClientMainMenuScreen');
+    } else {
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => AlertDialog(
+          title: Text('Address not added'),
+          content: Container(
+            height: 120,
+            child: Column(
+              children: [
+                Text('Unregistered address, Please register the address first'),
+                Padding(padding: EdgeInsets.only(top: 20)),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    TextButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: Text(
+                        'OK',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      style: TextButton.styleFrom(
+                          primary: Theme.of(context).primaryColor),
+                    )
+                  ],
+                )
+              ],
+            ),
+          ),
+        ),
+      );
     }
-    ClientAccounts.accounts[ClientAccounts.currentAccount]
-        .addOrder(ClientActiveOrderTile(
-      RestaurantAccounts.restaurantList[0][PaymentScreen.j].name,
-      Date('2021', '3', '12', '4', '22', '23'),
-      ClientAccounts
-          .accounts[ClientAccounts.currentAccount]
-          .address[ClientAccounts
-              .accounts[ClientAccounts.currentAccount].currentAddress]
-          .address,
-      RestaurantAccounts.restaurantList[0][PaymentScreen.j].address,
-      ClientAccounts.accounts[ClientAccounts.currentAccount]
-          .cartList[PaymentScreen.j].cartSum,
-      ClientAccounts.accounts[ClientAccounts.currentAccount]
-          .cartList[PaymentScreen.j].cartName,
-      ClientAccounts.accounts[ClientAccounts.currentAccount]
-          .cartList[PaymentScreen.j].cartNum,
-      orderFoods,
-    ));
-    ClientAccounts.accounts[ClientAccounts.currentAccount]
-        .removeCart(PaymentScreen.j);
-    ClientMainMenuScreen.activeOrder = true;
-    Navigator.popUntil(context, ModalRoute.withName('/ClientMainMenuScreen'));
-    Navigator.pushNamed(context, '/ClientMainMenuScreen');
+  }
+
+  void _handleTap(LatLng latlng) {
+    setState(() {
+      print(PaymentScreen.tappedPoints);
+      if (PaymentScreen.tappedPoints.isEmpty) {
+        PaymentScreen.tappedPoints.add(latlng);
+      } else {
+        PaymentScreen.tappedPoints.clear();
+        PaymentScreen.tappedPoints.add(latlng);
+      }
+      PaymentScreen.location = latlng;
+      print(PaymentScreen.tappedPoints);
+    });
+  }
+
+  void addressButtonSheet() {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return ListView(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Text(
+                  'Address List',
+                  style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    showModalBottomSheet(
+                        isScrollControlled: true,
+                        context: context,
+                        builder: (context) {
+                          var markers =
+                              PaymentScreen.tappedPoints.map((latlng) {
+                            return Marker(
+                              width: 80.0,
+                              height: 80.0,
+                              point: latlng,
+                              builder: (ctx) => Container(
+                                child: Icon(
+                                  Icons.location_on,
+                                  size: 50,
+                                  color: Colors.red,
+                                ),
+                              ),
+                            );
+                          }).toList();
+                          return SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.75,
+                            child: ListView(
+                              children: [
+                                Column(
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.only(
+                                          top: 8.0, bottom: 8.0),
+                                      child: Text('Hold to add pins'),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: SizedBox(
+                                        height: 300,
+                                        child: FlutterMap(
+                                          options: MapOptions(
+                                              center:
+                                                  LatLng(35.715298, 51.404343),
+                                              zoom: 13.0,
+                                              onTap: _handleTap),
+                                          layers: [
+                                            TileLayerOptions(
+                                              urlTemplate:
+                                                  "https://api.mapbox.com/styles/v1/amirrza/ckov1rtrs059m17p8xugrutr4/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoiYW1pcnJ6YSIsImEiOiJja292MW0zeGwwNDN1MnBwYzlhbDVyOHByIn0.Mwa8L0WNjyIKc-v32nKOhQ",
+                                            ),
+                                            MarkerLayerOptions(markers: markers)
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                    Form(
+                                      key: _key1,
+                                      child: Column(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: ClientMyTextFormField(
+                                              "Address",
+                                              index: 3,
+                                              regex: 'Address',
+                                              hint: "Your new address",
+                                              addToAccounts: true,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 350,
+                                            child: ElevatedButton(
+                                              style: ElevatedButton.styleFrom(
+                                                  primary: Theme.of(context)
+                                                      .primaryColor),
+                                              onPressed: () {
+                                                ClientMyTextFormField.location =
+                                                    PaymentScreen.location;
+                                                if (_key1.currentState
+                                                    .validate()) {
+                                                  setState(() {
+                                                    _key1.currentState.save();
+                                                    Navigator.pop(context);
+                                                  });
+                                                }
+                                              },
+                                              child: Text('Save'),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                    // ElevatedButton(onPressed: ()=> print(ProfileScreen.tappedPoints), child: Text("save"))
+                                  ],
+                                )
+                              ],
+                            ),
+                          );
+                        });
+                  },
+                  child: Row(
+                    children: [
+                      Text(
+                        'New Address',
+                      ),
+                      Icon(Icons.add)
+                    ],
+                  ),
+                )
+              ],
+            ),
+            Column(
+              children: List.generate(
+                  ClientAccounts.accounts[ClientAccounts.currentAccount]
+                      .getAddressLength(),
+                  (index) => ClientAccounts
+                      .accounts[ClientAccounts.currentAccount].address[index]),
+            )
+          ],
+        );
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
+    ClientAddressTile.paymentScreen = refreshPage;
     return Scaffold(
       bottomNavigationBar: Padding(
         padding: EdgeInsets.all(8.00),
@@ -141,17 +335,90 @@ class _PaymentScreenState extends State<PaymentScreen> {
         centerTitle: true,
         title: Text('Payment Screen'),
       ),
-      body: ListView(
-        children: [
-          Column(
-            children: List.generate(
-                ClientAccounts.accounts[ClientAccounts.currentAccount]
-                    .getAddressLength(),
-                (index) => ClientAccounts
-                    .accounts[ClientAccounts.currentAccount].address[index]),
-          )
-        ],
-      ),
+      body: ClientAccounts.accounts[ClientAccounts.currentAccount]
+                  .getAddressLength() ==
+              0
+          ? GestureDetector(
+              onTap: () => addressButtonSheet(),
+              child: Container(
+                margin: EdgeInsets.all(15),
+                child: DottedBorder(
+                  dashPattern: [8, 2.6],
+                  strokeWidth: 2,
+                  color: Theme.of(context).primaryColor,
+                  child: Container(
+                    padding: EdgeInsets.all(20),
+                    child: Text(
+                      'New Address',
+                      style: TextStyle(fontSize: 20),
+                    ),
+                  ),
+                ),
+              ),
+            )
+          : ListView(
+              children: [
+                Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(18, 15, 10, 0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Address',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 20),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              ClientAddressTile.trailing = false;
+                              Navigator.pushNamed(
+                                  context, '/PaymentAddressesScreen');
+                            },
+                            child: Row(
+                              children: [
+                                Text(
+                                  'Change Address',
+                                  style: TextStyle(
+                                      color: Theme.of(context).primaryColor),
+                                ),
+                                Icon(
+                                  Icons.keyboard_arrow_right_outlined,
+                                  color: Theme.of(context).primaryColor,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    ClientAccounts
+                            .accounts[ClientAccounts.currentAccount].address[
+                        ClientAccounts.accounts[ClientAccounts.currentAccount]
+                            .currentAddress]
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 18, top: 50),
+                  child: Row(
+                    children: [
+                      Column(
+                        children: [
+                          Text(
+                            'Payment Method',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 20),
+                          ),
+                          ListTile(),
+                          ListTile(),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
     );
   }
 }

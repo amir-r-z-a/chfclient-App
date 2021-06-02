@@ -21,9 +21,12 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
   Widget build(BuildContext context) {
     return ListView(
       children: [
-        Text(
-          'All',
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 28),
+        Padding(
+          padding: EdgeInsets.only(left: 15, top: 10),
+          child: Text(
+            'All',
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 28),
+          ),
         ),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,

@@ -2,6 +2,7 @@ import 'package:chfclient/Classes/Client.dart';
 import 'package:chfclient/Classes/ClientAccounts.dart';
 import 'package:chfclient/Classes/ClientAdreesTile.dart';
 import 'package:flutter/material.dart';
+import 'package:latlong/latlong.dart';
 
 class ClientMyTextFormField extends StatelessWidget {
   static String name;
@@ -13,6 +14,8 @@ class ClientMyTextFormField extends StatelessWidget {
   static String question;
 
   static double /*String*/ wallet = 0;
+
+  static LatLng location;
 
   String label;
   String hint;
@@ -50,7 +53,8 @@ class ClientMyTextFormField extends StatelessWidget {
               : phoneNumber = value;
         } else if (index == 3) {
           addToAccounts
-              ? ClientAccounts.accounts[ClientAccounts.currentAccount].addAddress(value)
+              ? ClientAccounts.accounts[ClientAccounts.currentAccount]
+                  .addAddress(value,location)
               : address = value;
         } else if (index == 4) {
           addToAccounts
@@ -83,6 +87,8 @@ class ClientMyTextFormField extends StatelessWidget {
           return 'Your email is not valid';
         } else if (regex == 'Wallet' && Client.validWallet(value)) {
           return 'Your input is invalid';
+        } else if (regex == 'Address' && location == null) {
+          return 'Please pin map first';
         }
         return null;
       },

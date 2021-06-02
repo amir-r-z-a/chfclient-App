@@ -58,6 +58,7 @@ class _customListTileState extends State<customListTile> {
 }
 
 class ClientMainMenuScreen extends StatefulWidget {
+  static LatLng location;
   static List<LatLng> tappedPoints = [];
   static bool activeOrder = false;
 
@@ -86,6 +87,7 @@ class _ClientMainMenuScreenState extends State<ClientMainMenuScreen> {
       .address;
 
   void addressButtonSheet() {
+    ClientAddressTile.trailing = false;
     showModalBottomSheet(
       context: context,
       builder: (context) {
@@ -161,6 +163,7 @@ class _ClientMainMenuScreenState extends State<ClientMainMenuScreen> {
                                               index: 3,
                                               hint: "Your new address",
                                               addToAccounts: true,
+                                              regex: 'Address',
                                             ),
                                           ),
                                           SizedBox(
@@ -170,6 +173,9 @@ class _ClientMainMenuScreenState extends State<ClientMainMenuScreen> {
                                                   primary: Theme.of(context)
                                                       .primaryColor),
                                               onPressed: () {
+                                                ClientMyTextFormField.location =
+                                                    ClientMainMenuScreen
+                                                        .location;
                                                 if (_key1.currentState
                                                     .validate()) {
                                                   _key1.currentState.save();
@@ -266,14 +272,17 @@ class _ClientMainMenuScreenState extends State<ClientMainMenuScreen> {
         )),
         appBar: AppBar(
           bottom: _currentSelect == 2
-              ? TabBar(tabs: [
-                  Tab(
-                    child: Text('Orders History'),
-                  ),
-                  Tab(
-                    child: Text('Active Orders'),
-                  ),
-                ])
+              ? TabBar(
+                  unselectedLabelColor: Colors.white.withOpacity(0.3),
+                  indicatorColor: Colors.white,
+                  tabs: [
+                      Tab(
+                        child: Text('Orders History'),
+                      ),
+                      Tab(
+                        child: Text('Active Orders'),
+                      ),
+                    ])
               : null,
           centerTitle: true,
           title: _currentSelect != 1
@@ -298,10 +307,16 @@ class _ClientMainMenuScreenState extends State<ClientMainMenuScreen> {
                 appBarText = 'Cart';
               } else if (_currentSelect == 1) {
                 appBarText = ClientAccounts
-                    .accounts[ClientAccounts.currentAccount]
-                    .address[ClientAccounts
-                        .accounts[ClientAccounts.currentAccount].currentAddress]
-                    .address;
+                            .accounts[ClientAccounts.currentAccount]
+                            .getAddressLength() ==
+                        0
+                    ? '          -'
+                    : ClientAccounts
+                        .accounts[ClientAccounts.currentAccount]
+                        .address[ClientAccounts
+                            .accounts[ClientAccounts.currentAccount]
+                            .currentAddress]
+                        .address;
               } else {
                 appBarText = 'Orders';
               }
@@ -321,13 +336,13 @@ class _ClientMainMenuScreenState extends State<ClientMainMenuScreen> {
 
   void _handleTap(LatLng latlng) {
     setState(() {
-      print(ClientMainMenuScreen.tappedPoints);
       if (ClientMainMenuScreen.tappedPoints.isEmpty) {
         ClientMainMenuScreen.tappedPoints.add(latlng);
       } else {
         ClientMainMenuScreen.tappedPoints.clear();
         ClientMainMenuScreen.tappedPoints.add(latlng);
       }
+      ClientMainMenuScreen.location = latlng;
       print(ClientMainMenuScreen.tappedPoints);
     });
   }

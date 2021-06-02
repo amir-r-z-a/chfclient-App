@@ -1,6 +1,7 @@
 import 'package:chfclient/Classes/ClientAccounts.dart';
 import 'package:chfclient/Classes/ClientActiveOrderTile.dart';
 import 'package:chfclient/Classes/Client.dart';
+import 'package:chfclient/Classes/ClientAdreesTile.dart';
 import 'package:chfclient/Classes/ClientFoodTile.dart';
 import 'package:chfclient/Classes/ClientOrderHistoryTile.dart';
 import 'package:chfclient/Classes/FinishedClientFoodTile.dart';
@@ -21,10 +22,12 @@ import 'package:chfclient/Screens/DetailsClientFoodTile.dart';
 import 'package:chfclient/Screens/DetailsRestaurantTile.dart';
 import 'package:chfclient/Screens/InvoiceDetailsScreeen.dart';
 import 'package:chfclient/Screens/ClientMainMenuScreen.dart';
+import 'package:chfclient/Screens/PaymentAddressesScreen.dart';
 import 'package:chfclient/Screens/PaymentScreen.dart';
 import 'package:chfclient/Screens/ClientProfileScreen.dart';
 import 'package:chfclient/Screens/WalletScreen.dart';
 import 'package:flutter/material.dart';
+import 'package:latlong/latlong.dart';
 
 class MyApp extends StatefulWidget {
   @override
@@ -51,6 +54,7 @@ class _MyAppState extends State<MyApp> {
         '/ClientDetailsCommentTile': (context) => ClientDetailsCommentTile(),
         '/WalletScreen': (context) => WalletScreen(),
         '/ClientActiveOrdersScreen': (context) => ClientActiveOrdersScreen(),
+        '/PaymentAddressesScreen': (context) => PaymentAddressesScreen(),
       },
       home:
           // ClientSignInScreen(),
@@ -84,6 +88,7 @@ class _MyAppState extends State<MyApp> {
 }
 
 void main() {
+  ClientAddressTile.trailing = false;
   ClientFoodTile Tea1 = ClientFoodTile(
     'Tea',
     '25',
@@ -165,8 +170,9 @@ void main() {
         comment13,
       ],
     },
+    LatLng(35.725295, 51.400957),
     0,
-    // email: 'arman@gmail.com',
+    email: 'arman@gmail.com',
   );
   RestaurantAccounts.receiveRestaurant(restaurant);
 
@@ -215,6 +221,7 @@ void main() {
     12,
     RestaurantTypes.Cafe,
     {},
+    LatLng(35.742894, 51.423224),
     1,
     // email: 'arman@gmail.com',
   );
@@ -224,10 +231,13 @@ void main() {
     'Client1',
     '09198612878',
     'clientPassword1',
+  );
+  client.addAddress(
     'Iran, Tehran, Gisha, Khiaban Piroozi Qarbi, Kooche Farahzadi,11111111111111111111111111111111111',
+    LatLng(35.722629, 51.410471),
   );
   ClientAccounts.addAccount(client);
-  client.addAddress('address2');
+  client.addAddress('address2', LatLng(35.72247, 51.398161));
 
   runApp(MyApp());
 }

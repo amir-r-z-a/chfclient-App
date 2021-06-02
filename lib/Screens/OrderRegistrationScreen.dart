@@ -1,5 +1,6 @@
 import 'package:chfclient/Classes/CartTile.dart';
 import 'package:chfclient/Classes/ClientAccounts.dart';
+import 'package:chfclient/Classes/ClientAdreesTile.dart';
 import 'package:chfclient/Classes/FinishedClientFoodTile.dart';
 import 'package:chfclient/Classes/RestaurantAccounts.dart';
 import 'package:chfclient/Common/Common%20Classes/Date.dart';
@@ -157,6 +158,7 @@ class _OrderRegistrationScreenState extends State<OrderRegistrationScreen> {
               ElevatedButton.styleFrom(primary: Theme.of(context).primaryColor),
           onPressed: () {
             PaymentScreen.j = OrderRegistrationScreen.j;
+            ClientAddressTile.trailing = true;
             Navigator.pushNamed(context, '/PaymentScreen');
           },
           child: Text('Continue'),

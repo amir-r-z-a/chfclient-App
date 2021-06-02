@@ -6,6 +6,7 @@ import 'package:chfclient/Common/Common%20Classes/RestaurantTypes.dart';
 import 'package:chfclient/Screens/ClientHomeScreen.dart';
 import 'package:chfclient/Screens/DetailsRestaurantTile.dart';
 import 'package:flutter/material.dart';
+import 'package:latlong/latlong.dart';
 
 class RestaurantTile extends StatefulWidget {
   String _name;
@@ -16,6 +17,7 @@ class RestaurantTile extends StatefulWidget {
   String email;
   double _point;
   double _workingRadius;
+  LatLng _location;
   Function refreshPage;
 
   // List<CartTile> _cart;
@@ -38,6 +40,7 @@ class RestaurantTile extends StatefulWidget {
     // this._profileImage,
     this._type,
     this._restaurantComments,
+    this._location,
     this._j, {
     this.email,
   });
@@ -96,7 +99,11 @@ class RestaurantTile extends StatefulWidget {
     _restaurantComments = value;
   }
 
-  // List<CartTile> get cart => _cart;
+  LatLng get location => _location;
+
+  set location(LatLng value) {
+    _location = value;
+  } // List<CartTile> get cart => _cart;
   //
   // set cart(List<CartTile> value) {
   //   _cart = value;
