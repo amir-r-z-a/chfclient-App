@@ -233,13 +233,12 @@ void main() {
     '09198612878',
     'clientPassword1',
   );
-  // client.addAddress(
-  //   'Iran, Tehran, Gisha, Khiaban Piroozi Qarbi, Kooche Farahzadi,11111111111111111111111111111111111',
-  //   LatLng(35.722629, 51.410471),
-  // );
+  client.addAddress(
+    'Iran, Tehran, Gisha, Khiaban Piroozi Qarbi, Kooche Farahzadi,11111111111111111111111111111111111',
+    LatLng(35.722629, 51.410471),
+  );
   ClientAccounts.addAccount(client);
   // client.addAddress('address2', LatLng(35.72247, 51.398161));
-
   runApp(MyApp());
 }
 

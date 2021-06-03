@@ -158,17 +158,17 @@ class _ClientActiveOrderTileState extends State<ClientActiveOrderTile> {
                 ],
               ),
             ),
-            Container(
-              margin: EdgeInsets.fromLTRB(12, 18, 12, 0),
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    primary: Theme.of(context).primaryColor),
-                onPressed: () {
-                  //TODO
-                },
-                child: Text("View invoice"),
-              ),
-            ),
+            // Container(
+            //   margin: EdgeInsets.fromLTRB(12, 18, 12, 0),
+            //   child: ElevatedButton(
+            //     style: ElevatedButton.styleFrom(
+            //         primary: Theme.of(context).primaryColor),
+            //     onPressed: () {
+            //       //TODO
+            //     },
+            //     child: Text("View invoice"),
+            //   ),
+            // ),
           ],
         ),
       ),

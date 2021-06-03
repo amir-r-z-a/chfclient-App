@@ -255,6 +255,7 @@ class _ClientAddressTileState extends State<ClientAddressTile> {
                                                 .deleteAddress(widget.index);
                                             // ClientAddressTile.mainMenu();
                                             Navigator.pop(context);
+                                            Navigator.pop(context);
                                             ClientMainMenuScreen
                                                 .changeAppBarAddress = true;
                                             ClientAddressTile.mainMenu();
