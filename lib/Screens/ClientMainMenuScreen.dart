@@ -43,7 +43,7 @@ class _customListTileState extends State<customListTile> {
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
                       widget.text,
-                      style: TextStyle(fontSize: 16),
+                      style: TextStyle(fontSize: 13,fontFamily: 'HotPizza'),
                     ),
                   )
                 ],
@@ -289,7 +289,9 @@ class _ClientMainMenuScreenState extends State<ClientMainMenuScreen> {
                     Colors.deepOrange,
                   ]),
                 ),
-                child: Text('here is header')),
+                child: Center(
+                  child: Image.asset('assets/images/5.png'),
+                )),
             customListTile(Icons.person, 'Profile',
                 () => Navigator.pushNamed(context, '/ProfileScreen')),
             customListTile(Icons.credit_card_outlined, 'My Wallet',

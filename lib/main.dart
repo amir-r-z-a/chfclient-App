@@ -25,6 +25,7 @@ import 'package:chfclient/Screens/ClientMainMenuScreen.dart';
 import 'package:chfclient/Screens/PaymentAddressesScreen.dart';
 import 'package:chfclient/Screens/PaymentScreen.dart';
 import 'package:chfclient/Screens/ClientProfileScreen.dart';
+import 'package:chfclient/Screens/SplashScreen.dart';
 import 'package:chfclient/Screens/WalletScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:latlong/latlong.dart';
@@ -74,7 +75,7 @@ class _MyAppState extends State<MyApp> {
           // ClientActiveOrderTile()
 
           ClientMainMenuScreen(),
-
+// SplashScreen()
       //     FinishedClientFoodTile(
       //   'Tea',
       //   '25',
