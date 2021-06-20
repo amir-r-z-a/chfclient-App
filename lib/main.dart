@@ -74,8 +74,8 @@ class _MyAppState extends State<MyApp> {
 
           // ClientActiveOrderTile()
 
-          ClientMainMenuScreen(),
-// SplashScreen()
+          // ClientMainMenuScreen(),
+SplashScreen()
       //     FinishedClientFoodTile(
       //   'Tea',
       //   '25',
