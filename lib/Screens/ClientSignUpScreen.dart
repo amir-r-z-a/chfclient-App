@@ -20,114 +20,117 @@ class _ClientSignUpScreenState extends State<ClientSignUpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
-          child: Column(
-            children: [
-              Container(
-                  margin: EdgeInsets.fromLTRB(25, 50, 0, 0),
+      body: Padding(
+        padding: const EdgeInsets.only(top: 55.0),
+        child: SingleChildScrollView(
+          child: Container(
+            child: Column(
+              children: [
+                Container(
+                    margin: EdgeInsets.fromLTRB(25, 50, 0, 0),
+                    child: Row(
+                      children: [
+                        Text(
+                          "Sign Up",
+                          style: TextStyle(
+                              fontSize: 30, fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    )),
+                Container(
+                  margin: EdgeInsets.all(30),
+                  child: Form(
+                    key: _formkey,
+                    child: Column(
+                      children: [
+                        ClientMyTextFormField(
+                          "Name",
+                          hint: "Your name",
+                          index: 1,
+                        ),
+                        Padding(padding: EdgeInsets.all(15)),
+                        ClientMyTextFormField(
+                          "Phone number",
+                          index: 2,
+                          hint: "Your Phone number",
+                          regex: 'PNSignUp',
+                        ),
+                        Padding(padding: EdgeInsets.all(15)),
+                        ClientMyPassFormField(
+                          'Password',
+                          regex: 'PassSignUp',
+                          hint: 'Your password',
+                        ),
+                        Padding(padding: EdgeInsets.all(50)),
+                      ],
+                    ),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(bottom: 20),
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        "Sign Up",
-                        style: TextStyle(
-                            fontSize: 30, fontWeight: FontWeight.bold),
+                      GrayText("Have an Account ?", 0xff989eb1, 16),
+                      Padding(padding: EdgeInsets.only(right: 10)),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(context, "/ClientSignInScreen");
+                        },
+                        child: TitleText(
+                          'Sign In',
+                          fontSize: 16,
+                        ),
                       ),
-                    ],
-                  )),
-              Container(
-                margin: EdgeInsets.all(30),
-                child: Form(
-                  key: _formkey,
-                  child: Column(
-                    children: [
-                      ClientMyTextFormField(
-                        "Name",
-                        hint: "Your name",
-                        index: 1,
-                      ),
-                      Padding(padding: EdgeInsets.all(15)),
-                      ClientMyTextFormField(
-                        "Phone number",
-                        index: 2,
-                        hint: "Your Phone number",
-                        regex: 'PNSignUp',
-                      ),
-                      Padding(padding: EdgeInsets.all(15)),
-                      ClientMyPassFormField(
-                        'Password',
-                        regex: 'PassSignUp',
-                        hint: 'Your password',
-                      ),
-                      Padding(padding: EdgeInsets.all(50)),
                     ],
                   ),
                 ),
-              ),
-              Container(
-                margin: EdgeInsets.only(bottom: 20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    GrayText("Have an Account ?", 0xff989eb1, 16),
-                    Padding(padding: EdgeInsets.only(right: 10)),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.pushNamed(context, "/ClientSignInScreen");
-                      },
-                      child: TitleText(
-                        'Sign In',
-                        fontSize: 16,
+                Container(
+                  margin: EdgeInsets.only(bottom: 50),
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints.tightFor(width: 320, height: 50),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        primary: Color.fromRGBO(248, 95, 106, 1),
                       ),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.only(bottom: 50),
-                child: ConstrainedBox(
-                  constraints: BoxConstraints.tightFor(width: 320, height: 50),
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      primary: Color.fromRGBO(248, 95, 106, 1),
-                    ),
-                    child: WhiteText("Continue"),
-                    onPressed: () {
-                      if (_formkey.currentState.validate()) {
-                        setState(() {
-                          _formkey.currentState.save();
-                          ClientAccounts.addAccount(
-                            Client(
-                              ClientMyTextFormField.name,
-                              ClientMyTextFormField.phoneNumber,
-                              ClientMyTextFormField.password,
-                              // ClientMyTextFormField.address,
-                            ),
-                          );
-                          Navigator.pushNamed(context, '/ClientSignInScreen');
-                          print('-------------------------');
-                          print("saved");
-                          print('Your len is:');
-                          print(ClientAccounts.getClientAccountsLength());
-                          print('-------------------------');
-                          for (int i = 0;
-                              i < ClientAccounts.getClientAccountsLength();
-                              i++) {
-                            print('index: ');
-                            print(i);
-                            print(ClientAccounts.accounts[i].name);
-                            print(ClientAccounts.accounts[i].phoneNumber);
-                            print(ClientAccounts.accounts[i].password);
-                            print(ClientAccounts.accounts[i].address);
+                      child: WhiteText("Continue"),
+                      onPressed: () {
+                        if (_formkey.currentState.validate()) {
+                          setState(() {
+                            _formkey.currentState.save();
+                            ClientAccounts.addAccount(
+                              Client(
+                                ClientMyTextFormField.name,
+                                ClientMyTextFormField.phoneNumber,
+                                ClientMyTextFormField.password,
+                                // ClientMyTextFormField.address,
+                              ),
+                            );
+                            Navigator.pushNamed(context, '/ClientSignInScreen');
                             print('-------------------------');
-                          }
-                        });
-                      }
-                    },
+                            print("saved");
+                            print('Your len is:');
+                            print(ClientAccounts.getClientAccountsLength());
+                            print('-------------------------');
+                            for (int i = 0;
+                                i < ClientAccounts.getClientAccountsLength();
+                                i++) {
+                              print('index: ');
+                              print(i);
+                              print(ClientAccounts.accounts[i].name);
+                              print(ClientAccounts.accounts[i].phoneNumber);
+                              print(ClientAccounts.accounts[i].password);
+                              print(ClientAccounts.accounts[i].address);
+                              print('-------------------------');
+                            }
+                          });
+                        }
+                      },
+                    ),
                   ),
-                ),
-              )
-            ],
+                )
+              ],
+            ),
           ),
         ),
       ),
