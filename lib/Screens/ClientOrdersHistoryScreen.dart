@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 
 class ClientOrdersHistoryScreen extends StatefulWidget {
   @override
-  _ClientOrdersHistoryScreenState createState() => _ClientOrdersHistoryScreenState();
+  _ClientOrdersHistoryScreenState createState() =>
+      _ClientOrdersHistoryScreenState();
 }
 
 class _ClientOrdersHistoryScreenState extends State<ClientOrdersHistoryScreen> {
@@ -34,8 +35,8 @@ class _ClientOrdersHistoryScreenState extends State<ClientOrdersHistoryScreen> {
           children: List.generate(
               ClientAccounts.accounts[ClientAccounts.currentAccount]
                   .getOrdersHistoryLength(),
-              (index) => ClientAccounts
-                  .accounts[ClientAccounts.currentAccount].ordersHistory[index]),
+              (index) => ClientAccounts.accounts[ClientAccounts.currentAccount]
+                  .ordersHistory[index]),
         ),
       ]),
     );
@@ -66,7 +67,7 @@ class _ClientOrdersHistoryScreenState extends State<ClientOrdersHistoryScreen> {
 
   Widget MyOnChip(String input, int index) {
     return FilterChip(
-      backgroundColor: Colors.blue,
+      backgroundColor: Theme.of(context).primaryColor,
       avatar: Icon(
         Icons.check,
         color: Colors.white,
