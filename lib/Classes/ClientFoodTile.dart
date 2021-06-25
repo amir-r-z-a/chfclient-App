@@ -82,6 +82,38 @@ class _ClientFoodTileState extends State<ClientFoodTile> {
     }
   }
 
+  void notInRangeRestaurant() {
+    showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) => AlertDialog(
+        title: Text('Restaurant is not in your address range'),
+        content: Container(
+          height: 120,
+          child: Column(
+            children: [
+              Padding(padding: EdgeInsets.fromLTRB(0, 30, 0, 0)),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  TextButton(
+                    style: TextButton.styleFrom(
+                        primary: Theme.of(context).primaryColor),
+                    onPressed: () =>
+                        Navigator.pop(context),
+                    child: Text(
+                      'OK',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
   void addMinCartFunc(String status) {
     setState(() {
       if (status == '+') {

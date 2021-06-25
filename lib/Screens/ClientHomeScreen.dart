@@ -160,15 +160,16 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
                     child: Row(
                       children: List.generate(
                           RestaurantAccounts.restaurantList[0].length, (index) {
-                        // if (ClientHomeScreen.restaurantTile != null) {
-                        //   ClientHomeScreen.restaurantTile();
-                        // }
-                        if (RestaurantAccounts
-                                .restaurantList[0][index].refreshPage !=
-                            null) {
-                          // RestaurantAccounts.restaurantList[0][index].refreshPage();
+                        if (ClientAccounts
+                            .accounts[ClientAccounts.currentAccount]
+                            .isInRange(
+                                RestaurantAccounts
+                                    .restaurantList[0][index].location,
+                                RestaurantAccounts
+                                    .restaurantList[0][index].workingRadius)) {
+                          return RestaurantAccounts.restaurantList[0][index];
                         }
-                        return RestaurantAccounts.restaurantList[0][index];
+                        else return Container(height: 0,width: 0);
                       }),
                     ),
                   ),
