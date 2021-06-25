@@ -253,7 +253,7 @@ class _DetailsRestaurantTileState extends State<DetailsRestaurantTile> {
                     Container(
                       height: 120,
                       width: MediaQuery.of(context).size.width,
-                      color: Theme.of(context).primaryColor ,
+                      color: Theme.of(context).primaryColor,
                       child: Padding(
                         padding: const EdgeInsets.all(6.0),
                         child: SizedBox(
@@ -290,15 +290,25 @@ class _DetailsRestaurantTileState extends State<DetailsRestaurantTile> {
                               Padding(
                                 padding: const EdgeInsets.only(top: 12.0),
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text("From  " +   RestaurantAccounts
-                                        .restaurantList[0]
-                                    [DetailsRestaurantTile.j]
-                                        .startingTime + "  to  " + RestaurantAccounts
-                                        .restaurantList[0]
-                                    [DetailsRestaurantTile.j]
-                                        .endingTime , style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20,color: Colors.white),),
+                                    Text(
+                                      "From  " +
+                                          RestaurantAccounts
+                                              .restaurantList[0]
+                                                  [DetailsRestaurantTile.j]
+                                              .startingTime +
+                                          "  to  " +
+                                          RestaurantAccounts
+                                              .restaurantList[0]
+                                                  [DetailsRestaurantTile.j]
+                                              .endingTime,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 20,
+                                          color: Colors.white),
+                                    ),
                                     Container(
                                         width: 60,
                                         height: 40,
