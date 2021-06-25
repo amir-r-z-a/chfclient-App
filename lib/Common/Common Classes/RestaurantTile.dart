@@ -19,16 +19,21 @@ class RestaurantTile extends StatefulWidget {
   double _workingRadius;
   LatLng _location;
   Function refreshPage;
-
+  String startingTime ;
+  String endingTime ;
   // List<CartTile> _cart;
   int _j;
-
   // Image _profileImage;
   RestaurantTypes _type;
   Map _restaurantComments;
-
+  List<Widget> stars = [
+    Container(child: Icon(Icons.star)),
+    Container(child: Icon(Icons.star)),
+    Container(child: Icon(Icons.star)),
+    Container(child: Icon(Icons.star)),
+    Container(child: Icon(Icons.star)),
+  ];
   // static Function homeScreen;
-
   RestaurantTile(
     this._name,
     this._address,
@@ -43,22 +48,18 @@ class RestaurantTile extends StatefulWidget {
     this._location,
     this._j, {
     this.email,
+        this.startingTime,
+        this.endingTime
   });
-
   String get name => _name;
-
   set name(String value) {
     _name = value;
   }
-
   String get address => _address;
-
   set address(String value) {
     _address = value;
   }
-
   String get phoneNumber => _phoneNumber;
-
   set phoneNumber(String value) {
     _phoneNumber = value;
   }
@@ -192,24 +193,40 @@ class _RestaurantTileState extends State<RestaurantTile> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
-                    children: [Text(ClientAccounts.digester(widget.name, 30))],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
                     children: [
-                      Text(widget.type
-                          .toString()
-                          .substring(widget.type.toString().indexOf('.') + 1))
+                      Text(
+                        ClientAccounts.digester(widget.name, 30),
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 15),
+                      )
                     ],
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
                     children: [
+                      Text(
+                          widget.type.toString().substring(
+                              widget.type.toString().indexOf('.') + 1),
+                          style: TextStyle(color: Color(0xff7C2C43)))
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                          children:
+                              List.generate(widget.point.toInt(), (index) {
+                        return Container(
+                            child: Icon(
+                          Icons.star,
+                          color: Colors.yellowAccent,
+                        ));
+                      })),
                       GestureDetector(
                         onTap: () {
                           setState(() {

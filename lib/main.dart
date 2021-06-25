@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:chfclient/Classes/ClientAccounts.dart';
 import 'package:chfclient/Classes/ClientActiveOrderTile.dart';
 import 'package:chfclient/Classes/Client.dart';
@@ -10,18 +12,23 @@ import 'package:chfclient/Common/Common%20Classes/CommentTile.dart';
 import 'package:chfclient/Common/Common%20Classes/Date.dart';
 import 'package:chfclient/Common/Common%20Classes/RestaurantTile.dart';
 import 'package:chfclient/Common/Common%20Classes/RestaurantTypes.dart';
+import 'package:chfclient/Screens/CafesScreen.dart';
 import 'package:chfclient/Screens/CartScreen.dart';
 import 'package:chfclient/Screens/ClientActiveOrdersScreen.dart';
 import 'package:chfclient/Screens/ClientDetailsCommentTile.dart';
 import 'package:chfclient/Screens/ClientSignInScreen.dart';
 import 'package:chfclient/Screens/ClientSignUpScreen.dart';
 import 'package:chfclient/Screens/CommentsScreen.dart';
+import 'package:chfclient/Screens/FastFoodScreen.dart';
 import 'package:chfclient/Screens/FavRestaurantsScreen.dart';
+import 'package:chfclient/Screens/IranianFoodsScreen.dart';
+import 'package:chfclient/Screens/MorePopularRestaurantsScreen.dart';
 import 'package:chfclient/Screens/OrderRegistrationScreen.dart';
 import 'package:chfclient/Screens/DetailsClientFoodTile.dart';
 import 'package:chfclient/Screens/DetailsRestaurantTile.dart';
 import 'package:chfclient/Screens/InvoiceDetailsScreeen.dart';
 import 'package:chfclient/Screens/ClientMainMenuScreen.dart';
+import 'package:chfclient/Screens/OthersScreen.dart';
 import 'package:chfclient/Screens/PaymentAddressesScreen.dart';
 import 'package:chfclient/Screens/PaymentScreen.dart';
 import 'package:chfclient/Screens/ClientProfileScreen.dart';
@@ -29,6 +36,8 @@ import 'package:chfclient/Screens/SplashScreen.dart';
 import 'package:chfclient/Screens/WalletScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:latlong/latlong.dart';
+
+import 'Screens/ClientActiveOrderTileScreen.dart';
 
 class MyApp extends StatefulWidget {
   @override
@@ -42,6 +51,12 @@ class _MyAppState extends State<MyApp> {
       title: "CHFood",
       theme: ThemeData(primaryColor: const Color.fromRGBO(248, 95, 106, 1)),
       routes: {
+        '/ClientActiveOrderTileScreen' : (context) => ClientActiveOrderTileScreen(),
+        '/MorePopularRestaurantsScreen' : (context) => MorePopularRestaurantsScreen(),
+        '/CafesScreen' : (context) => CafesScreen(),
+        '/OthersScreen' : (context) => OthersScreen(),
+        '/FastFoodScreen' : (context) => FastFoodScreen(),
+        '/IranianFoodsScreen' : (context) => IranianFoodsScreen(),
         '/ClientSignUpScreen': (context) => ClientSignUpScreen(),
         '/ClientSignInScreen': (context) => ClientSignInScreen(),
         '/ClientMainMenuScreen': (context) => ClientMainMenuScreen(),
@@ -74,8 +89,8 @@ class _MyAppState extends State<MyApp> {
 
           // ClientActiveOrderTile()
 
-          // ClientMainMenuScreen(),
-SplashScreen()
+          ClientMainMenuScreen(),
+// SplashScreen()
       //     FinishedClientFoodTile(
       //   'Tea',
       //   '25',
@@ -89,6 +104,27 @@ SplashScreen()
 }
 
 void main() {
+  String restaurantAccounts =  "09198612878: {, arman, arman123, 03:10, 22:55, Other, ahmafi@gmail.com, address44, LatLng(latitude:35.743649:::longitude:51.427343), 10, 1.1, 1, }" ;
+  //09198612878: {, arman, arman123, 03:10, 22:55, Other, ahmafi@gmail.com, address44, LatLng(latitude:35.743649:::longitude:51.427343), 10, 1.1, j, }
+  print(restaurantAccounts.substring(0,11)) ;
+  List x = [];
+  x = restaurantAccounts.split(", ") ;
+  print(x);
+  String name = x[1] ;
+  String startTime =  x[3] ;
+  String endTime =  x[4] ;
+  String type = x[5];
+  String mail = x[6];
+  String address = x[7];
+  String latlong = x[8];
+  String lat=latlong.substring(17,25);
+  String lon = latlong.substring(38,47);
+  var la = double.parse(lat);
+  var lo = double.parse(lon);
+  int Radius = int.parse(x[9]);
+  double point = double.parse(x[10]);
+  LatLng Loacation = LatLng(la,lo);
+  int Index = int.parse(x[9]);
   ClientAddressTile.trailing = false;
   ClientFoodTile Tea1 = ClientFoodTile(
     'Tea',
@@ -134,8 +170,54 @@ void main() {
       '09121231212',
       '09198612878');
   RestaurantTile restaurant = RestaurantTile(
-    'nameeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee1',
-    'Iran, Tehran, Pasdaran, Khiaban Bahar Qarbi, Kooche Mehr, 11111111111111111111111111111111111',
+    'name1',
+    'Iran, Tehran, Pasdaran, Khiaban Bahar Qarbi, Kooche Mehr, 1111',
+    '09198612878',
+    {0: 'All', 1: 'Cafe', 2: 'Fast Food'},
+    {
+      0: [
+        Tea1,
+        HotDog1,
+        Milk1,
+        Pizza1,
+      ],
+      1: [
+        Tea1,
+        Milk1,
+      ],
+      2: [
+        HotDog1,
+        Pizza1,
+      ],
+    },
+    1.1,
+    10,
+    RestaurantTypes.FastFood,
+    {
+      0: [
+        comment11,
+        comment12,
+        comment13,
+      ],
+      1: [
+        comment11,
+        comment12,
+      ],
+      2: [
+        comment13,
+      ],
+    },
+    LatLng(35.725295, 51.400957),
+    0,
+    email: 'arman@gmail.com',
+    startingTime: "15:00",
+    endingTime: "24:00",
+  );
+  RestaurantAccounts.receiveRestaurant(restaurant);
+
+  RestaurantTile restaurant3 = RestaurantTile(
+    'name3',
+    'Iran, Tehran, Pasdaran, Khiaban Bahar Qarbi, Kooche Mehr, 1111',
     '09198612878',
     {0: 'All', 1: 'Cafe', 2: 'Fast Food'},
     {
@@ -156,7 +238,7 @@ void main() {
     },
     4.3,
     10,
-    RestaurantTypes.FastFood,
+    RestaurantTypes.IranianRestaurant,
     {
       0: [
         comment11,
@@ -172,10 +254,12 @@ void main() {
       ],
     },
     LatLng(35.725295, 51.400957),
-    0,
+    1,
     email: 'arman@gmail.com',
+    startingTime: "8:00",
+    endingTime: "22:00",
   );
-  RestaurantAccounts.receiveRestaurant(restaurant);
+  RestaurantAccounts.receiveRestaurant(restaurant3);
 
   ClientFoodTile Tea2 = ClientFoodTile(
     'Tea',
@@ -223,10 +307,44 @@ void main() {
     RestaurantTypes.Cafe,
     {},
     LatLng(35.742894, 51.423224),
-    1,
+    2,
     // email: 'arman@gmail.com',
+    startingTime: "9:00",
+    endingTime: "18:00",
   );
   RestaurantAccounts.receiveRestaurant(restaurant2);
+
+  RestaurantTile restaurant4 = RestaurantTile(
+    'name4',
+    'addres2',
+    '09121111111',
+    {
+      0: 'All',
+      1: 'Cafe',
+    },
+    {
+      0: [
+        Tea2,
+        Milk2,
+        Juice2,
+      ],
+      1: [
+        Tea2,
+        Milk2,
+        Juice2,
+      ],
+    },
+    5.6,
+    12,
+    RestaurantTypes.Other,
+    {},
+    LatLng(35.742894, 51.423224),
+    3,
+    // email: 'arman@gmail.com',
+    startingTime: "12:00",
+    endingTime: "23:00",
+  );
+  RestaurantAccounts.receiveRestaurant(restaurant4);
 
   Client client = Client(
     'Client1',

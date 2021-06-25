@@ -1,6 +1,7 @@
 import 'package:chfclient/Classes/ClientAccounts.dart';
 import 'package:chfclient/Classes/FinishedClientFoodTile.dart';
 import 'package:chfclient/Common/Common%20Classes/Date.dart';
+import 'package:chfclient/Screens/ClientActiveOrderTileScreen.dart';
 import 'package:flutter/material.dart';
 
 class ClientActiveOrderTile extends StatefulWidget {
@@ -153,22 +154,31 @@ class _ClientActiveOrderTileState extends State<ClientActiveOrderTile> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("Sum of Prices"),
+                  Text("Total"),
                   Text("\$" + widget.orderSum[-1].toString()),
                 ],
               ),
             ),
-            // Container(
-            //   margin: EdgeInsets.fromLTRB(12, 18, 12, 0),
-            //   child: ElevatedButton(
-            //     style: ElevatedButton.styleFrom(
-            //         primary: Theme.of(context).primaryColor),
-            //     onPressed: () {
-            //       //TODO
-            //     },
-            //     child: Text("View invoice"),
-            //   ),
-            // ),
+            Container(
+              margin: EdgeInsets.fromLTRB(12, 18, 12, 0),
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    primary: Theme.of(context).primaryColor),
+                onPressed: () {
+                  // delete gozashte shavad
+                  ClientActiveOrderTileScreen.orderFoods = widget._orderFoods ;
+                  ClientActiveOrderTileScreen.orderName = widget._orderName ;
+                  ClientActiveOrderTileScreen.orderNum = widget._orderNum ;
+                  ClientActiveOrderTileScreen.orderSum= widget._orderSum ;
+                  ClientActiveOrderTileScreen.restaurantAddress= widget._restaurantAddress ;
+                  ClientActiveOrderTileScreen.orderAddress= widget._orderAddress ;
+                  ClientActiveOrderTileScreen.orderDate= widget._orderDate ;
+                  ClientActiveOrderTileScreen.restaurantName= widget._restaurantName;
+                  Navigator.pushNamed(context, "/ClientActiveOrderTileScreen");
+                },
+                child: Text("View invoice"),
+              ),
+            ),
           ],
         ),
       ),

@@ -227,7 +227,11 @@ class _DetailsRestaurantTileState extends State<DetailsRestaurantTile> {
               ),
             )
           : null,
-      appBar: AppBar(),
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text(
+            RestaurantAccounts.restaurantList[0][DetailsRestaurantTile.j].name),
+      ),
       body: ListView(
         children: [
           Column(children: [
@@ -244,20 +248,110 @@ class _DetailsRestaurantTileState extends State<DetailsRestaurantTile> {
                 decoration: BoxDecoration(
                     border:
                         Border.symmetric(horizontal: BorderSide(width: 0.2))),
-                child: Row(
-                  children: List.generate(
-                    RestaurantAccounts
-                        .restaurantList[0][DetailsRestaurantTile.j]
-                        .tabBarTitle
-                        .length,
-                    (index) {
-                      return MyTabBarChip(
-                          RestaurantAccounts
-                              .restaurantList[0][DetailsRestaurantTile.j]
-                              .tabBarTitle[index],
-                          index);
-                    },
-                  ),
+                child: Column(
+                  children: [
+                    Container(
+                      height: 120,
+                      width: MediaQuery.of(context).size.width,
+                      color: Colors.redAccent,
+                      child: Padding(
+                        padding: const EdgeInsets.all(6.0),
+                        child: SizedBox(
+                          width: 450,
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  SingleChildScrollView(
+                                      scrollDirection: Axis.vertical,
+                                      child: Text(
+                                        "Address",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20,color: Colors.white),
+                                      )),
+                                ],
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 10.0),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      RestaurantAccounts
+                                          .restaurantList[0]
+                                              [DetailsRestaurantTile.j]
+                                          .address,
+                                      maxLines: 3,
+                                      softWrap: false,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 12.0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text("From  " +   RestaurantAccounts
+                                        .restaurantList[0]
+                                    [DetailsRestaurantTile.j]
+                                        .startingTime + "  to  " + RestaurantAccounts
+                                        .restaurantList[0]
+                                    [DetailsRestaurantTile.j]
+                                        .endingTime , style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),),
+                                    Container(
+                                        width: 60,
+                                        height: 40,
+                                        decoration: BoxDecoration(
+                                          color: Colors.green,
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Colors.black26,
+                                              offset: const Offset(-8, 10),
+                                              blurRadius: 18,
+                                              spreadRadius: 8,
+                                            ),
+                                          ],
+                                          border: Border.all(),
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                        ),
+                                        child: Center(
+                                          child: Text(
+                                            RestaurantAccounts
+                                                .restaurantList[0]
+                                                    [DetailsRestaurantTile.j]
+                                                .point
+                                                .toString(),
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 20),
+                                          ),
+                                        ))
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    Row(
+                      children: List.generate(
+                        RestaurantAccounts
+                            .restaurantList[0][DetailsRestaurantTile.j]
+                            .tabBarTitle
+                            .length,
+                        (index) {
+                          return MyTabBarChip(
+                              RestaurantAccounts
+                                  .restaurantList[0][DetailsRestaurantTile.j]
+                                  .tabBarTitle[index],
+                              index);
+                        },
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),

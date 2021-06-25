@@ -25,6 +25,7 @@ class PaymentScreen extends StatefulWidget {
 
 class _PaymentScreenState extends State<PaymentScreen> {
   var _key1 = GlobalKey<FormState>();
+  var _key2 = GlobalKey<FormState>() ;
 
   void refreshPage() {
     if (this.mounted) {
@@ -443,6 +444,39 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           ),
                         ),
                       ),
+                       Padding(
+                         padding: const EdgeInsets.only(top: 8.0),
+                         child: Row(
+                           mainAxisAlignment: MainAxisAlignment.start,
+                           children: [
+                             Text("Discount Code " , style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+                           ],
+                         ),
+                       ),
+                       Form(child: Padding(
+                         key: _key2 ,
+                         padding: const EdgeInsets.fromLTRB(8, 0, 18, 0),
+                         child: TextFormField(
+                           cursorColor: Color.fromRGBO(248, 95, 106, 1),
+                           decoration: InputDecoration(
+                             errorStyle: TextStyle(
+                               color: Color.fromRGBO(248, 95, 106, 1),
+                             ),
+                             labelText: "Discount",
+                             //TODO
+                             labelStyle: TextStyle(
+                                 fontSize: 14,
+                                 fontWeight: FontWeight.bold,
+                                 color: Color.fromRGBO(248, 95, 106, 1)),
+                             hintText: "Your Discount Code ",
+                             hintStyle: TextStyle(
+                               fontSize: 16,
+                               color: Color.fromRGBO(209, 214, 219, 1),
+                             ),
+                           ),
+                         ),
+                       )
+                       )
                     ],
                   ),
                 ),

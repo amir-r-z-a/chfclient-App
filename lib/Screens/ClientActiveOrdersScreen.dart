@@ -2,6 +2,8 @@ import 'package:chfclient/Classes/ClientAccounts.dart';
 import 'package:flutter/material.dart';
 
 class ClientActiveOrdersScreen extends StatefulWidget {
+  void enterPoint (){
+  }
   @override
   _ClientActiveOrdersScreenState createState() => _ClientActiveOrdersScreenState();
 }
@@ -19,3 +21,4 @@ class _ClientActiveOrdersScreenState extends State<ClientActiveOrdersScreen> {
     );
   }
 }
+

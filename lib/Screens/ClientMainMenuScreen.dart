@@ -11,6 +11,7 @@ import 'package:chfclient/Screens/ClientOrdersHistoryScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong/latlong.dart';
+import 'package:search_page/search_page.dart';
 
 class customListTile extends StatefulWidget {
   IconData icon;
@@ -43,7 +44,7 @@ class _customListTileState extends State<customListTile> {
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
                       widget.text,
-                      style: TextStyle(fontSize: 13,fontFamily: 'HotPizza'),
+                      style: TextStyle(fontSize: 13, fontFamily: 'HotPizza'),
                     ),
                   )
                 ],
@@ -62,6 +63,7 @@ class ClientMainMenuScreen extends StatefulWidget {
   static List<LatLng> tappedPoints = [];
   static bool activeOrder = false;
   static bool changeAppBarAddress = false;
+  static bool isOrderFinished = true;
 
   @override
   _ClientMainMenuScreenState createState() => _ClientMainMenuScreenState();
@@ -77,6 +79,7 @@ class _ClientMainMenuScreenState extends State<ClientMainMenuScreen> {
   }
 
   int _currentSelect = 1;
+  bool isSearching = false;
   List<Widget> screens = [
     CartScreen(),
     ClientHomeScreen(),
@@ -94,140 +97,171 @@ class _ClientMainMenuScreenState extends State<ClientMainMenuScreen> {
     showModalBottomSheet(
       context: context,
       builder: (context) {
-        return ListView(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+        return Card(
+          elevation: 10,
+          child: Padding(
+            padding: const EdgeInsets.all(5.0),
+            child: ListView(
               children: [
-                Text(
-                  'Address List',
-                  style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    showModalBottomSheet(
-                        isScrollControlled: true,
-                        context: context,
-                        builder: (context) {
-                          var markers =
-                              ClientMainMenuScreen.tappedPoints.map((latlng) {
-                            return Marker(
-                              width: 80.0,
-                              height: 80.0,
-                              point: latlng,
-                              builder: (ctx) => Container(
-                                child: Icon(
-                                  Icons.location_on,
-                                  size: 50,
-                                  color: Colors.red,
-                                ),
-                              ),
-                            );
-                          }).toList();
-                          return SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.75,
-                            child: ListView(
-                              children: [
-                                Column(
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.only(
-                                          top: 8.0, bottom: 8.0),
-                                      child: Text('Hold to add pins'),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: SizedBox(
-                                        height: 300,
-                                        child: FlutterMap(
-                                          options: MapOptions(
-                                              center:
-                                                  LatLng(35.715298, 51.404343),
-                                              zoom: 13.0,
-                                              onTap: _handleTap),
-                                          layers: [
-                                            TileLayerOptions(
-                                              urlTemplate:
-                                                  "https://api.mapbox.com/styles/v1/amirrza/ckov1rtrs059m17p8xugrutr4/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoiYW1pcnJ6YSIsImEiOiJja292MW0zeGwwNDN1MnBwYzlhbDVyOHByIn0.Mwa8L0WNjyIKc-v32nKOhQ",
-                                            ),
-                                            MarkerLayerOptions(markers: markers)
-                                          ],
+                Padding(
+                  padding: const EdgeInsets.all(11.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          'Address List',
+                          style: TextStyle(
+                              fontSize: 28, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          showModalBottomSheet(
+                              isScrollControlled: true,
+                              context: context,
+                              builder: (context) {
+                                var markers = ClientMainMenuScreen.tappedPoints
+                                    .map((latlng) {
+                                  return Marker(
+                                    width: 80.0,
+                                    height: 80.0,
+                                    point: latlng,
+                                    builder: (ctx) =>
+                                        Container(
+                                          child: Icon(
+                                            Icons.location_on,
+                                            size: 50,
+                                            color: Colors.red,
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                    Form(
-                                      key: _key1,
-                                      child: Column(
+                                  );
+                                }).toList();
+                                return SizedBox(
+                                  height:
+                                  MediaQuery
+                                      .of(context)
+                                      .size
+                                      .height * 0.75,
+                                  child: ListView(
+                                    children: [
+                                      Column(
                                         children: [
                                           Padding(
+                                            padding: EdgeInsets.only(
+                                                top: 8.0, bottom: 8.0),
+                                            child: Text('Hold to add pins'),
+                                          ),
+                                          Padding(
                                             padding: const EdgeInsets.all(8.0),
-                                            child: ClientMyTextFormField(
-                                              "Address",
-                                              index: 3,
-                                              hint: "Your new address",
-                                              addToAccounts: true,
-                                              regex: 'Address',
+                                            child: SizedBox(
+                                              height: 300,
+                                              child: FlutterMap(
+                                                options: MapOptions(
+                                                    center: LatLng(
+                                                        35.715298, 51.404343),
+                                                    zoom: 13.0,
+                                                    onTap: _handleTap),
+                                                layers: [
+                                                  TileLayerOptions(
+                                                    urlTemplate:
+                                                    "https://api.mapbox.com/styles/v1/amirrza/ckov1rtrs059m17p8xugrutr4/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoiYW1pcnJ6YSIsImEiOiJja292MW0zeGwwNDN1MnBwYzlhbDVyOHByIn0.Mwa8L0WNjyIKc-v32nKOhQ",
+                                                  ),
+                                                  MarkerLayerOptions(
+                                                      markers: markers)
+                                                ],
+                                              ),
                                             ),
                                           ),
-                                          SizedBox(
-                                            width: 350,
-                                            child: ElevatedButton(
-                                              style: ElevatedButton.styleFrom(
-                                                  primary: Theme.of(context)
-                                                      .primaryColor),
-                                              onPressed: () {
-                                                ClientMyTextFormField.location =
-                                                    ClientMainMenuScreen
-                                                        .location;
-                                                if (_key1.currentState
-                                                    .validate()) {
-                                                  _key1.currentState.save();
-                                                  if (ClientAccounts.accounts[
-                                                              ClientAccounts
-                                                                  .currentAccount]
-                                                          .getAddressLength() ==
-                                                      1) {
-                                                    setState(() {
-                                                      appBarTitle(1);
-                                                    });
-                                                  }
-                                                  Navigator.pop(context);
-                                                  Navigator.pop(context);
-                                                }
-                                              },
-                                              child: Text('Save'),
+                                          Form(
+                                            key: _key1,
+                                            child: Column(
+                                              children: [
+                                                Padding(
+                                                  padding:
+                                                  const EdgeInsets.all(8.0),
+                                                  child: ClientMyTextFormField(
+                                                    "Address",
+                                                    index: 3,
+                                                    hint: "Your new address",
+                                                    addToAccounts: true,
+                                                    regex: 'Address',
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  width: 350,
+                                                  child: ElevatedButton(
+                                                    style: ElevatedButton
+                                                        .styleFrom(
+                                                        primary: Theme
+                                                            .of(
+                                                            context)
+                                                            .primaryColor),
+                                                    onPressed: () {
+                                                      ClientMyTextFormField
+                                                          .location =
+                                                          ClientMainMenuScreen
+                                                              .location;
+                                                      if (_key1.currentState
+                                                          .validate()) {
+                                                        _key1.currentState
+                                                            .save();
+                                                        if (ClientAccounts
+                                                            .accounts[
+                                                        ClientAccounts
+                                                            .currentAccount]
+                                                            .getAddressLength() ==
+                                                            1) {
+                                                          setState(() {
+                                                            appBarTitle(1);
+                                                          });
+                                                        }
+                                                        Navigator.pop(context);
+                                                        Navigator.pop(context);
+                                                      }
+                                                    },
+                                                    child: Text('Save'),
+                                                  ),
+                                                ),
+                                              ],
                                             ),
-                                          ),
+                                          )
+                                          // ElevatedButton(onPressed: ()=> print(ProfileScreen.tappedPoints), child: Text("save"))
                                         ],
-                                      ),
-                                    )
-                                    // ElevatedButton(onPressed: ()=> print(ProfileScreen.tappedPoints), child: Text("save"))
-                                  ],
-                                )
-                              ],
+                                      )
+                                    ],
+                                  ),
+                                );
+                              });
+                        },
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                'New Address',
+                                style: TextStyle(color: Colors.blue),
+                              ),
                             ),
-                          );
-                        });
-                  },
-                  child: Row(
-                    children: [
-                      Text(
-                        'New Address',
-                      ),
-                      Icon(Icons.add)
+                          ],
+                        ),
+                      )
                     ],
                   ),
+                ),
+                Column(
+                  children: List.generate(
+                      ClientAccounts.accounts[ClientAccounts.currentAccount]
+                          .getAddressLength(),
+                          (index) =>
+                      ClientAccounts
+                          .accounts[ClientAccounts.currentAccount]
+                          .address[index]),
                 )
               ],
             ),
-            Column(
-              children: List.generate(
-                  ClientAccounts.accounts[ClientAccounts.currentAccount]
-                      .getAddressLength(),
-                  (index) => ClientAccounts
-                      .accounts[ClientAccounts.currentAccount].address[index]),
-            )
-          ],
+          ),
         );
       },
     );
@@ -240,18 +274,46 @@ class _ClientMainMenuScreenState extends State<ClientMainMenuScreen> {
         appBarText = 'Cart';
       } else if (_currentSelect == 1) {
         appBarText = ClientAccounts.accounts[ClientAccounts.currentAccount]
-                    .getAddressLength() ==
-                0
+            .getAddressLength() ==
+            0
             ? '        -'
             : ClientAccounts
-                .accounts[ClientAccounts.currentAccount]
-                .address[ClientAccounts
-                    .accounts[ClientAccounts.currentAccount].currentAddress]
-                .address;
+            .accounts[ClientAccounts.currentAccount]
+            .address[ClientAccounts
+            .accounts[ClientAccounts.currentAccount].currentAddress]
+            .address;
       } else {
         appBarText = 'Orders';
+        if (ClientMainMenuScreen.isOrderFinished) {
+
+        }
       }
     });
+  }
+
+  void pointDialog() {
+    showDialog(context: context, builder: (context) =>
+        AlertDialog(
+          title: Text("Enter point : "),
+          content: Column(
+            children: [
+              Row(
+                children: [
+                  Icon(Icons.star),
+                  Icon(Icons.star),
+                  Icon(Icons.star),
+                  Icon(Icons.star),
+                  Icon(Icons.star)
+                ],
+              ),
+              Row(
+                children: [ElevatedButton(/*onPressed:,*/ //TODO
+                    child: Text("Save"))
+                ],
+              )
+            ],
+          ),
+        ),);
   }
 
   @override
@@ -277,70 +339,112 @@ class _ClientMainMenuScreenState extends State<ClientMainMenuScreen> {
         body: _currentSelect != 2
             ? screens[_currentSelect]
             : TabBarView(children: [
-                ClientOrdersHistoryScreen(),
-                ClientActiveOrdersScreen(),
-              ]),
-        drawer: Drawer(
+          ClientOrdersHistoryScreen(),
+          ClientActiveOrdersScreen(),
+        ]),
+        drawer: (Drawer(
             child: ListView(
-          children: [
-            DrawerHeader(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(colors: [
-                    Colors.orange,
-                    Colors.deepOrange,
-                  ]),
+              children: [
+                DrawerHeader(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(colors: [
+                        Colors.orange,
+                        Colors.deepOrange,
+                      ]),
+                    ),
+                    child: Center(
+                      child: Image.asset('assets/images/5.png'),
+                    )),
+                customListTile(Icons.person, 'Profile',
+                        () => Navigator.pushNamed(context, '/ProfileScreen')),
+                customListTile(Icons.credit_card_outlined, 'My Wallet',
+                        () => Navigator.pushNamed(context, '/WalletScreen')),
+                customListTile(Icons.favorite_border, 'My Fav Restaurants ',
+                        () =>
+                        Navigator.pushNamed(context, '/FavRestaurantsScreen')),
+                customListTile(Icons.comment, 'My Comments ',
+                        () => Navigator.pushNamed(context, '/CommentsScreen')),
+                customListTile(Icons.phone, 'Contact Us', () => {}),
+                customListTile(
+                  Icons.logout,
+                  "Log Out",
+                      () {
+                    Navigator.popUntil(
+                        context, ModalRoute.withName('/ClientSignInScreen'));
+                    Navigator.pushNamed(context, '/ClientSignInScreen');
+                  },
                 ),
-                child: Center(
-                  child: Image.asset('assets/images/5.png'),
-                )),
-            customListTile(Icons.person, 'Profile',
-                () => Navigator.pushNamed(context, '/ProfileScreen')),
-            customListTile(Icons.credit_card_outlined, 'My Wallet',
-                () => Navigator.pushNamed(context, '/WalletScreen')),
-            customListTile(Icons.favorite_border, 'My Fav Restaurants ',
-                () => Navigator.pushNamed(context, '/FavRestaurantsScreen')),
-            customListTile(Icons.comment, 'My Comments ',
-                () => Navigator.pushNamed(context, '/CommentsScreen')),
-            customListTile(Icons.phone, 'Contact Us', () => {}),
-            customListTile(
-              Icons.logout,
-              "Log Out",
-              () {
-                Navigator.popUntil(
-                    context, ModalRoute.withName('/ClientSignInScreen'));
-                Navigator.pushNamed(context, '/ClientSignInScreen');
-              },
-            ),
-          ],
-        )),
+              ],
+            ))),
         appBar: AppBar(
-          bottom: _currentSelect == 2
-              ? TabBar(
-                  unselectedLabelColor: Colors.white.withOpacity(0.3),
-                  indicatorColor: Colors.white,
-                  tabs: [
-                      Tab(
-                        child: Text('Orders History'),
-                      ),
-                      Tab(
-                        child: Text('Active Orders'),
-                      ),
-                    ])
-              : null,
-          centerTitle: true,
-          title: _currentSelect != 1
-              ? Text(appBarText)
-              : GestureDetector(
-                  onTap: () => addressButtonSheet(),
-                  child: Row(
-                    children: [
-                      Padding(padding: EdgeInsets.fromLTRB(80, 0, 0, 0)),
-                      Text(/*' ' + */ ClientAccounts.digester(appBarText, 10)),
-                      Icon(Icons.keyboard_arrow_down),
-                    ],
-                  ),
+            actions: [
+              _currentSelect == 1
+                  ? IconButton(
+                icon: Icon(
+                  Icons.search,
+                  size: 30,
+                  color: Colors.white,
                 ),
-        ),
+                onPressed: () {
+                  //TODO
+                  showSearch(context: context, delegate: SearchPage(
+                    searchLabel: "Search Restaurant",
+                    suggestion: Center(
+                      child: Text('Filter people by name, surname or age'),
+                    ),
+                    failure: Center(
+                      child: Text('No person found :('),
+                    ),
+                    filter: (person) =>
+                    [
+                      person.name,
+                      person.surname,
+                      person.age.toString(),
+                    ],
+                    builder: (person) =>
+                        ListTile(
+                          title: Text(person.name),
+                          subtitle: Text(person.surname),
+                          trailing: Text('${person.age} yo'),
+                        ),
+                  ),
+                  );
+                },
+              )
+                  : Container(
+                height: 0,
+                width: 0,
+              )
+            ],
+            bottom: _currentSelect == 2
+                ? TabBar(
+                unselectedLabelColor: Colors.white.withOpacity(0.3),
+                indicatorColor: Colors.white,
+                tabs: [
+                  Tab(
+                    child: Text('Orders History'),
+                  ),
+                  Tab(
+                    child: Text('Active Orders'),
+                  ),
+                ])
+                : null,
+            centerTitle: true,
+            title: isSearching
+                ? Form(child: TextFormField())
+                : (_currentSelect != 1
+                ? Text(appBarText)
+                : GestureDetector(
+              onTap: () => addressButtonSheet(),
+              child: Row(
+                children: [
+                  Padding(padding: EdgeInsets.fromLTRB(80, 0, 0, 0)),
+                  Text(/*' ' + */ ClientAccounts.digester(
+                      appBarText, 10)),
+                  Icon(Icons.keyboard_arrow_down),
+                ],
+              ),
+            ))),
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: _currentSelect,
           onTap: (value) => appBarTitle(value),

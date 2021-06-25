@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:chfclient/Classes/ClientActiveOrderTile.dart';
 import 'package:chfclient/Classes/CartTile.dart';
 import 'package:chfclient/Classes/ClientAdreesTile.dart';
@@ -38,7 +40,15 @@ class Client {
       favRestaurantsKey.add(false);
     }
   }
-
+  bool isInRange (LatLng restaurant , double restaurantRange) {
+    double x = sqrt(pow((restaurant.latitude - _address[currentAddress].location.latitude ),2) +pow((restaurant.longitude- _address[currentAddress].location.longitude ),2) ) ;
+      if (x > restaurantRange){
+        return false ;
+      }
+      else {
+        return true ;
+      }
+  }
   int getOrdersHistoryLength() {
     return ordersHistory.length;
   }
