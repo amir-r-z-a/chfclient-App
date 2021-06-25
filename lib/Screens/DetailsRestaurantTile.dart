@@ -253,7 +253,7 @@ class _DetailsRestaurantTileState extends State<DetailsRestaurantTile> {
                     Container(
                       height: 120,
                       width: MediaQuery.of(context).size.width,
-                      color: Colors.redAccent,
+                      color: Theme.of(context).primaryColor ,
                       child: Padding(
                         padding: const EdgeInsets.all(6.0),
                         child: SizedBox(
@@ -268,7 +268,7 @@ class _DetailsRestaurantTileState extends State<DetailsRestaurantTile> {
                                         "Address",
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
-                                            fontSize: 20,color: Colors.white),
+                                            fontSize: 20),
                                       )),
                                 ],
                               ),
@@ -298,7 +298,7 @@ class _DetailsRestaurantTileState extends State<DetailsRestaurantTile> {
                                         .startingTime + "  to  " + RestaurantAccounts
                                         .restaurantList[0]
                                     [DetailsRestaurantTile.j]
-                                        .endingTime , style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),),
+                                        .endingTime , style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20,color: Colors.white),),
                                     Container(
                                         width: 60,
                                         height: 40,

@@ -17,7 +17,6 @@ class customListTile extends StatefulWidget {
   IconData icon;
   String text;
   Function ontap;
-
   customListTile(this.icon, this.text, this.ontap);
 
   @override
@@ -61,10 +60,10 @@ class _customListTileState extends State<customListTile> {
 class ClientMainMenuScreen extends StatefulWidget {
   static LatLng location;
   static List<LatLng> tappedPoints = [];
+  static List<RestaurantTile> res = [];
   static bool activeOrder = false;
   static bool changeAppBarAddress = false;
   static bool isOrderFinished = true;
-
   @override
   _ClientMainMenuScreenState createState() => _ClientMainMenuScreenState();
 }
@@ -128,22 +127,18 @@ class _ClientMainMenuScreenState extends State<ClientMainMenuScreen> {
                                     width: 80.0,
                                     height: 80.0,
                                     point: latlng,
-                                    builder: (ctx) =>
-                                        Container(
-                                          child: Icon(
-                                            Icons.location_on,
-                                            size: 50,
-                                            color: Colors.red,
-                                          ),
-                                        ),
+                                    builder: (ctx) => Container(
+                                      child: Icon(
+                                        Icons.location_on,
+                                        size: 50,
+                                        color: Colors.red,
+                                      ),
+                                    ),
                                   );
                                 }).toList();
                                 return SizedBox(
                                   height:
-                                  MediaQuery
-                                      .of(context)
-                                      .size
-                                      .height * 0.75,
+                                      MediaQuery.of(context).size.height * 0.75,
                                   child: ListView(
                                     children: [
                                       Column(
@@ -166,7 +161,7 @@ class _ClientMainMenuScreenState extends State<ClientMainMenuScreen> {
                                                 layers: [
                                                   TileLayerOptions(
                                                     urlTemplate:
-                                                    "https://api.mapbox.com/styles/v1/amirrza/ckov1rtrs059m17p8xugrutr4/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoiYW1pcnJ6YSIsImEiOiJja292MW0zeGwwNDN1MnBwYzlhbDVyOHByIn0.Mwa8L0WNjyIKc-v32nKOhQ",
+                                                        "https://api.mapbox.com/styles/v1/amirrza/ckov1rtrs059m17p8xugrutr4/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoiYW1pcnJ6YSIsImEiOiJja292MW0zeGwwNDN1MnBwYzlhbDVyOHByIn0.Mwa8L0WNjyIKc-v32nKOhQ",
                                                   ),
                                                   MarkerLayerOptions(
                                                       markers: markers)
@@ -180,7 +175,7 @@ class _ClientMainMenuScreenState extends State<ClientMainMenuScreen> {
                                               children: [
                                                 Padding(
                                                   padding:
-                                                  const EdgeInsets.all(8.0),
+                                                      const EdgeInsets.all(8.0),
                                                   child: ClientMyTextFormField(
                                                     "Address",
                                                     index: 3,
@@ -194,13 +189,12 @@ class _ClientMainMenuScreenState extends State<ClientMainMenuScreen> {
                                                   child: ElevatedButton(
                                                     style: ElevatedButton
                                                         .styleFrom(
-                                                        primary: Theme
-                                                            .of(
-                                                            context)
-                                                            .primaryColor),
+                                                            primary: Theme.of(
+                                                                    context)
+                                                                .primaryColor),
                                                     onPressed: () {
                                                       ClientMyTextFormField
-                                                          .location =
+                                                              .location =
                                                           ClientMainMenuScreen
                                                               .location;
                                                       if (_key1.currentState
@@ -208,10 +202,10 @@ class _ClientMainMenuScreenState extends State<ClientMainMenuScreen> {
                                                         _key1.currentState
                                                             .save();
                                                         if (ClientAccounts
-                                                            .accounts[
-                                                        ClientAccounts
-                                                            .currentAccount]
-                                                            .getAddressLength() ==
+                                                                .accounts[
+                                                                    ClientAccounts
+                                                                        .currentAccount]
+                                                                .getAddressLength() ==
                                                             1) {
                                                           setState(() {
                                                             appBarTitle(1);
@@ -254,8 +248,7 @@ class _ClientMainMenuScreenState extends State<ClientMainMenuScreen> {
                   children: List.generate(
                       ClientAccounts.accounts[ClientAccounts.currentAccount]
                           .getAddressLength(),
-                          (index) =>
-                      ClientAccounts
+                      (index) => ClientAccounts
                           .accounts[ClientAccounts.currentAccount]
                           .address[index]),
                 )
@@ -274,47 +267,45 @@ class _ClientMainMenuScreenState extends State<ClientMainMenuScreen> {
         appBarText = 'Cart';
       } else if (_currentSelect == 1) {
         appBarText = ClientAccounts.accounts[ClientAccounts.currentAccount]
-            .getAddressLength() ==
-            0
+                    .getAddressLength() ==
+                0
             ? '        -'
             : ClientAccounts
-            .accounts[ClientAccounts.currentAccount]
-            .address[ClientAccounts
-            .accounts[ClientAccounts.currentAccount].currentAddress]
-            .address;
+                .accounts[ClientAccounts.currentAccount]
+                .address[ClientAccounts
+                    .accounts[ClientAccounts.currentAccount].currentAddress]
+                .address;
       } else {
         appBarText = 'Orders';
-        if (ClientMainMenuScreen.isOrderFinished) {
-
-        }
+        if (ClientMainMenuScreen.isOrderFinished) {}
       }
     });
   }
 
-  void pointDialog() {
-    showDialog(context: context, builder: (context) =>
-        AlertDialog(
-          title: Text("Enter point : "),
-          content: Column(
-            children: [
-              Row(
-                children: [
-                  Icon(Icons.star),
-                  Icon(Icons.star),
-                  Icon(Icons.star),
-                  Icon(Icons.star),
-                  Icon(Icons.star)
-                ],
-              ),
-              Row(
-                children: [ElevatedButton(/*onPressed:,*/ //TODO
-                    child: Text("Save"))
-                ],
-              )
-            ],
-          ),
-        ),);
-  }
+  // void pointDialog() {
+  //   showDialog(context: context, builder: (context) =>
+  //       AlertDialog(
+  //         title: Text("Enter point : "),
+  //         content: Column(
+  //           children: [
+  //             Row(
+  //               children: [
+  //                 Icon(Icons.star),
+  //                 Icon(Icons.star),
+  //                 Icon(Icons.star),
+  //                 Icon(Icons.star),
+  //                 Icon(Icons.star)
+  //               ],
+  //             ),
+  //             Row(
+  //               children: [ElevatedButton(/*onPressed:,*/ //TODO
+  //                   child: Text("Save"))
+  //               ],
+  //             )
+  //           ],
+  //         ),
+  //       ),);
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -339,112 +330,103 @@ class _ClientMainMenuScreenState extends State<ClientMainMenuScreen> {
         body: _currentSelect != 2
             ? screens[_currentSelect]
             : TabBarView(children: [
-          ClientOrdersHistoryScreen(),
-          ClientActiveOrdersScreen(),
-        ]),
+                ClientOrdersHistoryScreen(),
+                ClientActiveOrdersScreen(),
+              ]),
         drawer: (Drawer(
             child: ListView(
-              children: [
-                DrawerHeader(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(colors: [
-                        Colors.orange,
-                        Colors.deepOrange,
-                      ]),
-                    ),
-                    child: Center(
-                      child: Image.asset('assets/images/5.png'),
-                    )),
-                customListTile(Icons.person, 'Profile',
-                        () => Navigator.pushNamed(context, '/ProfileScreen')),
-                customListTile(Icons.credit_card_outlined, 'My Wallet',
-                        () => Navigator.pushNamed(context, '/WalletScreen')),
-                customListTile(Icons.favorite_border, 'My Fav Restaurants ',
-                        () =>
-                        Navigator.pushNamed(context, '/FavRestaurantsScreen')),
-                customListTile(Icons.comment, 'My Comments ',
-                        () => Navigator.pushNamed(context, '/CommentsScreen')),
-                customListTile(Icons.phone, 'Contact Us', () => {}),
-                customListTile(
-                  Icons.logout,
-                  "Log Out",
-                      () {
-                    Navigator.popUntil(
-                        context, ModalRoute.withName('/ClientSignInScreen'));
-                    Navigator.pushNamed(context, '/ClientSignInScreen');
-                  },
+          children: [
+            DrawerHeader(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(colors: [
+                    Colors.orange,
+                    Colors.deepOrange,
+                  ]),
                 ),
-              ],
-            ))),
+                child: Center(
+                  child: Image.asset('assets/images/5.png'),
+                )),
+            customListTile(Icons.person, 'Profile',
+                () => Navigator.pushNamed(context, '/ProfileScreen')),
+            customListTile(Icons.credit_card_outlined, 'My Wallet',
+                () => Navigator.pushNamed(context, '/WalletScreen')),
+            customListTile(Icons.favorite_border, 'My Fav Restaurants ',
+                () => Navigator.pushNamed(context, '/FavRestaurantsScreen')),
+            customListTile(Icons.comment, 'My Comments ',
+                () => Navigator.pushNamed(context, '/CommentsScreen')),
+            customListTile(Icons.phone, 'Contact Us', () => {}),
+            customListTile(
+              Icons.logout,
+              "Log Out",
+              () {
+                Navigator.popUntil(
+                    context, ModalRoute.withName('/ClientSignInScreen'));
+                Navigator.pushNamed(context, '/ClientSignInScreen');
+              },
+            ),
+          ],
+        ))),
         appBar: AppBar(
             actions: [
               _currentSelect == 1
                   ? IconButton(
-                icon: Icon(
-                  Icons.search,
-                  size: 30,
-                  color: Colors.white,
-                ),
-                onPressed: () {
-                  //TODO
-                  showSearch(context: context, delegate: SearchPage(
-                    searchLabel: "Search Restaurant",
-                    suggestion: Center(
-                      child: Text('Filter people by name, surname or age'),
-                    ),
-                    failure: Center(
-                      child: Text('No person found :('),
-                    ),
-                    filter: (person) =>
-                    [
-                      person.name,
-                      person.surname,
-                      person.age.toString(),
-                    ],
-                    builder: (person) =>
-                        ListTile(
-                          title: Text(person.name),
-                          subtitle: Text(person.surname),
-                          trailing: Text('${person.age} yo'),
-                        ),
-                  ),
-                  );
-                },
-              )
+                      icon: Icon(
+                        Icons.search,
+                        size: 30,
+                        color: Colors.white,
+                      ),
+                      onPressed: () {
+                        //TODO
+                        showSearch(
+                            context: context,
+                            delegate: SearchPage<RestaurantTile>(
+                                onQueryUpdate: (s) => print(s),
+                                searchLabel: 'Search people',
+                                suggestion: Center(
+                                  child: Text(
+                                      'Filter restaurants by name'),
+                                ),
+                                builder: (RestaurantTile) =>
+                                    ListTile(title: Text(RestaurantTile.name)),
+                                filter: (RestaurantTile) =>
+                                    [RestaurantTile.name],
+                                items: RestaurantAccounts.restaurantList[0]));
+                      },
+                    )
                   : Container(
-                height: 0,
-                width: 0,
-              )
+                      height: 0,
+                      width: 0,
+                    )
             ],
             bottom: _currentSelect == 2
                 ? TabBar(
-                unselectedLabelColor: Colors.white.withOpacity(0.3),
-                indicatorColor: Colors.white,
-                tabs: [
-                  Tab(
-                    child: Text('Orders History'),
-                  ),
-                  Tab(
-                    child: Text('Active Orders'),
-                  ),
-                ])
+                    unselectedLabelColor: Colors.white.withOpacity(0.3),
+                    indicatorColor: Colors.white,
+                    tabs: [
+                        Tab(
+                          child: Text('Orders History'),
+                        ),
+                        Tab(
+                          child: Text('Active Orders'),
+                        ),
+                      ])
                 : null,
             centerTitle: true,
             title: isSearching
                 ? Form(child: TextFormField())
                 : (_currentSelect != 1
-                ? Text(appBarText)
-                : GestureDetector(
-              onTap: () => addressButtonSheet(),
-              child: Row(
-                children: [
-                  Padding(padding: EdgeInsets.fromLTRB(80, 0, 0, 0)),
-                  Text(/*' ' + */ ClientAccounts.digester(
-                      appBarText, 10)),
-                  Icon(Icons.keyboard_arrow_down),
-                ],
-              ),
-            ))),
+                    ? Text(appBarText)
+                    : GestureDetector(
+                        onTap: () => addressButtonSheet(),
+                        child: Row(
+                          children: [
+                            Padding(padding: EdgeInsets.fromLTRB(80, 0, 0, 0)),
+                            Text(/*' ' + */ ClientAccounts.digester(
+                                appBarText, 10)),
+                            Icon(Icons.keyboard_arrow_down),
+                          ],
+                        ),
+                      ))),
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: _currentSelect,
           onTap: (value) => appBarTitle(value),
