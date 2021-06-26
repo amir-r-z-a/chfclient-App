@@ -383,13 +383,14 @@ class _ClientMainMenuScreenState extends State<ClientMainMenuScreen> {
                                 onQueryUpdate: (s) => print(s),
                                 searchLabel: 'Search people',
                                 suggestion: Center(
-                                  child: Text(
-                                      'Filter restaurants by name'),
+                                  child: Text('Filter restaurants by name'),
                                 ),
-                                builder: (RestaurantTile) =>
-                                    ListTile(title: Text(RestaurantTile.name)),
-                                filter: (RestaurantTile) =>
-                                    [RestaurantTile.name],
+                                failure:
+                                    Center(child: Text('No restaurant found :(')),
+                                builder: (RestaurantTile rs) =>
+                                    rs ,
+                                filter: (RestaurantTile rt) =>
+                                    [rt.name],
                                 items: RestaurantAccounts.restaurantList[0]));
                       },
                     )

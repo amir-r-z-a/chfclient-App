@@ -166,7 +166,7 @@ class _DetailsClientFoodTileState extends State<DetailsClientFoodTile> {
                             CommentTile commentTile = CommentTile(
                                 ClientMyTextFormField.question,
                                 DetailsClientFoodTile.name,
-                                Date('0', '0', '0', '0', '0', '0'),
+                                Date(/*'0', '0', '0', '0', '0', '0'*/),
                                 ClientAccounts
                                     .accounts[ClientAccounts.currentAccount]
                                     .phoneNumber,

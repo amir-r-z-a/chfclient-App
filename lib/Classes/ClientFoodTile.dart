@@ -1,5 +1,7 @@
 import 'package:chfclient/Classes/ClientAccounts.dart';
+import 'package:chfclient/Classes/RestaurantAccounts.dart';
 import 'package:chfclient/Common/Common%20Classes/CommentTile.dart';
+import 'package:chfclient/Common/Common%20Classes/Date.dart';
 import 'package:chfclient/Screens/OrderRegistrationScreen.dart';
 import 'package:chfclient/Screens/DetailsClientFoodTile.dart';
 import 'package:chfclient/Screens/DetailsRestaurantTile.dart';
@@ -81,7 +83,6 @@ class _ClientFoodTileState extends State<ClientFoodTile> {
       setState(() {});
     }
   }
-
   void notInRangeRestaurant() {
     showDialog<void>(
       context: context,
@@ -114,33 +115,75 @@ class _ClientFoodTileState extends State<ClientFoodTile> {
       ),
     );
   }
+
+  void notInTime() {
+    showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) => AlertDialog(
+        title: Text('Your order is out of working time'),
+        content: Container(
+          height: 85,
+          child: Column(
+            children: [
+              Padding(padding: EdgeInsets.fromLTRB(0, 30, 0, 0)),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  TextButton(
+                    style: TextButton.styleFrom(
+                        primary: Theme.of(context).primaryColor),
+                    onPressed: () =>
+                        Navigator.pop(context),
+                    child: Text(
+                      'OK',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
   void addMinCartFunc(String status) {
-    setState(() {
-      if (status == '+') {
-        widget.counter++;
-        ClientAccounts.accounts[ClientAccounts.currentAccount]
-            .cartList[DetailsRestaurantTile.j]
-            .cartAdd(widget.name, widget.price);
-      } else {
-        widget.counter--;
-        ClientAccounts.accounts[ClientAccounts.currentAccount]
-            .cartList[DetailsRestaurantTile.j]
-            .cartMin(widget.name, widget.price);
-      }
-      if (ClientFoodTile.detailsAddMinCart != null) {
-        DetailsClientFoodTile.counter = widget.counter;
-        DetailsClientFoodTile.myContainer = myContainer();
-        DetailsClientFoodTile.myRow = myRow();
-        ClientFoodTile.detailsAddMinCart();
-      }
-      ClientFoodTile.detailsRestaurant();
-      if (ClientFoodTile.cartTile != null) {
-        ClientFoodTile.cartTile();
-      }
-      if (ClientFoodTile.cartScreen != null) {
-        ClientFoodTile.cartScreen();
-      }
-    });
+    if(!ClientAccounts.accounts[ClientAccounts.currentAccount].isInRange(RestaurantAccounts.restaurantList[0][DetailsRestaurantTile.j].location,RestaurantAccounts.restaurantList[0][DetailsRestaurantTile.j].workingRadius)){
+          notInRangeRestaurant();
+    }
+    else if(!Date().compareTime(RestaurantAccounts.restaurantList[0][DetailsRestaurantTile.j].startingTime, RestaurantAccounts.restaurantList[0][DetailsRestaurantTile.j].endingTime)){
+        notInTime();
+    }
+    else
+    {
+      setState(() {
+        if (status == '+') {
+          widget.counter++;
+          ClientAccounts.accounts[ClientAccounts.currentAccount]
+              .cartList[DetailsRestaurantTile.j]
+              .cartAdd(widget.name, widget.price);
+        } else {
+          widget.counter--;
+          ClientAccounts.accounts[ClientAccounts.currentAccount]
+              .cartList[DetailsRestaurantTile.j]
+              .cartMin(widget.name, widget.price);
+        }
+        if (ClientFoodTile.detailsAddMinCart != null) {
+          DetailsClientFoodTile.counter = widget.counter;
+          DetailsClientFoodTile.myContainer = myContainer();
+          DetailsClientFoodTile.myRow = myRow();
+          ClientFoodTile.detailsAddMinCart();
+        }
+        ClientFoodTile.detailsRestaurant();
+        if (ClientFoodTile.cartTile != null) {
+          ClientFoodTile.cartTile();
+        }
+        if (ClientFoodTile.cartScreen != null) {
+          ClientFoodTile.cartScreen();
+        }
+      });
+    }
   }
 
   @override

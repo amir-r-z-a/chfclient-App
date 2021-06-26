@@ -26,7 +26,10 @@ class _ClientActiveOrderTileScreenState extends State<ClientActiveOrderTileScree
       body: Container(
         child: ListView(
           children:
-            List.generate(ClientActiveOrderTileScreen.orderFoods.length, (index) => ClientActiveOrderTileScreen.orderFoods[index])
+            List.generate(ClientActiveOrderTileScreen.orderFoods.length, (index) {if (ClientActiveOrderTileScreen.orderFoods[index].counter>0){
+              return  ClientActiveOrderTileScreen.orderFoods[index] ;
+        }
+            else return Container(height: 0,width: 0,);})
         ),
       ),
     );
