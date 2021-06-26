@@ -40,6 +40,10 @@ import 'package:latlong/latlong.dart';
 import 'Screens/ClientActiveOrderTileScreen.dart';
 
 class MyApp extends StatefulWidget {
+  static String ip = '192.168.1.7';
+  static String id = '';
+  static String mode = 'LogOut';
+
   @override
   _MyAppState createState() => _MyAppState();
 }
@@ -51,12 +55,14 @@ class _MyAppState extends State<MyApp> {
       title: "CHFood",
       theme: ThemeData(primaryColor: const Color.fromRGBO(248, 95, 106, 1)),
       routes: {
-        '/ClientActiveOrderTileScreen' : (context) => ClientActiveOrderTileScreen(),
-        '/MorePopularRestaurantsScreen' : (context) => MorePopularRestaurantsScreen(),
-        '/CafesScreen' : (context) => CafesScreen(),
-        '/OthersScreen' : (context) => OthersScreen(),
-        '/FastFoodScreen' : (context) => FastFoodScreen(),
-        '/IranianFoodsScreen' : (context) => IranianFoodsScreen(),
+        '/ClientActiveOrderTileScreen': (context) =>
+            ClientActiveOrderTileScreen(),
+        '/MorePopularRestaurantsScreen': (context) =>
+            MorePopularRestaurantsScreen(),
+        '/CafesScreen': (context) => CafesScreen(),
+        '/OthersScreen': (context) => OthersScreen(),
+        '/FastFoodScreen': (context) => FastFoodScreen(),
+        '/IranianFoodsScreen': (context) => IranianFoodsScreen(),
         '/ClientSignUpScreen': (context) => ClientSignUpScreen(),
         '/ClientSignInScreen': (context) => ClientSignInScreen(),
         '/ClientMainMenuScreen': (context) => ClientMainMenuScreen(),
@@ -104,26 +110,27 @@ class _MyAppState extends State<MyApp> {
 }
 
 void main() {
-  String restaurantAccounts =  "09198612878: {, arman, arman123, 03:10, 22:55, Other, ahmafi@gmail.com, address44, LatLng(latitude:35.743649:::longitude:51.427343), 10, 1.1, 1, }" ;
+  String restaurantAccounts =
+      "09198612878: {, arman, arman123, 03:10, 22:55, Other, ahmafi@gmail.com, address44, LatLng(latitude:35.743649:::longitude:51.427343), 10, 1.1, 1, }";
   //09198612878: {, arman, arman123, 03:10, 22:55, Other, ahmafi@gmail.com, address44, LatLng(latitude:35.743649:::longitude:51.427343), 10, 1.1, j, }
-  print(restaurantAccounts.substring(0,11)) ;
+  print(restaurantAccounts.substring(0, 11));
   List x = [];
-  x = restaurantAccounts.split(", ") ;
+  x = restaurantAccounts.split(", ");
   print(x);
-  String name = x[1] ;
-  String startTime =  x[3] ;
-  String endTime =  x[4] ;
+  String name = x[1];
+  String startTime = x[3];
+  String endTime = x[4];
   String type = x[5];
   String mail = x[6];
   String address = x[7];
   String latlong = x[8];
-  String lat=latlong.substring(17,25);
-  String lon = latlong.substring(38,47);
+  String lat = latlong.substring(17, 25);
+  String lon = latlong.substring(38, 47);
   var la = double.parse(lat);
   var lo = double.parse(lon);
   int Radius = int.parse(x[9]);
   double point = double.parse(x[10]);
-  LatLng Loacation = LatLng(la,lo);
+  LatLng Loacation = LatLng(la, lo);
   int Index = int.parse(x[9]);
   ClientAddressTile.trailing = false;
   ClientFoodTile Tea1 = ClientFoodTile(
@@ -351,11 +358,11 @@ void main() {
   ClientMainMenuScreen.res.add(restaurant2);
   Client client = Client(
     'Client1',
-    '09198612878',
+    '09198612877',
     'clientPassword1',
   );
   client.addAddress(
-    'Iran, Tehran, Gisha, Khiaban Piroozi Qarbi, Kooche Farahzadi,11111111111111111111111111111111111',
+    'Iran Tehran Gisha',
     LatLng(35.722629, 51.410471),
   );
   ClientAccounts.addAccount(client);
