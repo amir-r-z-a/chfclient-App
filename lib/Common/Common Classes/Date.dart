@@ -1,14 +1,23 @@
+import 'package:intl/intl.dart';
 class Date {
   String _year;
-
   String _month;
   String _day;
   String _hour;
   String _minute;
   String _second;
 
-  Date(this._year, this._month, this._day, this._hour, this._minute,
-      this._second);
+  Date(/*this._year, this._month, this._day, this._hour, this._minute,
+      this._second*/){
+     DateTime now = DateTime.now();
+     String current = DateFormat('yy:MM:dd:kk:mm:ss').format(now);
+    this._year = current.split(":")[0];
+    this._month =current.split(":")[1];
+    this._day =current.split(":")[2];
+    this._hour =current.split(":")[3];
+    this._minute =current.split(":")[4];
+    this._second =current.split(":")[5];
+  }
 
   String dateFormatter() {
     return year +
@@ -103,7 +112,16 @@ class Date {
   //   }
   //   return false;
   // }
-
+   bool compareTime(String s , String e ) {
+   int s1 = int.parse(s.split(":")[0])*60 + int.parse(s.split(":")[1]);
+   int e1 = int.parse(e.split(":")[0])*60 + int.parse(e.split(":")[1]);
+   int current1=int.parse(hour)*60 + int.parse(minute);
+   return (current1 >= s1 && current1 <= e1 ) ;
+}
+// static String currentTime (){
+//   DateTime now = DateTime.now();
+//   return DateFormat('kk:mm').format(now);
+// }
   bool validDate(Date input, int i) {
     int x = int.parse(second) +
         (60 * int.parse(minute)) +
