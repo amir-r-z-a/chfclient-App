@@ -108,7 +108,7 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
                   },
                   child: Text(
                     'more',
-                    style: TextStyle(color: Colors.blue),
+                    style: TextStyle(color: Theme.of(context).primaryColor),
                   ),
                 ),
               ),

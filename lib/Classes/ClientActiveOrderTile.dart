@@ -14,16 +14,18 @@ class ClientActiveOrderTile extends StatefulWidget {
   Map<int, String> _orderName;
   Map<int, int> _orderNum;
   List<FinishedClientFoodTile> _orderFoods;
+  String _id;
 
   ClientActiveOrderTile(
-      this._restaurantName,
-      this._orderDate,
-      this._orderAddress,
-      this._restaurantAddress,
-      this._orderSum,
-      this._orderName,
-      this._orderNum,
-      this._orderFoods);
+    this._restaurantName,
+    this._orderDate,
+    this._orderAddress,
+    this._restaurantAddress,
+    this._orderSum,
+    this._orderName,
+    this._orderNum,
+    this._orderFoods,
+  );
 
   Map<int, double> get orderSum => _orderSum;
 
@@ -71,6 +73,12 @@ class ClientActiveOrderTile extends StatefulWidget {
 
   set orderFoods(List<FinishedClientFoodTile> value) {
     _orderFoods = value;
+  }
+
+  String get id => _id;
+
+  set id(String value) {
+    _id = value;
   }
 
   @override
@@ -166,14 +174,17 @@ class _ClientActiveOrderTileState extends State<ClientActiveOrderTile> {
                     primary: Theme.of(context).primaryColor),
                 onPressed: () {
                   // delete gozashte shavad
-                  ClientActiveOrderTileScreen.orderFoods = widget._orderFoods ;
-                  ClientActiveOrderTileScreen.orderName = widget._orderName ;
-                  ClientActiveOrderTileScreen.orderNum = widget._orderNum ;
-                  ClientActiveOrderTileScreen.orderSum= widget._orderSum ;
-                  ClientActiveOrderTileScreen.restaurantAddress= widget._restaurantAddress ;
-                  ClientActiveOrderTileScreen.orderAddress= widget._orderAddress ;
-                  ClientActiveOrderTileScreen.orderDate= widget._orderDate ;
-                  ClientActiveOrderTileScreen.restaurantName= widget._restaurantName;
+                  ClientActiveOrderTileScreen.orderFoods = widget._orderFoods;
+                  ClientActiveOrderTileScreen.orderName = widget._orderName;
+                  ClientActiveOrderTileScreen.orderNum = widget._orderNum;
+                  ClientActiveOrderTileScreen.orderSum = widget._orderSum;
+                  ClientActiveOrderTileScreen.restaurantAddress =
+                      widget._restaurantAddress;
+                  ClientActiveOrderTileScreen.orderAddress =
+                      widget._orderAddress;
+                  ClientActiveOrderTileScreen.orderDate = widget._orderDate;
+                  ClientActiveOrderTileScreen.restaurantName =
+                      widget._restaurantName;
                   Navigator.pushNamed(context, "/ClientActiveOrderTileScreen");
                 },
                 child: Text("View invoice"),
