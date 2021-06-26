@@ -345,7 +345,10 @@ void main() {
     endingTime: "23:00",
   );
   RestaurantAccounts.receiveRestaurant(restaurant4);
-
+  ClientMainMenuScreen.res.add(restaurant4);
+  ClientMainMenuScreen.res.add(restaurant);
+  ClientMainMenuScreen.res.add(restaurant3);
+  ClientMainMenuScreen.res.add(restaurant2);
   Client client = Client(
     'Client1',
     '09198612878',
