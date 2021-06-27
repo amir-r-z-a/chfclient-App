@@ -40,7 +40,7 @@ import 'package:latlong/latlong.dart';
 import 'Screens/ClientActiveOrderTileScreen.dart';
 
 class MyApp extends StatefulWidget {
-  static String ip = '192.168.1.7';
+  static String ip = '172.20.10.2';
   static String id = '';
   static String mode = 'LogOut';
 
@@ -78,24 +78,23 @@ class _MyAppState extends State<MyApp> {
         '/ClientActiveOrdersScreen': (context) => ClientActiveOrdersScreen(),
         '/PaymentAddressesScreen': (context) => PaymentAddressesScreen(),
       },
-      home:
-          // ClientSignInScreen(),
+      home: ClientSignInScreen(),
 
-          // ClientActiveOrderTile()
+      // ClientActiveOrderTile()
 
-          //     ClientFoodTile(
-          //   'ClientFoodTile1',
-          //   '25',
-          //   true,
-          //   'Cafe',
-          //   desc: 'hello',
-          // ),
+      //     ClientFoodTile(
+      //   'ClientFoodTile1',
+      //   '25',
+      //   true,
+      //   'Cafe',
+      //   desc: 'hello',
+      // ),
 
-          // ClientOrderTile()
+      // ClientOrderTile()
 
-          // ClientActiveOrderTile()
+      // ClientActiveOrderTile()
 
-          ClientMainMenuScreen(),
+      // ClientMainMenuScreen(),
 // SplashScreen()
       //     FinishedClientFoodTile(
       //   'Tea',
@@ -220,8 +219,9 @@ void main() {
     },
     LatLng(35.742679, 51.39983),
     0,
-    startingTime: "00:12",
-    endingTime: "23:49",
+    "email1",
+    "00:12",
+    "23:49",
   );
   RestaurantAccounts.receiveRestaurant(restaurant);
 
@@ -265,9 +265,9 @@ void main() {
     },
     LatLng(35.725295, 51.400957),
     1,
-    email: 'arman@gmail.com',
-    startingTime: "8:00",
-    endingTime: "22:00",
+    'arman@gmail.com',
+    "8:00",
+    "22:00",
   );
   RestaurantAccounts.receiveRestaurant(restaurant3);
 
@@ -319,8 +319,9 @@ void main() {
     LatLng(35.742894, 51.423224),
     2,
     // email: 'arman@gmail.com',
-    startingTime: "9:00",
-    endingTime: "18:00",
+    "email2",
+    "9:00",
+    "18:00",
   );
   RestaurantAccounts.receiveRestaurant(restaurant2);
 
@@ -350,9 +351,9 @@ void main() {
     {},
     LatLng(35.742894, 51.423224),
     3,
-    // email: 'arman@gmail.com',
-    startingTime: "12:00",
-    endingTime: "23:00",
+    'armannn@gmail.com',
+    "12:00",
+    "23:00",
   );
   RestaurantAccounts.receiveRestaurant(restaurant4);
   ClientMainMenuScreen.res.add(restaurant4);
@@ -368,7 +369,7 @@ void main() {
     'Iran Tehran Gisha',
     LatLng(35.722629, 51.410471),
   );
-  ClientAccounts.addAccount(client);
+  // ClientAccounts.addAccount(client);
   // client.addAddress('address2', LatLng(35.72247, 51.398161));
   runApp(MyApp());
 }

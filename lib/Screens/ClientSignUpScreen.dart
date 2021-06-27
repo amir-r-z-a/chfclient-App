@@ -1,10 +1,14 @@
+import 'dart:io';
+
 import 'package:chfclient/Classes/ClientAccounts.dart';
 import 'package:chfclient/Classes/Client.dart';
+import 'package:chfclient/Common/Common%20Classes/RestaurantTypes.dart';
 import 'package:chfclient/Common/Text/GrayText.dart';
 import 'package:chfclient/Common/Text/ClientMyPassFormField.dart';
 import 'package:chfclient/Common/Text/ClientMyTextFormField.dart';
 import 'package:chfclient/Common/Text/TitleText.dart';
 import 'package:chfclient/Common/Text/WhiteText.dart';
+import 'package:chfclient/main.dart';
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
@@ -16,6 +20,10 @@ class ClientSignUpScreen extends StatefulWidget {
 
 class _ClientSignUpScreenState extends State<ClientSignUpScreen> {
   var _formkey = GlobalKey<FormState>();
+  var _formkey2 = GlobalKey<FormState>();
+  TextEditingController _controller = TextEditingController();
+  bool validate = false;
+  bool validate2 = false;
 
   @override
   Widget build(BuildContext context) {
@@ -43,25 +51,63 @@ class _ClientSignUpScreenState extends State<ClientSignUpScreen> {
                     key: _formkey,
                     child: Column(
                       children: [
-                        ClientMyTextFormField(
-                          "Name",
-                          hint: "Your name",
-                          index: 1,
+                        Form(
+                          key: _formkey2,
+                          child: TextFormField(
+                            cursorColor: Color.fromRGBO(248, 95, 106, 1),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return "Please enter something";
+                              } else if (validate2) {
+                                return 'Your phone number is not valid';
+                              } else if (validate) {
+                                return 'Your phone number is already registered';
+                              }
+                              return null;
+                            },
+                            controller: _controller,
+                            onSaved: (newValue) =>
+                                ClientMyTextFormField.phoneNumber = newValue,
+                            decoration: InputDecoration(
+                              errorStyle: TextStyle(
+                                color: Color.fromRGBO(248, 95, 106, 1),
+                              ),
+                              labelText: 'PhoneNumber',
+                              labelStyle: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color.fromRGBO(248, 95, 106, 1)),
+                              hintText: 'Your Phone Number',
+                              hintStyle: TextStyle(
+                                fontSize: 16,
+                                color: Color.fromRGBO(209, 214, 219, 1),
+                              ),
+                            ),
+                          ),
                         ),
+                        // ClientMyTextFormField(
+                        //   "Phone number",
+                        //   index: 2,
+                        //   hint: "Your Phone number",
+                        //   regex: 'PNSignUp',
+                        // ),
                         Padding(padding: EdgeInsets.all(15)),
-                        ClientMyTextFormField(
-                          "Phone number",
-                          index: 2,
-                          hint: "Your Phone number",
-                          regex: 'PNSignUp',
+                        Column(
+                          children: [
+                            ClientMyTextFormField(
+                              "Name",
+                              hint: "Your name",
+                              index: 1,
+                            ),
+                            Padding(padding: EdgeInsets.all(15)),
+                            ClientMyPassFormField(
+                              'Password',
+                              regex: 'PassSignUp',
+                              hint: 'Your password',
+                            ),
+                            Padding(padding: EdgeInsets.all(50)),
+                          ],
                         ),
-                        Padding(padding: EdgeInsets.all(15)),
-                        ClientMyPassFormField(
-                          'Password',
-                          regex: 'PassSignUp',
-                          hint: 'Your password',
-                        ),
-                        Padding(padding: EdgeInsets.all(50)),
                       ],
                     ),
                   ),
@@ -88,44 +134,14 @@ class _ClientSignUpScreenState extends State<ClientSignUpScreen> {
                 Container(
                   margin: EdgeInsets.only(bottom: 50),
                   child: ConstrainedBox(
-                    constraints: BoxConstraints.tightFor(width: 320, height: 50),
+                    constraints:
+                        BoxConstraints.tightFor(width: 320, height: 50),
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         primary: Color.fromRGBO(248, 95, 106, 1),
                       ),
                       child: WhiteText("Continue"),
-                      onPressed: () {
-                        if (_formkey.currentState.validate()) {
-                          setState(() {
-                            _formkey.currentState.save();
-                            ClientAccounts.addAccount(
-                              Client(
-                                ClientMyTextFormField.name,
-                                ClientMyTextFormField.phoneNumber,
-                                ClientMyTextFormField.password,
-                                // ClientMyTextFormField.address,
-                              ),
-                            );
-                            Navigator.pushNamed(context, '/ClientSignInScreen');
-                            print('-------------------------');
-                            print("saved");
-                            print('Your len is:');
-                            print(ClientAccounts.getClientAccountsLength());
-                            print('-------------------------');
-                            for (int i = 0;
-                                i < ClientAccounts.getClientAccountsLength();
-                                i++) {
-                              print('index: ');
-                              print(i);
-                              print(ClientAccounts.accounts[i].name);
-                              print(ClientAccounts.accounts[i].phoneNumber);
-                              print(ClientAccounts.accounts[i].password);
-                              print(ClientAccounts.accounts[i].address);
-                              print('-------------------------');
-                            }
-                          });
-                        }
-                      },
+                      onPressed: () => checker(),
                     ),
                   ),
                 )
@@ -135,5 +151,78 @@ class _ClientSignUpScreenState extends State<ClientSignUpScreen> {
         ),
       ),
     );
+  }
+
+  void checker() async {
+    print('starttt');
+    bool validAll = _formkey.currentState.validate();
+    if (ClientAccounts.validPhoneNumber(_controller.text)) {
+      setState(() {
+        validate2 = true;
+        _formkey2.currentState.validate();
+      });
+    } else {
+      validate2 = false;
+      String listen = '';
+      await Socket.connect(MyApp.ip, 2442).then((serverSocket) {
+        print('connected writer');
+        String write = 'ClientSignUp-alreadyPhoneNumber-' + _controller.text;
+        write = (write.length + 7).toString() + ',Client-' + write;
+        serverSocket.write(write);
+        serverSocket.flush();
+        print('write: ' + write);
+        print('connected listen');
+        serverSocket.listen((socket) {
+          listen = String.fromCharCodes(socket).trim().substring(2);
+        }).onDone(() {
+          print("listen: " + listen);
+          bool flag = listen != 'invalid';
+          // print('one: ' + flag.toString());
+          if (flag) {
+            // setState(() {
+            validate = true;
+            _formkey2.currentState.validate();
+            // });
+          } else {
+            validate = false;
+            _formkey2.currentState.validate();
+          }
+          // print('two: ' + flag.toString());
+          if (validAll && !flag) {
+            // setState(() {
+            _formkey.currentState.save();
+            _formkey2.currentState.save();
+            ClientAccounts.addAccount(
+              Client(
+                ClientMyTextFormField.name,
+                ClientMyTextFormField.phoneNumber,
+                ClientMyTextFormField.password,
+                // ClientMyTextFormField.address,
+              ),
+            );
+            print('add account');
+            //                             print('-------------------------');
+            //                             print("saved");
+            //                             print('Your len is:');
+            //                             print(ClientAccounts.getClientAccountsLength());
+            //                             print('-------------------------');
+            //                             for (int i = 0;
+            //                                 i < ClientAccounts.getClientAccountsLength();
+            //                                 i++) {
+            //                               print('index: ');
+            //                               print(i);
+            //                               print(ClientAccounts.accounts[i].name);
+            //                               print(ClientAccounts.accounts[i].phoneNumber);
+            //                               print(ClientAccounts.accounts[i].password);
+            //                               print(ClientAccounts.accounts[i].address);
+            //                               print('-------------------------');
+            //                             }
+            //                           });
+            Navigator.pushNamed(context, '/ClientSignInScreen');
+          }
+        });
+        // serverSocket.close();
+      });
+    }
   }
 }

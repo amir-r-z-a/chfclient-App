@@ -1,12 +1,14 @@
 import 'dart:math';
 
 import 'package:chfclient/Classes/Client.dart';
+import 'package:chfclient/Classes/Request.dart';
 import 'package:chfclient/Common/Common%20Classes/CommentTile.dart';
 import 'package:chfclient/Common/Text/ClientMyTextFormField.dart';
 
 class ClientAccounts {
   static List<Client> _accounts = List.empty(growable: true);
   static int _currentAccount = 0;
+  static bool key = false;
 
 //edit
 
@@ -22,8 +24,20 @@ class ClientAccounts {
     _currentAccount = value;
   }
 
-  static void addAccount(Client client) {
-    accounts.add(client);
+  static Client addAccount(Client client) {
+    if (!key) {
+      Request.writerListener('ClientSignUp-' +
+          client.name +
+          '-' +
+          client.phoneNumber +
+          '-' +
+          client.password);
+    }
+    if (key) {
+      accounts.add(client);
+    }
+    print("A: " + accounts.toString());
+    return client;
   }
 
   static int getClientAccountsLength() {

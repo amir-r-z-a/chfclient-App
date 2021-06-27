@@ -1,22 +1,24 @@
 import 'package:intl/intl.dart';
-class Date {
-  String _year;
-  String _month;
-  String _day;
-  String _hour;
-  String _minute;
-  String _second;
 
-  Date(/*this._year, this._month, this._day, this._hour, this._minute,
-      this._second*/){
-     DateTime now = DateTime.now();
-     String current = DateFormat('yy:MM:dd:kk:mm:ss').format(now);
-    this._year = current.split(":")[0];
-    this._month =current.split(":")[1];
-    this._day =current.split(":")[2];
-    this._hour =current.split(":")[3];
-    this._minute =current.split(":")[4];
-    this._second =current.split(":")[5];
+class Date {
+  String year;
+  String month;
+  String day;
+  String hour;
+  String minute;
+  String second;
+
+  Date({this.year, this.month, this.day, this.hour, this.minute, this.second}) {
+    if (this.year == null) {
+      DateTime now = DateTime.now();
+      String current = DateFormat('yy:MM:dd:kk:mm:ss').format(now);
+      this.year = current.split(":")[0];
+      this.month = current.split(":")[1];
+      this.day = current.split(":")[2];
+      this.hour = current.split(":")[3];
+      this.minute = current.split(":")[4];
+      this.second = current.split(":")[5];
+    }
   }
 
   String dateFormatter() {
@@ -112,12 +114,13 @@ class Date {
   //   }
   //   return false;
   // }
-   bool compareTime(String s , String e ) {
-   int s1 = int.parse(s.split(":")[0])*60 + int.parse(s.split(":")[1]);
-   int e1 = int.parse(e.split(":")[0])*60 + int.parse(e.split(":")[1]);
-   int current1=int.parse(hour)*60 + int.parse(minute);
-   return (current1 >= s1 && current1 <= e1 ) ;
-}
+  bool compareTime(String s, String e) {
+    int s1 = int.parse(s.split(":")[0]) * 60 + int.parse(s.split(":")[1]);
+    int e1 = int.parse(e.split(":")[0]) * 60 + int.parse(e.split(":")[1]);
+    int current1 = int.parse(hour) * 60 + int.parse(minute);
+    return (current1 >= s1 && current1 <= e1);
+  }
+
 // static String currentTime (){
 //   DateTime now = DateTime.now();
 //   return DateFormat('kk:mm').format(now);
@@ -153,42 +156,6 @@ class Date {
     x += 365 * (24 * 3600 * int.parse(year));
     y += 365 * (24 * 3600 * int.parse(input.year));
     return (y - x) <= (24 * 3600 * i);
-  }
-
-  String get year => _year;
-
-  set year(String value) {
-    _year = value;
-  }
-
-  String get month => _month;
-
-  String get second => _second;
-
-  set second(String value) {
-    _second = value;
-  }
-
-  String get minute => _minute;
-
-  set minute(String value) {
-    _minute = value;
-  }
-
-  String get hour => _hour;
-
-  set hour(String value) {
-    _hour = value;
-  }
-
-  String get day => _day;
-
-  set day(String value) {
-    _day = value;
-  }
-
-  set month(String value) {
-    _month = value;
   }
 }
 

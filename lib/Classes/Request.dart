@@ -7,7 +7,7 @@ class Request {
     if (write != null && write.isNotEmpty) {
       await Socket.connect(MyApp.ip, 2442).then((serverSocket) {
         print('connected writer');
-        write = (write.length + 11).toString() + ',Restaurant-' + write;
+        write = (write.length + 7).toString() + ',Client-' + write;
         serverSocket.write(write);
         serverSocket.flush();
         print('write: ' + write);
@@ -37,7 +37,7 @@ class Request {
     if (write != null && write.isNotEmpty) {
       await Socket.connect(MyApp.ip, 2442).then((serverSocket) {
         print('connected writer');
-        write = (write.length + 11).toString() + ',Restaurant-' + write;
+        write = (write.length + 7).toString() + ',Client-' + write;
         serverSocket.write(write);
         serverSocket.flush();
         print('write: ' + write);

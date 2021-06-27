@@ -14,15 +14,17 @@ class RestaurantTile extends StatefulWidget {
   String _phoneNumber;
   Map _tabBarTitle;
   Map _clientTabBarView;
-  String email;
+  String _email;
   double _point;
   double _workingRadius;
   LatLng _location;
   Function refreshPage;
-  String startingTime ;
-  String endingTime ;
+  String _startingTime;
+  String _endingTime;
+
   // List<CartTile> _cart;
   int _j;
+
   // Image _profileImage;
   RestaurantTypes _type;
   Map _restaurantComments;
@@ -33,33 +35,39 @@ class RestaurantTile extends StatefulWidget {
     Container(child: Icon(Icons.star)),
     Container(child: Icon(Icons.star)),
   ];
+
   // static Function homeScreen;
   RestaurantTile(
-    this._name,
-    this._address,
-    this._phoneNumber,
-    this._tabBarTitle,
-    this._clientTabBarView,
-    this._point,
-    this._workingRadius,
-    // this._profileImage,
-    this._type,
-    this._restaurantComments,
-    this._location,
-    this._j, {
-    this.email,
-        this.startingTime,
-        this.endingTime
-  });
+      this._name,
+      this._address,
+      this._phoneNumber,
+      this._tabBarTitle,
+      this._clientTabBarView,
+      this._point,
+      this._workingRadius,
+      // this._profileImage,
+      this._type,
+      this._restaurantComments,
+      this._location,
+      this._j,
+      this._email,
+      this._startingTime,
+      this._endingTime);
+
   String get name => _name;
+
   set name(String value) {
     _name = value;
   }
+
   String get address => _address;
+
   set address(String value) {
     _address = value;
   }
+
   String get phoneNumber => _phoneNumber;
+
   set phoneNumber(String value) {
     _phoneNumber = value;
   }
@@ -114,6 +122,24 @@ class RestaurantTile extends StatefulWidget {
 
   set j(int value) {
     _j = value;
+  }
+
+  String get email => _email;
+
+  set email(String value) {
+    _email = value;
+  }
+
+  String get startingTime => _startingTime;
+
+  set startingTime(String value) {
+    _startingTime = value;
+  }
+
+  String get endingTime => _endingTime;
+
+  set endingTime(String value) {
+    _endingTime = value;
   }
 
   int getClientTabBarViewLength() {

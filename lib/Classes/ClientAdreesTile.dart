@@ -12,7 +12,7 @@ class ClientAddressTile extends StatefulWidget {
   Function refreshPage;
   LatLng location;
   static bool trailing;
-  static List<LatLng> tappedPoints = [];
+  /*static */List<LatLng> tappedPoints = [];
   static Function mainMenu;
   static Function paymentScreen;
   static Function paymentAddressesScreen;
@@ -37,7 +37,7 @@ class _ClientAddressTileState extends State<ClientAddressTile> {
       context: context,
       isScrollControlled: true,
       builder: (context) {
-        var markers = ClientAddressTile.tappedPoints.map((latlng) {
+        var markers = widget.tappedPoints.map((latlng) {
           return Marker(
             width: 80.0,
             height: 80.0,
@@ -126,11 +126,11 @@ class _ClientAddressTileState extends State<ClientAddressTile> {
 
   void _handleTap(LatLng latlng) {
     setState(() {
-      if (ClientAddressTile.tappedPoints.isEmpty) {
-        ClientAddressTile.tappedPoints.add(latlng);
+      if (widget.tappedPoints.isEmpty) {
+        widget.tappedPoints.add(latlng);
       } else {
-        ClientAddressTile.tappedPoints.clear();
-        ClientAddressTile.tappedPoints.add(latlng);
+        widget.tappedPoints.clear();
+        widget.tappedPoints.add(latlng);
       }
       widget.location = latlng;
     });
