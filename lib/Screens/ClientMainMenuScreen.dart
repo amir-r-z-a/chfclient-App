@@ -354,7 +354,7 @@ class _ClientMainMenuScreenState extends State<ClientMainMenuScreen> {
                 () => Navigator.pushNamed(context, '/FavRestaurantsScreen')),
             customListTile(Icons.comment, 'My Comments ',
                 () => Navigator.pushNamed(context, '/CommentsScreen')),
-            customListTile(Icons.phone, 'Contact Us', () => {}),
+            customListTile(Icons.phone, 'Contact Us', () => (){Navigator.pushNamed(context, "/ContactUsScreen");}),
             customListTile(
               Icons.logout,
               "Log Out",

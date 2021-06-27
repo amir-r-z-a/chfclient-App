@@ -19,6 +19,7 @@ import 'package:chfclient/Screens/ClientDetailsCommentTile.dart';
 import 'package:chfclient/Screens/ClientSignInScreen.dart';
 import 'package:chfclient/Screens/ClientSignUpScreen.dart';
 import 'package:chfclient/Screens/CommentsScreen.dart';
+import 'package:chfclient/Screens/ContactUsScreen.dart';
 import 'package:chfclient/Screens/FastFoodScreen.dart';
 import 'package:chfclient/Screens/FavRestaurantsScreen.dart';
 import 'package:chfclient/Screens/IranianFoodsScreen.dart';
@@ -60,6 +61,7 @@ class _MyAppState extends State<MyApp> {
         '/MorePopularRestaurantsScreen': (context) =>
             MorePopularRestaurantsScreen(),
         '/CafesScreen': (context) => CafesScreen(),
+        '/ContactUsScreen': (context) => ContactUsScreen(),
         '/OthersScreen': (context) => OthersScreen(),
         '/FastFoodScreen': (context) => FastFoodScreen(),
         '/IranianFoodsScreen': (context) => IranianFoodsScreen(),
@@ -78,7 +80,7 @@ class _MyAppState extends State<MyApp> {
         '/ClientActiveOrdersScreen': (context) => ClientActiveOrdersScreen(),
         '/PaymentAddressesScreen': (context) => PaymentAddressesScreen(),
       },
-      home: ClientSignInScreen(),
+      home: ContactUsScreen(),
 
       // ClientActiveOrderTile()
 
@@ -112,6 +114,17 @@ void main() {
   String restaurantAccounts =
       "09198612878: {, arman, arman123, 03:10, 22:55, Other, ahmafi@gmail.com, address44, LatLng(latitude:35.743649:::longitude:51.427343), 10, 1.1, 1, }";
   //09198612878: {, arman, arman123, 03:10, 22:55, Other, ahmafi@gmail.com, address44, LatLng(latitude:35.743649:::longitude:51.427343), 10, 1.1, j, }
+  String m ="09198612878: {, address, LatLng(latitude:35.743649:::longitude:51.427343)}";
+  List z = m.split(", ");
+  String add = z[1];
+  String latitude = z[2]
+      .substring(z[2].indexOf(':') + 1, z[2].indexOf(':::'));
+  String longitude = z[2].substring(
+      z[2].lastIndexOf(':') + 1,z[2].indexOf(')'));
+  LatLng latLng = LatLng(double.parse(latitude), double.parse(longitude));
+  print(add) ;
+  print(m.substring(0,11));
+  print(z);
   print(restaurantAccounts.substring(0, 11));
   List x = [];
   x = restaurantAccounts.split(", ");
@@ -123,8 +136,10 @@ void main() {
   String mail = x[6];
   String address = x[7];
   String latlong = x[8];
-  String lat = latlong.substring(17, 25);
+  String lat = latlong.substring(16, 25);
   String lon = latlong.substring(38, 47);
+  print(lat);
+  print(lon);
   var la = double.parse(lat);
   var lo = double.parse(lon);
   int Radius = int.parse(x[9]);
