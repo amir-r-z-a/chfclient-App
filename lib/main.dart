@@ -132,243 +132,248 @@ void main() {
   LatLng Loacation = LatLng(la, lo);
   int Index = int.parse(x[9]);
   ClientAddressTile.trailing = false;
-  ClientFoodTile Tea1 = ClientFoodTile(
-    'tea',
-    '25',
-    true,
-    'cafe',
-    desc: 'aaa',
-  );
-  ClientFoodTile HotDog1 = ClientFoodTile(
-    'HotDog',
-    '12',
-    true,
-    'FastFood',
-    desc: 'hot dog is good',
-  );
-  ClientFoodTile Milk1 = ClientFoodTile(
-    'milk',
-    '20',
-    true,
-    'cafe',
-  );
 
-  ClientFoodTile Pizza1 = ClientFoodTile(
-    'Pizza',
-    '25',
-    true,
-    'Fast Food',
-    desc: 'desc',
-  );
+  //
+  // ClientFoodTile Tea1 = ClientFoodTile(
+  //   'tea',
+  //   '25',
+  //   true,
+  //   'cafe',
+  //   desc: 'aaa',
+  // );
+  // ClientFoodTile HotDog1 = ClientFoodTile(
+  //   'HotDog',
+  //   '12',
+  //   true,
+  //   'FastFood',
+  //   desc: 'hot dog is good',
+  // );
+  // ClientFoodTile Milk1 = ClientFoodTile(
+  //   'milk',
+  //   '20',
+  //   true,
+  //   'cafe',
+  // );
+  //
+  // ClientFoodTile Pizza1 = ClientFoodTile(
+  //   'Pizza',
+  //   '25',
+  //   true,
+  //   'Fast Food',
+  //   desc: 'desc',
+  // );
+  //
+  // CommentTile comment11 = CommentTile(
+  //     'chera qazatoon inqad badechera qazatoon inqad badechera qazatoon inqad badechera qazatoon inqad badechera qazatoon inqad badechera qazatoon inqad bade?',
+  //     'Milk',
+  //     Date(/*'2021', '3', '5', '22', '12', '2'*/),
+  //     '09121231212',
+  //     '09198612878');
+  // CommentTile comment12 = CommentTile(
+  //     'chera qazatoon inqad khoobe?',
+  //     'Milk',
+  //     Date(/*'2021', '3', '7', '20', '20', '20'*/),
+  //     '09121231212',
+  //     '09198612878');
+  // CommentTile comment13 = CommentTile(
+  //     'chera qazatoon inqad bade va khoobe?',
+  //     'Hot Dog',
+  //     Date(/*'2021', '3', '11', '1', '28', '29'*/),
+  //     '09121231212',
+  //     '09198612878');
+  // RestaurantTile restaurant = RestaurantTile(
+  //   'arman',
+  //   'Iran, Tehran, Pasdaran, Khiaban Bahar Qarbi, Kooche Mehr, 1111',
+  //   '09198612878',
+  //   {0: 'All', 1: 'cafe', 2: 'FastFood'},
+  //   {
+  //     0: [
+  //       Tea1,
+  //       Milk1,
+  //       HotDog1,
+  //       // Pizza1,
+  //     ],
+  //     1: [
+  //       Tea1,
+  //       Milk1,
+  //     ],
+  //     2: [
+  //       HotDog1,
+  //       // Pizza1,
+  //     ],
+  //   },
+  //   1.1,
+  //   19,
+  //   RestaurantTypes.FastFood,
+  //   {
+  //     0: [
+  //       comment11,
+  //       comment12,
+  //       comment13,
+  //     ],
+  //     1: [
+  //       comment11,
+  //       comment12,
+  //     ],
+  //     2: [
+  //       comment13,
+  //     ],
+  //   },
+  //   LatLng(35.742679, 51.39983),
+  //   0,
+  //   "email1",
+  //   "00:12",
+  //   "23:49",
+  // );
+  // RestaurantAccounts.receiveRestaurant(restaurant);
+  //
+  // RestaurantTile restaurant3 = RestaurantTile(
+  //   'name3',
+  //   'Iran, Tehran, Pasdaran, Khiaban Bahar Qarbi, Kooche Mehr, 1111',
+  //   '09198612878',
+  //   {0: 'All', 1: 'Cafe', 2: 'Fast Food'},
+  //   {
+  //     0: [
+  //       Tea1,
+  //       HotDog1,
+  //       Milk1,
+  //       Pizza1,
+  //     ],
+  //     1: [
+  //       Tea1,
+  //       Milk1,
+  //     ],
+  //     2: [
+  //       HotDog1,
+  //       Pizza1,
+  //     ],
+  //   },
+  //   4.3,
+  //   10,
+  //   RestaurantTypes.IranianRestaurant,
+  //   {
+  //     0: [
+  //       comment11,
+  //       comment12,
+  //       comment13,
+  //     ],
+  //     1: [
+  //       comment11,
+  //       comment12,
+  //     ],
+  //     2: [
+  //       comment13,
+  //     ],
+  //   },
+  //   LatLng(35.725295, 51.400957),
+  //   1,
+  //   'arman@gmail.com',
+  //   "8:00",
+  //   "22:00",
+  // );
+  // RestaurantAccounts.receiveRestaurant(restaurant3);
+  //
+  // ClientFoodTile Tea2 = ClientFoodTile(
+  //   'Tea',
+  //   '25',
+  //   true,
+  //   'Cafe',
+  //   desc: 'desc',
+  // );
+  // ClientFoodTile Milk2 = ClientFoodTile(
+  //   'Milk',
+  //   '25',
+  //   true,
+  //   'Cafe',
+  //   desc: 'desc',
+  // );
+  // ClientFoodTile Juice2 = ClientFoodTile(
+  //   'Juice',
+  //   '25',
+  //   true,
+  //   'Cafe',
+  //   desc: 'desc',
+  // );
+  // RestaurantTile restaurant2 = RestaurantTile(
+  //   'name2',
+  //   'addres2',
+  //   '09121111111',
+  //   {
+  //     0: 'All',
+  //     1: 'Cafe',
+  //   },
+  //   {
+  //     0: [
+  //       Tea2,
+  //       Milk2,
+  //       Juice2,
+  //     ],
+  //     1: [
+  //       Tea2,
+  //       Milk2,
+  //       Juice2,
+  //     ],
+  //   },
+  //   5.6,
+  //   12,
+  //   RestaurantTypes.Cafe,
+  //   {},
+  //   LatLng(35.742894, 51.423224),
+  //   2,
+  //   // email: 'arman@gmail.com',
+  //   "email2",
+  //   "9:00",
+  //   "18:00",
+  // );
+  // RestaurantAccounts.receiveRestaurant(restaurant2);
+  //
+  // RestaurantTile restaurant4 = RestaurantTile(
+  //   'name4',
+  //   'addres2',
+  //   '09121111111',
+  //   {
+  //     0: 'All',
+  //     1: 'Cafe',
+  //   },
+  //   {
+  //     0: [
+  //       Tea2,
+  //       Milk2,
+  //       Juice2,
+  //     ],
+  //     1: [
+  //       Tea2,
+  //       Milk2,
+  //       Juice2,
+  //     ],
+  //   },
+  //   5.6,
+  //   12,
+  //   RestaurantTypes.Other,
+  //   {},
+  //   LatLng(35.742894, 51.423224),
+  //   3,
+  //   'armannn@gmail.com',
+  //   "12:00",
+  //   "23:00",
+  // );
+  // RestaurantAccounts.receiveRestaurant(restaurant4);
+  // ClientMainMenuScreen.res.add(restaurant4);
+  // ClientMainMenuScreen.res.add(restaurant);
+  // ClientMainMenuScreen.res.add(restaurant3);
+  // ClientMainMenuScreen.res.add(restaurant2);
+  // Client client = Client(
+  //   'Client1',
+  //   '09198612877',
+  //   'clientPassword1',
+  // );
+  // client.addAddress(
+  //   'Iran Tehran Gisha',
+  //   LatLng(35.722629, 51.410471),
+  // );
 
-  CommentTile comment11 = CommentTile(
-      'chera qazatoon inqad badechera qazatoon inqad badechera qazatoon inqad badechera qazatoon inqad badechera qazatoon inqad badechera qazatoon inqad bade?',
-      'Milk',
-      Date(/*'2021', '3', '5', '22', '12', '2'*/),
-      '09121231212',
-      '09198612878');
-  CommentTile comment12 = CommentTile(
-      'chera qazatoon inqad khoobe?',
-      'Milk',
-      Date(/*'2021', '3', '7', '20', '20', '20'*/),
-      '09121231212',
-      '09198612878');
-  CommentTile comment13 = CommentTile(
-      'chera qazatoon inqad bade va khoobe?',
-      'Hot Dog',
-      Date(/*'2021', '3', '11', '1', '28', '29'*/),
-      '09121231212',
-      '09198612878');
-  RestaurantTile restaurant = RestaurantTile(
-    'arman',
-    'Iran, Tehran, Pasdaran, Khiaban Bahar Qarbi, Kooche Mehr, 1111',
-    '09198612878',
-    {0: 'All', 1: 'cafe', 2: 'FastFood'},
-    {
-      0: [
-        Tea1,
-        Milk1,
-        HotDog1,
-        // Pizza1,
-      ],
-      1: [
-        Tea1,
-        Milk1,
-      ],
-      2: [
-        HotDog1,
-        // Pizza1,
-      ],
-    },
-    1.1,
-    19,
-    RestaurantTypes.FastFood,
-    {
-      0: [
-        comment11,
-        comment12,
-        comment13,
-      ],
-      1: [
-        comment11,
-        comment12,
-      ],
-      2: [
-        comment13,
-      ],
-    },
-    LatLng(35.742679, 51.39983),
-    0,
-    "email1",
-    "00:12",
-    "23:49",
-  );
-  RestaurantAccounts.receiveRestaurant(restaurant);
 
-  RestaurantTile restaurant3 = RestaurantTile(
-    'name3',
-    'Iran, Tehran, Pasdaran, Khiaban Bahar Qarbi, Kooche Mehr, 1111',
-    '09198612878',
-    {0: 'All', 1: 'Cafe', 2: 'Fast Food'},
-    {
-      0: [
-        Tea1,
-        HotDog1,
-        Milk1,
-        Pizza1,
-      ],
-      1: [
-        Tea1,
-        Milk1,
-      ],
-      2: [
-        HotDog1,
-        Pizza1,
-      ],
-    },
-    4.3,
-    10,
-    RestaurantTypes.IranianRestaurant,
-    {
-      0: [
-        comment11,
-        comment12,
-        comment13,
-      ],
-      1: [
-        comment11,
-        comment12,
-      ],
-      2: [
-        comment13,
-      ],
-    },
-    LatLng(35.725295, 51.400957),
-    1,
-    'arman@gmail.com',
-    "8:00",
-    "22:00",
-  );
-  RestaurantAccounts.receiveRestaurant(restaurant3);
-
-  ClientFoodTile Tea2 = ClientFoodTile(
-    'Tea',
-    '25',
-    true,
-    'Cafe',
-    desc: 'desc',
-  );
-  ClientFoodTile Milk2 = ClientFoodTile(
-    'Milk',
-    '25',
-    true,
-    'Cafe',
-    desc: 'desc',
-  );
-  ClientFoodTile Juice2 = ClientFoodTile(
-    'Juice',
-    '25',
-    true,
-    'Cafe',
-    desc: 'desc',
-  );
-  RestaurantTile restaurant2 = RestaurantTile(
-    'name2',
-    'addres2',
-    '09121111111',
-    {
-      0: 'All',
-      1: 'Cafe',
-    },
-    {
-      0: [
-        Tea2,
-        Milk2,
-        Juice2,
-      ],
-      1: [
-        Tea2,
-        Milk2,
-        Juice2,
-      ],
-    },
-    5.6,
-    12,
-    RestaurantTypes.Cafe,
-    {},
-    LatLng(35.742894, 51.423224),
-    2,
-    // email: 'arman@gmail.com',
-    "email2",
-    "9:00",
-    "18:00",
-  );
-  RestaurantAccounts.receiveRestaurant(restaurant2);
-
-  RestaurantTile restaurant4 = RestaurantTile(
-    'name4',
-    'addres2',
-    '09121111111',
-    {
-      0: 'All',
-      1: 'Cafe',
-    },
-    {
-      0: [
-        Tea2,
-        Milk2,
-        Juice2,
-      ],
-      1: [
-        Tea2,
-        Milk2,
-        Juice2,
-      ],
-    },
-    5.6,
-    12,
-    RestaurantTypes.Other,
-    {},
-    LatLng(35.742894, 51.423224),
-    3,
-    'armannn@gmail.com',
-    "12:00",
-    "23:00",
-  );
-  RestaurantAccounts.receiveRestaurant(restaurant4);
-  ClientMainMenuScreen.res.add(restaurant4);
-  ClientMainMenuScreen.res.add(restaurant);
-  ClientMainMenuScreen.res.add(restaurant3);
-  ClientMainMenuScreen.res.add(restaurant2);
-  Client client = Client(
-    'Client1',
-    '09198612877',
-    'clientPassword1',
-  );
-  client.addAddress(
-    'Iran Tehran Gisha',
-    LatLng(35.722629, 51.410471),
-  );
+  //
   // ClientAccounts.addAccount(client);
   // client.addAddress('address2', LatLng(35.72247, 51.398161));
   runApp(MyApp());

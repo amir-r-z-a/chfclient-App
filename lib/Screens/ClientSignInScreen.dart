@@ -2,7 +2,12 @@ import 'dart:io';
 
 import 'package:chfclient/Classes/Client.dart';
 import 'package:chfclient/Classes/ClientAccounts.dart';
+import 'package:chfclient/Classes/ClientFoodTile.dart';
+import 'package:chfclient/Classes/RestaurantAccounts.dart';
 import 'package:chfclient/Common/Common%20Classes/Date.dart';
+import 'package:chfclient/Common/Common%20Classes/Food.dart';
+import 'package:chfclient/Common/Common%20Classes/RestaurantTile.dart';
+import 'package:chfclient/Common/Common%20Classes/RestaurantTypes.dart';
 import 'package:chfclient/Common/Text/GrayText.dart';
 import 'package:chfclient/Common/Text/ClientMyPassFormField.dart';
 import 'package:chfclient/Common/Text/ClientMyTextFormField.dart';
@@ -192,10 +197,6 @@ class _ClientSignInScreenState extends State<ClientSignInScreen> {
                 print("listen: " + listen);
                 // Restaurant restaurant =start(listen) ;
                 runMenu(start(listen));
-                print("Welcome to Chamir food");
-                print('A: ' + ClientAccounts.accounts.toString());
-                print('CA: ' + ClientAccounts.currentAccount.toString());
-                Navigator.pushNamed(context, '/ClientMainMenuScreen');
               });
             });
           } else {
@@ -209,17 +210,19 @@ class _ClientSignInScreenState extends State<ClientSignInScreen> {
 
   Client start(String ans) {
     if (ans != null && ans.isNotEmpty) {
-      ClientAccounts.key = true;
       List<String> strings = ans.split(', ');
+      print("strings is:" + strings.toString());
       ClientAccounts.accounts = [];
       Client client = ClientAccounts.addAccount(
           Client(strings[1], ans.substring(0, ans.indexOf(':')), strings[2]));
+      ClientAccounts.key = true;
       if (strings[3] != 'null') {
         client.email = strings[3];
       }
       if (strings[4] != 'null') {
         client.address[client.currentAddress].address = strings[4];
       }
+      print("locatio: " + strings[5]);
       if (strings[5] != 'null') {
         String latitude = strings[5]
             .substring(strings[5].indexOf(':') + 1, strings[5].indexOf(':::'));
@@ -285,6 +288,21 @@ class _ClientSignInScreenState extends State<ClientSignInScreen> {
             }).onDone(() async {
               print("listen: " + listenAddresses);
               // todo
+              List<String> addresses = listenAddresses.split('\n');
+              for (int i = 0; i < addresses.length; i++) {
+                if (addresses[i].startsWith(MyApp.id)) {
+                  String m = addresses[i];
+                  List z = m.split(", ");
+                  String add = z[1];
+                  String latitude = z[2]
+                      .substring(z[2].indexOf(':') + 1, z[2].indexOf(':::'));
+                  String longitude = z[2]
+                      .substring(z[2].lastIndexOf(':') + 1, z[2].indexOf(')'));
+                  LatLng latLng =
+                      LatLng(double.parse(latitude), double.parse(longitude));
+                  client.addAddress(add, latLng);
+                }
+              }
               String listenComments = '';
               await Socket.connect(MyApp.ip, 2442).then((serverSocket) {
                 print('connected writer');
@@ -315,8 +333,128 @@ class _ClientSignInScreenState extends State<ClientSignInScreen> {
                           String.fromCharCodes(socket).trim().substring(2);
                     }).onDone(() async {
                       print("listen: " + listenAccounts);
-                      //  todo(amirreza)
+                      List<String> mainSplit = listenAccounts.split('***');
+                      List<String> x = mainSplit[0].split("\n");
+                      int counter = x.length;
+                      print('counter is: ' + counter.toString());
+                      RestaurantAccounts.restaurantList[0] = [];
+                      for (int i = 0; i < counter - 1; i++) {
+                        RestaurantTypes m;
+                        List<String> y = x[i].split(", ");
+                        if (y[5] == "Other") {
+                          m = RestaurantTypes.Other;
+                        } else if (y[5] == "IranianRestaurant") {
+                          m = RestaurantTypes.IranianRestaurant;
+                        } else if (y[5] == "Cafe") {
+                          m = RestaurantTypes.Cafe;
+                        } else if (y[5] == "FastFood") {
+                          m = RestaurantTypes.FastFood;
+                        }
 
+                        // String latitude = strings[5]
+                        //     .substring(strings[5].indexOf(':') + 1, strings[5].indexOf(':::'));
+                        // String longitude = strings[5].substring(
+                        //     strings[5].lastIndexOf(':') + 1, strings[5].indexOf(')'));
+                        // LatLng latLng = LatLng(double.parse(latitude), double.parse(longitude));
+
+                        String lalo = y[8];
+                        double la = double.parse(lalo.substring(
+                            lalo.indexOf(':') + 1, lalo.indexOf(':::')));
+                        double lo = double.parse(lalo.substring(
+                            lalo.lastIndexOf(':') + 1, lalo.indexOf(')')));
+                        LatLng Loacation = LatLng(la, lo);
+                        RestaurantTile restaurant = RestaurantTile(
+                            y[1],
+                            y[7],
+                            x[i].substring(0, 11),
+                            double.parse(y[10]),
+                            double.parse(y[9]),
+                            m,
+                            Loacation,
+                            int.parse(y[11]),
+                            y[6],
+                            y[3],
+                            y[4]);
+                        print("restaurant is: " + restaurant.toStringShort());
+                        print("restaurant name is: " + restaurant.name);
+                        print("restaurant address is: " + restaurant.address);
+                        print("restaurant phoneNumber is: " +
+                            restaurant.phoneNumber);
+                        print("restaurant point is: " +
+                            restaurant.point.toString());
+                        print("restaurant radius is: " +
+                            restaurant.workingRadius.toString());
+                        print("restaurant type is: " +
+                            restaurant.type.toString());
+                        print("restaurant location is: " +
+                            restaurant.location.toString());
+                        print("restaurant j is: " + restaurant.j.toString());
+                        print("restaurant email is: " + restaurant.email);
+                        //  todo(amirreza)
+                        List<String> allCategory = mainSplit[1].split('\n');
+                        String phoneNumber = x[i].substring(0, 11);
+                        List<String> titles = ['All'];
+                        for (int j = 0; j < allCategory.length; j++) {
+                          if (allCategory[j].startsWith(phoneNumber)) {
+                            List<String> categoryElements =
+                                allCategory[j].split(', ');
+                            print("allCategory[j] is: " + allCategory[j]);
+                            for (int k = 1;
+                                k < categoryElements.length - 1;
+                                k++) {
+                              print("categoryElements[k] is: " +
+                                  categoryElements[k]);
+                              print("restaurant is11: " +
+                                  restaurant.toStringShort());
+                              print("restaurant name is11: " + restaurant.name);
+                              if (categoryElements[k] != 'All') {
+                                restaurant.addTabBarTitle(categoryElements[k]);
+                                titles.add(categoryElements[k]);
+                              }
+                            }
+                            break;
+                          }
+                        }
+                        List<String> allMenu = mainSplit[2].split('\n');
+                        for (int j = 0; j < allMenu.length; j++) {
+                          if (allMenu[j].startsWith(phoneNumber)) {
+                            List<String> foodElements = allMenu[j].split(', ');
+                            if (foodElements[0].split(':')[1] != 'All') {
+                              int index;
+                              for (int u = 0; u < titles.length; u++) {
+                                if (titles[u] ==
+                                    foodElements[0].split(':')[1]) {
+                                  index = u;
+                                }
+                              }
+                              restaurant.addTabBarViewElements(
+                                  ClientFoodTile(
+                                    foodElements[0].split(':')[2],
+                                    foodElements[2],
+                                    foodElements[3] == 'true',
+                                    foodElements[0].split(':')[1],
+                                    desc: (foodElements[1] == 'null'
+                                        ? ''
+                                        : foodElements[1]),
+                                  ),
+                                  index);
+                            }
+                          }
+                        }
+                        List<String> faves = listenFav.split(', ');
+                        for (int j = 0; j < faves.length; j++) {
+                          if (restaurant.phoneNumber ==
+                              faves[j].split(':::')[0]) {
+                            client.favRestaurants.add(restaurant);
+                          }
+                        }
+                        RestaurantAccounts.receiveRestaurant(restaurant);
+                      }
+                      ClientAccounts.addAccount(client);
+                      print("Welcome to Chamir food");
+                      print('A: ' + ClientAccounts.accounts.toString());
+                      print('CA: ' + ClientAccounts.currentAccount.toString());
+                      Navigator.pushNamed(context, '/ClientMainMenuScreen');
                     });
                   });
                 });

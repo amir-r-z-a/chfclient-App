@@ -20,6 +20,9 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print('restaurant list is: ' +
+        RestaurantAccounts.restaurantList[0].toString());
+    print(RestaurantAccounts.restaurantList[0].length);
     return ListView(
       children: [
         Padding(
@@ -168,8 +171,8 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
                                 RestaurantAccounts
                                     .restaurantList[0][index].workingRadius)) {
                           return RestaurantAccounts.restaurantList[0][index];
-                        }
-                        else return Container(height: 0,width: 0);
+                        } else
+                          return Container(height: 0, width: 0);
                       }),
                     ),
                   ),
@@ -199,6 +202,7 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
                   null) {
                 // RestaurantAccounts.restaurantList[0][index].refreshPage();
               }
+              print('index homeScree: ' + index.toString());
               return RestaurantAccounts.restaurantList[0][index];
             }),
           ),

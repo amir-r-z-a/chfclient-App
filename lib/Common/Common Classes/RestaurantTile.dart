@@ -1,10 +1,15 @@
+import 'dart:io';
+
 import 'package:chfclient/Classes/CartTile.dart';
 import 'package:chfclient/Classes/ClientAccounts.dart';
+import 'package:chfclient/Classes/ClientFoodTile.dart';
 import 'package:chfclient/Classes/RestaurantAccounts.dart';
 import 'package:chfclient/Common/Common%20Classes/Date.dart';
+import 'package:chfclient/Common/Common%20Classes/Food.dart';
 import 'package:chfclient/Common/Common%20Classes/RestaurantTypes.dart';
 import 'package:chfclient/Screens/ClientHomeScreen.dart';
 import 'package:chfclient/Screens/DetailsRestaurantTile.dart';
+import 'package:chfclient/main.dart';
 import 'package:flutter/material.dart';
 import 'package:latlong/latlong.dart';
 
@@ -12,8 +17,8 @@ class RestaurantTile extends StatefulWidget {
   String _name;
   String _address;
   String _phoneNumber;
-  Map _tabBarTitle;
-  Map _clientTabBarView;
+  Map _tabBarTitle = {0: 'All'};
+  Map _clientTabBarView = {0: []};
   String _email;
   double _point;
   double _workingRadius;
@@ -27,7 +32,7 @@ class RestaurantTile extends StatefulWidget {
 
   // Image _profileImage;
   RestaurantTypes _type;
-  Map _restaurantComments;
+  Map _restaurantComments = {};
   List<Widget> stars = [
     Container(child: Icon(Icons.star)),
     Container(child: Icon(Icons.star)),
@@ -41,13 +46,13 @@ class RestaurantTile extends StatefulWidget {
       this._name,
       this._address,
       this._phoneNumber,
-      this._tabBarTitle,
-      this._clientTabBarView,
+      // this._tabBarTitle,
+      // this._clientTabBarView,
       this._point,
       this._workingRadius,
       // this._profileImage,
       this._type,
-      this._restaurantComments,
+      // this._restaurantComments,
       this._location,
       this._j,
       this._email,
@@ -168,6 +173,32 @@ class RestaurantTile extends StatefulWidget {
     return '-1';
   }
 
+  int getTabBarTitleLength() {
+    return tabBarTitle.length;
+  }
+
+  void addTabBarTitle(
+      String title /*, ClientFoodTile food,
+      {bool addFood = true}*/
+      ) {
+    int len = getTabBarTitleLength();
+    print('im here in tabBarTitle');
+    print('len is: ' + len.toString());
+    tabBarTitle[len] = title;
+    print('im here');
+    clientTabBarView[len] = [];
+    print('im here');
+    restaurantComments[len] = [];
+    // if (addFood) {
+    //   addTabBarViewElements(food, len);
+    // }
+  }
+
+  void addTabBarViewElements(ClientFoodTile food, int i) {
+    clientTabBarView[0].add(food);
+    clientTabBarView[i].add(food);
+  }
+
   @override
   _RestaurantTileState createState() => _RestaurantTileState();
 }
@@ -254,7 +285,19 @@ class _RestaurantTileState extends State<RestaurantTile> {
                         ));
                       })),
                       GestureDetector(
-                        onTap: () {
+                        onTap: () async {
+                          print("log is: " +
+                              ClientAccounts
+                                  .accounts[ClientAccounts.currentAccount]
+                                  .favRestaurants
+                                  .length
+                                  .toString());
+
+                          print("log: " +
+                              ClientAccounts
+                                  .accounts[ClientAccounts.currentAccount]
+                                  .favRestaurantsKey[widget.j].toString());
+
                           setState(() {
                             ClientAccounts
                                     .accounts[ClientAccounts.currentAccount]
@@ -277,6 +320,50 @@ class _RestaurantTileState extends State<RestaurantTile> {
                                   .remove(RestaurantAccounts.restaurantList[0]
                                       [widget.j]);
                             }
+                          });
+                          String favRestaurants = ' {, ';
+                          for (int i = 0;
+                              i <
+                                  ClientAccounts
+                                      .accounts[ClientAccounts.currentAccount]
+                                      .favRestaurants
+                                      .length;
+                              i++) {
+                            favRestaurants += ClientAccounts
+                                .accounts[ClientAccounts.currentAccount]
+                                .favRestaurants[i]
+                                .phoneNumber;
+                            favRestaurants += ':::';
+                            favRestaurants += ClientAccounts
+                                .accounts[ClientAccounts.currentAccount]
+                                .favRestaurants[i]
+                                .name;
+                            favRestaurants += ', ';
+                          }
+                          favRestaurants += '}';
+                          String listen = '';
+                          await Socket.connect(MyApp.ip, 2442)
+                              .then((serverSocket) {
+                            print('connected writer');
+                            String write = 'ClientFavRestaurants-' +
+                                MyApp.id +
+                                '-' +
+                                favRestaurants;
+                            write = (write.length + 7).toString() +
+                                ',Client-' +
+                                write;
+                            serverSocket.write(write);
+                            serverSocket.flush();
+                            print('write: ' + write);
+                            print('connected listen');
+                            serverSocket.listen((socket) {
+                              listen = String.fromCharCodes(socket)
+                                  .trim()
+                                  .substring(2);
+                            }).onDone(() {
+                              print("listen: " + listen);
+                            });
+                            // serverSocket.close();
                           });
                           // ClientAccounts.accounts[ClientAccounts.currentAccount]
                           //     .refreshAllRestaurantTile();

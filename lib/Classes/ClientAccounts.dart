@@ -34,7 +34,7 @@ class ClientAccounts {
           client.password);
     }
     if (key) {
-      accounts.add(client);
+      accounts.add(Client(client.name, client.phoneNumber, client.password));
     }
     print("A: " + accounts.toString());
     return client;

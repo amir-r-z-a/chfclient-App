@@ -38,6 +38,12 @@ class Client {
   ) {
     // addAddress(address);
     for (int i = 0; i < RestaurantAccounts.getRestaurantListLength(); i++) {
+      print('--------------------------------------');
+      print('-------------------------------------');
+      print('------------------------------------');
+      print('-----------------------------------');
+      print("false add to favKey");
+      print('--------------------------------------');
       favRestaurantsKey.add(false);
     }
   }
@@ -239,7 +245,9 @@ class Client {
 
   set favRestaurants(List<RestaurantTile> value) {
     _favRestaurants = value;
-  } // List<CommentTile> get clientComments => _clientComments;
+  }
+
+  // List<CommentTile> get clientComments => _clientComments;
   //
   // set clientComments(List<CommentTile> value) {
   //   _clientComments = value;
