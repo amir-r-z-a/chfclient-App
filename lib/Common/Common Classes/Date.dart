@@ -9,7 +9,7 @@ class Date {
   String second;
 
   Date({this.year, this.month, this.day, this.hour, this.minute, this.second}) {
-    if (this.year == null) {
+    if (this.year == null || this.year.isEmpty) {
       DateTime now = DateTime.now();
       String current = DateFormat('yy:MM:dd:kk:mm:ss').format(now);
       this.year = current.split(":")[0];
