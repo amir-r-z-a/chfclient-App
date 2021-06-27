@@ -134,26 +134,26 @@ void main() {
   int Index = int.parse(x[9]);
   ClientAddressTile.trailing = false;
   ClientFoodTile Tea1 = ClientFoodTile(
-    'Tea',
+    'tea',
     '25',
     true,
-    'Cafe',
-    desc: 'desc',
+    'cafe',
+    desc: 'aaa',
   );
   ClientFoodTile HotDog1 = ClientFoodTile(
-    'Hot Dog',
-    '25',
+    'HotDog',
+    '12',
     true,
-    'Fast Food',
-    desc: 'desc',
+    'FastFood',
+    desc: 'hot dog is good',
   );
   ClientFoodTile Milk1 = ClientFoodTile(
-    'Milk',
-    '25',
+    'milk',
+    '20',
     true,
-    'Cafe',
-    desc: 'desc',
+    'cafe',
   );
+
   ClientFoodTile Pizza1 = ClientFoodTile(
     'Pizza',
     '25',
@@ -168,8 +168,12 @@ void main() {
       Date(/*'2021', '3', '5', '22', '12', '2'*/),
       '09121231212',
       '09198612878');
-  CommentTile comment12 = CommentTile('chera qazatoon inqad khoobe?', 'Milk',
-      Date(/*'2021', '3', '7', '20', '20', '20'*/), '09121231212', '09198612878');
+  CommentTile comment12 = CommentTile(
+      'chera qazatoon inqad khoobe?',
+      'Milk',
+      Date(/*'2021', '3', '7', '20', '20', '20'*/),
+      '09121231212',
+      '09198612878');
   CommentTile comment13 = CommentTile(
       'chera qazatoon inqad bade va khoobe?',
       'Hot Dog',
@@ -177,16 +181,16 @@ void main() {
       '09121231212',
       '09198612878');
   RestaurantTile restaurant = RestaurantTile(
-    'name1',
+    'arman',
     'Iran, Tehran, Pasdaran, Khiaban Bahar Qarbi, Kooche Mehr, 1111',
     '09198612878',
-    {0: 'All', 1: 'Cafe', 2: 'Fast Food'},
+    {0: 'All', 1: 'cafe', 2: 'FastFood'},
     {
       0: [
         Tea1,
-        HotDog1,
         Milk1,
-        Pizza1,
+        HotDog1,
+        // Pizza1,
       ],
       1: [
         Tea1,
@@ -194,11 +198,11 @@ void main() {
       ],
       2: [
         HotDog1,
-        Pizza1,
+        // Pizza1,
       ],
     },
     1.1,
-    10,
+    19,
     RestaurantTypes.FastFood,
     {
       0: [
@@ -214,11 +218,10 @@ void main() {
         comment13,
       ],
     },
-    LatLng(35.725295, 51.400957),
+    LatLng(35.742679, 51.39983),
     0,
-    email: 'arman@gmail.com',
-    startingTime: "15:00",
-    endingTime: "24:00",
+    startingTime: "00:12",
+    endingTime: "23:49",
   );
   RestaurantAccounts.receiveRestaurant(restaurant);
 

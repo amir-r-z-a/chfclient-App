@@ -1,11 +1,17 @@
+import 'dart:io';
+import 'dart:math';
+
 import 'package:chfclient/Classes/ClientAccounts.dart';
 import 'package:chfclient/Classes/ClientActiveOrderTile.dart';
 import 'package:chfclient/Classes/ClientAdreesTile.dart';
 import 'package:chfclient/Classes/FinishedClientFoodTile.dart';
 import 'package:chfclient/Classes/RestaurantAccounts.dart';
 import 'package:chfclient/Common/Common%20Classes/Date.dart';
+import 'package:chfclient/Common/Common%20Classes/RestaurantTile.dart';
 import 'package:chfclient/Common/Text/ClientMyTextFormField.dart';
 import 'package:chfclient/Screens/ClientMainMenuScreen.dart';
+import 'package:chfclient/Screens/DetailsRestaurantTile.dart';
+import 'package:chfclient/main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -25,7 +31,7 @@ class PaymentScreen extends StatefulWidget {
 
 class _PaymentScreenState extends State<PaymentScreen> {
   var _key1 = GlobalKey<FormState>();
-  var _key2 = GlobalKey<FormState>() ;
+  var _key2 = GlobalKey<FormState>();
 
   void refreshPage() {
     if (this.mounted) {
@@ -82,11 +88,12 @@ class _PaymentScreenState extends State<PaymentScreen> {
     );
   }
 
-  void enoughWallet() {
+  void enoughWallet() async {
     if (ClientAccounts.accounts[ClientAccounts.currentAccount]
             .getAddressLength() !=
         0) {
       List<FinishedClientFoodTile> orderFoods = List<FinishedClientFoodTile>();
+      Date date = Date();
       for (int i = 0;
           i <
               ClientAccounts.accounts[ClientAccounts.currentAccount]
@@ -99,7 +106,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
       ClientAccounts.accounts[ClientAccounts.currentAccount]
           .addOrder(ClientActiveOrderTile(
         RestaurantAccounts.restaurantList[0][PaymentScreen.j].name,
-        Date('2021', '3', '12', '4', '22', '23'),
+        date,
         ClientAccounts
             .accounts[ClientAccounts.currentAccount]
             .address[ClientAccounts
@@ -114,11 +121,124 @@ class _PaymentScreenState extends State<PaymentScreen> {
             .cartList[PaymentScreen.j].cartNum,
         orderFoods,
       ));
-      ClientAccounts.accounts[ClientAccounts.currentAccount]
-          .removeCart(PaymentScreen.j);
       ClientMainMenuScreen.activeOrder = true;
-      Navigator.popUntil(context, ModalRoute.withName('/ClientMainMenuScreen'));
-      Navigator.pushNamed(context, '/ClientMainMenuScreen');
+      String foodNames = ' {, ';
+      String numbers = ' {, ';
+      for (int i = 0;
+          i <
+              ClientAccounts.accounts[ClientAccounts.currentAccount]
+                  .cartList[PaymentScreen.j].cartNum.length;
+          i++) {
+        String string = ClientAccounts.accounts[ClientAccounts.currentAccount]
+            .cartList[PaymentScreen.j].cartNum[i]
+            .toString();
+        print('your cart num: ' +
+            (string == null || string == 'null' || string.isEmpty
+                ? 'null:)'
+                : string));
+      }
+      for (int i = 0;
+          i <
+              ClientAccounts.accounts[ClientAccounts.currentAccount]
+                  .cartList[PaymentScreen.j].cartName.length;
+          i++) {
+        String string = ClientAccounts.accounts[ClientAccounts.currentAccount]
+            .cartList[PaymentScreen.j].cartName[i];
+        print('your cart name: ' +
+            (string == null || string.isEmpty ? 'null:)' : string));
+      }
+
+      for (int i = 0;
+          i <
+              ClientAccounts.accounts[ClientAccounts.currentAccount]
+                  .cartList[PaymentScreen.j].cartName.length;
+          i++) {
+        String name = ClientAccounts.accounts[ClientAccounts.currentAccount]
+            .cartList[PaymentScreen.j].cartName[i];
+        String number = ClientAccounts.accounts[ClientAccounts.currentAccount]
+            .cartList[PaymentScreen.j].cartNum[i]
+            .toString();
+        if (!(number == null ||
+            number == 'null' ||
+            number.isEmpty ||
+            number == '0')) {
+          numbers += number;
+          numbers += ', ';
+          if (!(name == null || name == 'null' || name.isEmpty)) {
+            foodNames += name;
+            foodNames += ", ";
+          }
+        }
+      }
+      foodNames += "}";
+      numbers += '}';
+      String listen = '';
+      await Socket.connect(MyApp.ip, 2442).then((serverSocket) {
+        print('connected writer');
+        String write = 'ClientOrders-AddOrder-' +
+            RestaurantAccounts
+                .restaurantList[0][DetailsRestaurantTile.j].phoneNumber +
+            '-' +
+            ClientAccounts.accounts[ClientAccounts.currentAccount].name +
+            '-' +
+            ClientAccounts.accounts[ClientAccounts.currentAccount].phoneNumber +
+            '-' +
+            ClientAccounts
+                .accounts[ClientAccounts.currentAccount]
+                .address[ClientAccounts
+                    .accounts[ClientAccounts.currentAccount].currentAddress]
+                .address +
+            '-' +
+            ClientAccounts
+                .accounts[ClientAccounts.currentAccount]
+                .address[ClientAccounts
+                    .accounts[ClientAccounts.currentAccount].currentAddress]
+                .location
+                .toString()
+                .replaceAll(', ', ':::') +
+            '-Date(20' +
+            date.year +
+            ':' +
+            date.month +
+            ':' +
+            date.day +
+            ':' +
+            date.hour +
+            ':' +
+            date.minute +
+            ':' +
+            date.second +
+            ')-' +
+            PaymentScreen.isOnlinePayment.toString() +
+            '-' +
+            foodNames +
+            '-' +
+            numbers +
+            '-' +
+            RestaurantAccounts.restaurantList[0][DetailsRestaurantTile.j].name +
+            '-' +
+            ClientAccounts.accounts[ClientAccounts.currentAccount]
+                .cartList[PaymentScreen.j].cartSum[-1].toString() +
+            '-' +
+            ClientAccounts.accounts[ClientAccounts.currentAccount]
+                .cartList[PaymentScreen.j].cartNum[-1].toString();
+        write = (write.length + 7).toString() + ',Client-' + write;
+        serverSocket.write(write);
+        serverSocket.flush();
+        print('write: ' + write);
+        print('connected listen');
+        serverSocket.listen((socket) {
+          listen = String.fromCharCodes(socket).trim().substring(2);
+        }).onDone(() {
+          print("listen: " + listen);
+          ClientAccounts.accounts[ClientAccounts.currentAccount]
+              .removeCart(PaymentScreen.j);
+          Navigator.popUntil(
+              context, ModalRoute.withName('/ClientMainMenuScreen'));
+          Navigator.pushNamed(context, '/ClientMainMenuScreen');
+        });
+        // serverSocket.close();
+      });
     } else {
       showDialog(
         context: context,
@@ -444,39 +564,43 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           ),
                         ),
                       ),
-                       Padding(
-                         padding: const EdgeInsets.only(top: 8.0),
-                         child: Row(
-                           mainAxisAlignment: MainAxisAlignment.start,
-                           children: [
-                             Text("Discount Code " , style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
-                           ],
-                         ),
-                       ),
-                       Form(child: Padding(
-                         key: _key2 ,
-                         padding: const EdgeInsets.fromLTRB(8, 0, 18, 0),
-                         child: TextFormField(
-                           cursorColor: Color.fromRGBO(248, 95, 106, 1),
-                           decoration: InputDecoration(
-                             errorStyle: TextStyle(
-                               color: Color.fromRGBO(248, 95, 106, 1),
-                             ),
-                             labelText: "Discount",
-                             //TODO
-                             labelStyle: TextStyle(
-                                 fontSize: 14,
-                                 fontWeight: FontWeight.bold,
-                                 color: Color.fromRGBO(248, 95, 106, 1)),
-                             hintText: "Your Discount Code ",
-                             hintStyle: TextStyle(
-                               fontSize: 16,
-                               color: Color.fromRGBO(209, 214, 219, 1),
-                             ),
-                           ),
-                         ),
-                       )
-                       )
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Discount Code ",
+                              style: TextStyle(
+                                  fontSize: 20, fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Form(
+                          child: Padding(
+                        key: _key2,
+                        padding: const EdgeInsets.fromLTRB(8, 0, 18, 0),
+                        child: TextFormField(
+                          cursorColor: Color.fromRGBO(248, 95, 106, 1),
+                          decoration: InputDecoration(
+                            errorStyle: TextStyle(
+                              color: Color.fromRGBO(248, 95, 106, 1),
+                            ),
+                            labelText: "Discount",
+                            //TODO
+                            labelStyle: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                                color: Color.fromRGBO(248, 95, 106, 1)),
+                            hintText: "Your Discount Code ",
+                            hintStyle: TextStyle(
+                              fontSize: 16,
+                              color: Color.fromRGBO(209, 214, 219, 1),
+                            ),
+                          ),
+                        ),
+                      ))
                     ],
                   ),
                 ),

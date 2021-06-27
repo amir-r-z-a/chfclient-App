@@ -13,7 +13,8 @@ import 'package:latlong/latlong.dart';
 
 class Client {
   String _name;
-  String _lastName;
+
+  // String _lastName;
   String _phoneNumber;
   List<ClientAddressTile> _address = [];
   int currentAddress = 0;
@@ -40,15 +41,24 @@ class Client {
       favRestaurantsKey.add(false);
     }
   }
-  bool isInRange (LatLng restaurant , double restaurantRange) {
-    double x = sqrt(pow((restaurant.latitude - _address[currentAddress].location.latitude ),2) +pow((restaurant.longitude- _address[currentAddress].location.longitude ),2) ) ;
-      if (x > restaurantRange){
-        return false ;
-      }
-      else {
-        return true ;
-      }
+
+  bool isInRange(LatLng restaurant, double restaurantRange) {
+    double x = sqrt(pow(
+            (restaurant.latitude - _address[currentAddress].location.latitude),
+            2) +
+        pow(
+            (restaurant.longitude -
+                _address[currentAddress].location.longitude),
+            2));
+    print("x is: " + x.toString());
+    print("range is: " + restaurantRange.toString());
+    if (x > restaurantRange) {
+      return false;
+    } else {
+      return true;
+    }
   }
+
   int getOrdersHistoryLength() {
     return ordersHistory.length;
   }
@@ -155,7 +165,7 @@ class Client {
 
   void refreshAllAddress() {
     for (int i = 0; i < getAddressLength(); i++) {
-        address[i].refreshPage();
+      address[i].refreshPage();
     }
   }
 
@@ -195,11 +205,11 @@ class Client {
     _name = value;
   }
 
-  String get lastName => _lastName;
-
-  set lastName(String value) {
-    _lastName = value;
-  }
+  // String get lastName => _lastName;
+  //
+  // set lastName(String value) {
+  //   _lastName = value;
+  // }
 
   String get phoneNumber => _phoneNumber;
 
