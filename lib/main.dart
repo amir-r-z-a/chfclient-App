@@ -111,42 +111,61 @@ class _MyAppState extends State<MyApp> {
 }
 
 void main() {
-  String restaurantAccounts =
-      "09198612878: {, arman, arman123, 03:10, 22:55, Other, ahmafi@gmail.com, address44, LatLng(latitude:35.743649:::longitude:51.427343), 10, 1.1, 1, }";
-  //09198612878: {, arman, arman123, 03:10, 22:55, Other, ahmafi@gmail.com, address44, LatLng(latitude:35.743649:::longitude:51.427343), 10, 1.1, j, }
-  String m ="09198612878: {, address, LatLng(latitude:35.743649:::longitude:51.427343)}";
-  List z = m.split(", ");
-  String add = z[1];
-  String latitude = z[2]
-      .substring(z[2].indexOf(':') + 1, z[2].indexOf(':::'));
-  String longitude = z[2].substring(
-      z[2].lastIndexOf(':') + 1,z[2].indexOf(')'));
-  LatLng latLng = LatLng(double.parse(latitude), double.parse(longitude));
-  print(add) ;
-  print(m.substring(0,11));
-  print(z);
-  print(restaurantAccounts.substring(0, 11));
-  List x = [];
-  x = restaurantAccounts.split(", ");
-  print(x);
-  String name = x[1];
-  String startTime = x[3];
-  String endTime = x[4];
-  String type = x[5];
-  String mail = x[6];
-  String address = x[7];
-  String latlong = x[8];
-  String lat = latlong.substring(16, 25);
-  String lon = latlong.substring(38, 47);
-  print(lat);
-  print(lon);
-  var la = double.parse(lat);
-  var lo = double.parse(lon);
-  int Radius = int.parse(x[9]);
-  double point = double.parse(x[10]);
-  LatLng Loacation = LatLng(la, lo);
-  int Index = int.parse(x[9]);
-  ClientAddressTile.trailing = false;
+  String msg = "09198612878:12345678: {, question1, answer1, phoneNumberRes, foodName, Date(2021:12:01:12:13:1), destinationRestaurant, }" ;
+  List <String> msg1 = msg.split("\n");
+  for( var i = 0 ; i < msg1.length ;i++ ){
+    List <String> msg2 = msg1[i].split(", ") ;
+    String question = msg2[1] ;
+    String ID = msg2[0].substring(msg2[0].indexOf(":")+1,msg2[0].indexOf("{")-2);
+    String ClientPhonNumber = msg1[i].substring(0,11);
+    String Answer = msg2[2] ;
+    String restaurantNumber = msg2 [3];
+    String foodname =  msg2[4];
+    List <String> date  = msg2[5].split(":");
+    String Year = date[0].substring(date[0].indexOf("(")+1);
+    String Month = date[1];
+    String Day = date[2];
+    String hour = date[3];
+    String minute = date[4];
+    String second = date[5];
+    String destinationRes = msg2[6];
+  }
+  // String restaurantAccounts =
+  //     "09198612878: {, arman, arman123, 03:10, 22:55, Other, ahmafi@gmail.com, address44, LatLng(latitude:35.743649:::longitude:51.427343), 10, 1.1, 1, }";
+  // //09198612878: {, arman, arman123, 03:10, 22:55, Other, ahmafi@gmail.com, address44, LatLng(latitude:35.743649:::longitude:51.427343), 10, 1.1, j, }
+  // String m ="09198612878: {, address, LatLng(latitude:35.743649:::longitude:51.427343)}";
+  // List z = m.split(", ");
+  // String add = z[1];
+  // String latitude = z[2]
+  //     .substring(z[2].indexOf(':') + 1, z[2].indexOf(':::'));
+  // String longitude = z[2].substring(
+  //     z[2].lastIndexOf(':') + 1,z[2].indexOf(')'));
+  // LatLng latLng = LatLng(double.parse(latitude), double.parse(longitude));
+  // print(add) ;
+  // print(m.substring(0,11));
+  // print(z);
+  // print(restaurantAccounts.substring(0, 11));
+  // List x = [];
+  // x = restaurantAccounts.split(", ");
+  // print(x);
+  // String name = x[1];
+  // String startTime = x[3];
+  // String endTime = x[4];
+  // String type = x[5];
+  // String mail = x[6];
+  // String address = x[7];
+  // String latlong = x[8];
+  // String lat = latlong.substring(16, 25);
+  // String lon = latlong.substring(38, 47);
+  // print(lat);
+  // print(lon);
+  // var la = double.parse(lat);
+  // var lo = double.parse(lon);
+  // int Radius = int.parse(x[9]);
+  // double point = double.parse(x[10]);
+  // LatLng Loacation = LatLng(la, lo);
+  // int Index = int.parse(x[9]);
+  // ClientAddressTile.trailing = false;
 
   //
   // ClientFoodTile Tea1 = ClientFoodTile(
