@@ -7,6 +7,7 @@ import 'package:chfclient/Classes/ClientFoodTile.dart';
 import 'package:chfclient/Classes/ClientOrderHistoryTile.dart';
 import 'package:chfclient/Classes/FinishedClientFoodTile.dart';
 import 'package:chfclient/Classes/RestaurantAccounts.dart';
+import 'package:chfclient/Common/Common%20Classes/CommentTile.dart';
 import 'package:chfclient/Common/Common%20Classes/Date.dart';
 import 'package:chfclient/Common/Common%20Classes/Food.dart';
 import 'package:chfclient/Common/Common%20Classes/RestaurantTile.dart';
@@ -15,6 +16,7 @@ import 'package:chfclient/Screens/ClientActiveOrdersScreen.dart';
 import 'package:chfclient/Screens/CartScreen.dart';
 import 'package:chfclient/Screens/ClientHomeScreen.dart';
 import 'package:chfclient/Screens/ClientOrdersHistoryScreen.dart';
+import 'package:chfclient/Screens/SetpointScreeen.dart';
 import 'package:chfclient/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -538,17 +540,120 @@ class _ClientMainMenuScreenState extends State<ClientMainMenuScreen> {
                 () => Navigator.pushNamed(context, '/WalletScreen')),
             customListTile(Icons.favorite_border, 'My Fav Restaurants ',
                 () => Navigator.pushNamed(context, '/FavRestaurantsScreen')),
-            customListTile(Icons.comment, 'My Comments ',
-                () => Navigator.pushNamed(context, '/CommentsScreen')),
+            customListTile(Icons.comment, 'My Comments ', () async {
+              String listen = '';
+              await Socket.connect(MyApp.ip, 2442).then((serverSocket) {
+                print('connected writer');
+                String write = 'Comments-ClientComments-' + MyApp.id;
+                write = (write.length + 7).toString() + ',Client-' + write;
+                serverSocket.write(write);
+                serverSocket.flush();
+                print('write: ' + write);
+                print('connected listen');
+                serverSocket.listen((socket) {
+                  listen = String.fromCharCodes(socket).trim().substring(2);
+                }).onDone(() {
+                  print("listen: " + listen);
+
+                  if (listen != null && listen.isNotEmpty) {
+                    // List test = [];
+                    // for (int u = 1;
+                    // u <
+                    //     ClientAccounts
+                    //         .accounts[ClientAccounts.currentAccount]
+                    //         .clientComments
+                    //         .length;
+                    // u++) {
+                    //   test[u] = [];
+                    // }
+                    ClientAccounts.accounts[ClientAccounts.currentAccount]
+                        .clientComments = [] /*test*/;
+                    List<String> comments = listen.split('\n');
+                    for (int i = 0; i < comments.length; i++) {
+                      List<String> commentElements = comments[i].split(', ');
+                      // int index = 0;
+                      // for (int j = 1;
+                      // j <
+                      //     ClientAccounts
+                      //         .accounts[ClientAccounts.currentAccount]
+                      //         .restaurantTabBarView
+                      //         .length;
+                      // j++) {
+                      //   for (int k = 0;
+                      //   k <
+                      //       Accounts
+                      //           .accounts[
+                      //       Accounts.currentAccount]
+                      //           .restaurantTabBarView[j]
+                      //           .length;
+                      //   k++) {
+                      //     if (Accounts
+                      //         .accounts[Accounts.currentAccount]
+                      //         .restaurantTabBarView[j][k]
+                      //         .name ==
+                      //         commentElements[3]) {
+                      //       index = j;
+                      //     }
+                      //   }
+                      // }
+                      List<String> dateElements = commentElements[5].split(':');
+                      Date date = Date(
+                          year: dateElements[0]
+                              .substring(dateElements[0].indexOf('(') + 1),
+                          month: dateElements[1],
+                          day: dateElements[2],
+                          hour: dateElements[3],
+                          minute: dateElements[4],
+                          second: dateElements[5]
+                              .substring(0, dateElements[5].indexOf(')')));
+                      // print('index is: ' + index.toString());
+                      for (int y = 0; y < commentElements.length; y++) {
+                        print("element is: " + commentElements[y]);
+                      }
+                      ClientAccounts.accounts[ClientAccounts.currentAccount]
+                          .addComment(CommentTile(
+                        commentElements[1],
+                        commentElements[3],
+                        date,
+                        commentElements[0]
+                            .substring(0, commentElements[0].indexOf(':')),
+                        commentElements[4],
+                        answer: (commentElements[2] == 'null'
+                            ? ''
+                            : commentElements[2]),
+                      ));
+                    }
+                  }
+                  Navigator.pushNamed(context, '/CommentsScreen');
+                });
+                // serverSocket.close();
+              });
+            }),
             customListTile(
                 Icons.phone,
                 'Contact Us',
                 () => () {
                       Navigator.pushNamed(context, "/ContactUsScreen");
                     }),
-            customListTile(Icons.control_point_sharp, ' Set point ',
-                    () => Navigator.pushNamed(context, '/SetPointScreen')),
-            customListTile(Icons.phone, 'Contact Us', () => (){Navigator.pushNamed(context, "/ContactUsScreen");}),
+            customListTile(Icons.control_point_sharp, ' Set point ', () {
+              List<String> x = [];
+              for (int i = 0;
+                  i <
+                      ClientAccounts.accounts[ClientAccounts.currentAccount]
+                          .ordersHistory.length;
+                  i++) {
+                x.add(ClientAccounts.accounts[ClientAccounts.currentAccount]
+                    .ordersHistory[i].restaurantName);
+              }
+              SetPointScreen.x = x;
+              Navigator.pushNamed(context, '/SetPointScreen');
+            }),
+            customListTile(
+                Icons.phone,
+                'Contact Us',
+                () => () {
+                      Navigator.pushNamed(context, "/ContactUsScreen");
+                    }),
             customListTile(
               Icons.logout,
               "Log Out",

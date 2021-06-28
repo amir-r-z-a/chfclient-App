@@ -4,6 +4,7 @@ import 'package:chfclient/Classes/CartTile.dart';
 import 'package:chfclient/Classes/ClientAccounts.dart';
 import 'package:chfclient/Classes/ClientFoodTile.dart';
 import 'package:chfclient/Classes/RestaurantAccounts.dart';
+import 'package:chfclient/Common/Common%20Classes/CommentTile.dart';
 import 'package:chfclient/Common/Common%20Classes/Date.dart';
 import 'package:chfclient/Common/Common%20Classes/Food.dart';
 import 'package:chfclient/Common/Common%20Classes/RestaurantTypes.dart';
@@ -32,7 +33,7 @@ class RestaurantTile extends StatefulWidget {
 
   // Image _profileImage;
   RestaurantTypes _type;
-  Map _restaurantComments = {};
+  List/*<CommentTile>*/ _restaurantComments = [];
   List<Widget> stars = [
     Container(child: Icon(Icons.star)),
     Container(child: Icon(Icons.star)),
@@ -107,11 +108,17 @@ class RestaurantTile extends StatefulWidget {
     _type = value;
   }
 
-  Map get restaurantComments => _restaurantComments;
+  List get restaurantComments => _restaurantComments;
 
-  set restaurantComments(Map value) {
+  set restaurantComments(List value) {
     _restaurantComments = value;
-  }
+  } // Map get restaurantComments => _restaurantComments;
+  //
+  // set restaurantComments(Map value) {
+  //   _restaurantComments = value;
+  // }
+
+
 
   LatLng get location => _location;
 
@@ -188,7 +195,7 @@ class RestaurantTile extends StatefulWidget {
     print('im here');
     clientTabBarView[len] = [];
     print('im here');
-    restaurantComments[len] = [];
+    restaurantComments = [];
     // if (addFood) {
     //   addTabBarViewElements(food, len);
     // }
@@ -296,7 +303,8 @@ class _RestaurantTileState extends State<RestaurantTile> {
                           print("log: " +
                               ClientAccounts
                                   .accounts[ClientAccounts.currentAccount]
-                                  .favRestaurantsKey[widget.j].toString());
+                                  .favRestaurantsKey[widget.j]
+                                  .toString());
 
                           setState(() {
                             ClientAccounts

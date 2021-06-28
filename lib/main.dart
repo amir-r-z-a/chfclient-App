@@ -43,7 +43,7 @@ import 'package:latlong/latlong.dart';
 import 'Screens/ClientActiveOrderTileScreen.dart';
 
 class MyApp extends StatefulWidget {
-  static String ip = '192.168.1.7';
+  static String ip = '172.20.10.2';
   static String id = '';
   static String mode = 'LogOut';
 

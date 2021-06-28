@@ -1,11 +1,15 @@
+import 'dart:io';
+
 import 'package:chfclient/Classes/CartTile.dart';
 import 'package:chfclient/Classes/ClientAccounts.dart';
 import 'package:chfclient/Classes/ClientFoodTile.dart';
 import 'package:chfclient/Classes/FinishedClientFoodTile.dart';
 import 'package:chfclient/Classes/RestaurantAccounts.dart';
+import 'package:chfclient/Common/Common%20Classes/CommentTile.dart';
 import 'package:chfclient/Common/Common%20Classes/Date.dart';
 import 'package:chfclient/Screens/OrderRegistrationScreen.dart';
 import 'package:chfclient/Screens/DetailsClientFoodTile.dart';
+import 'package:chfclient/main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -261,7 +265,8 @@ class _DetailsRestaurantTileState extends State<DetailsRestaurantTile> {
                           child: Column(
                             children: [
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   SingleChildScrollView(
                                       scrollDirection: Axis.vertical,
@@ -285,14 +290,13 @@ class _DetailsRestaurantTileState extends State<DetailsRestaurantTile> {
                                           ),
                                         ],
                                         border: Border.all(),
-                                        borderRadius:
-                                        BorderRadius.circular(10),
+                                        borderRadius: BorderRadius.circular(10),
                                       ),
                                       child: Center(
                                         child: Text(
                                           RestaurantAccounts
                                               .restaurantList[0]
-                                          [DetailsRestaurantTile.j]
+                                                  [DetailsRestaurantTile.j]
                                               .point
                                               .toString(),
                                           style: TextStyle(
@@ -340,7 +344,133 @@ class _DetailsRestaurantTileState extends State<DetailsRestaurantTile> {
                                           color: Colors.white),
                                     ),
                                     GestureDetector(
-                                      onTap:() =>Navigator.pushNamed(context, "/AllCommentsScreen"),
+                                      onTap: () async {
+                                        String listen = '';
+                                        await Socket.connect(MyApp.ip, 2442)
+                                            .then((serverSocket) {
+                                          print('connected writer');
+                                          String write =
+                                              'Comments-RestaurantComments-' +
+                                                  RestaurantAccounts
+                                                      .restaurantList[0][
+                                                          DetailsRestaurantTile
+                                                              .j]
+                                                      .phoneNumber;
+                                          write =
+                                              (write.length + 7).toString() +
+                                                  ',Client-' +
+                                                  write;
+                                          serverSocket.write(write);
+                                          serverSocket.flush();
+                                          print('write: ' + write);
+                                          print('connected listen');
+                                          serverSocket.listen((socket) {
+                                            listen =
+                                                String.fromCharCodes(socket)
+                                                    .trim()
+                                                    .substring(2);
+                                          }).onDone(() {
+                                            print("listen: " + listen);
+                                            if (listen != null &&
+                                                listen.isNotEmpty) {
+                                              // Map test = {0: []};
+                                              // for (int u = 1;
+                                              // u <
+                                              //     RestaurantAccounts
+                                              //         .restaurantList[0][DetailsRestaurantTile.j]
+                                              //         .restaurantComments
+                                              //         .length;
+                                              // u++) {
+                                              //   test[u] = [];
+                                              // }
+                                              RestaurantAccounts
+                                                  .restaurantList[0]
+                                                      [DetailsRestaurantTile.j]
+                                                  .restaurantComments = [];
+                                              List<String> comments =
+                                                  listen.split('\n');
+                                              for (int i = 0;
+                                                  i < comments.length;
+                                                  i++) {
+                                                List<String> commentElements =
+                                                    comments[i].split(', ');
+                                                // int index = 0;
+                                                // for (int j = 1;
+                                                // j <
+                                                //     Accounts
+                                                //         .accounts[Accounts.currentAccount]
+                                                //         .restaurantTabBarView
+                                                //         .length;
+                                                // j++) {
+                                                //   for (int k = 0;
+                                                //   k <
+                                                //       Accounts
+                                                //           .accounts[
+                                                //       Accounts.currentAccount]
+                                                //           .restaurantTabBarView[j]
+                                                //           .length;
+                                                //   k++) {
+                                                //     if (Accounts
+                                                //         .accounts[Accounts.currentAccount]
+                                                //         .restaurantTabBarView[j][k]
+                                                //         .name ==
+                                                //         commentElements[3]) {
+                                                //       index = j;
+                                                //     }
+                                                //   }
+                                                // }
+                                                List<String> dateElements =
+                                                    commentElements[5]
+                                                        .split(':');
+                                                Date date = Date(
+                                                    year: dateElements[0]
+                                                        .substring(
+                                                            dateElements[0]
+                                                                    .indexOf(
+                                                                        '(') +
+                                                                1),
+                                                    month: dateElements[1],
+                                                    day: dateElements[2],
+                                                    hour: dateElements[3],
+                                                    minute: dateElements[4],
+                                                    second: dateElements[5]
+                                                        .substring(
+                                                            0,
+                                                            dateElements[5]
+                                                                .indexOf(')')));
+                                                // print('index is: ' + index.toString());
+                                                for (int y = 0;
+                                                    y < commentElements.length;
+                                                    y++) {
+                                                  print("element is: " +
+                                                      commentElements[y]);
+                                                }
+                                                RestaurantAccounts
+                                                    .restaurantList[0][
+                                                        DetailsRestaurantTile.j]
+                                                    .restaurantComments
+                                                    .add(CommentTile(
+                                                  commentElements[1],
+                                                  commentElements[3],
+                                                  date,
+                                                  commentElements[0].substring(
+                                                      0,
+                                                      commentElements[0]
+                                                          .indexOf(':')),
+                                                  commentElements[4],
+                                                  answer: (commentElements[2] ==
+                                                          'null'
+                                                      ? ''
+                                                      : commentElements[2]),
+                                                ));
+                                              }
+                                            }
+                                            Navigator.pushNamed(
+                                                context, "/AllCommentsScreen");
+                                          });
+                                          // serverSocket.close();
+                                        });
+                                      },
                                       child: Container(
                                           width: 170,
                                           height: 40,
@@ -359,7 +489,8 @@ class _DetailsRestaurantTileState extends State<DetailsRestaurantTile> {
                                                 BorderRadius.circular(10),
                                           ),
                                           child: Center(
-                                            child: Text( " Show Comments " ,
+                                            child: Text(
+                                              " Show Comments ",
                                               style: TextStyle(
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 20),

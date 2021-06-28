@@ -2,7 +2,7 @@ import 'package:chfclient/Classes/RestaurantAccounts.dart';
 import 'package:flutter/material.dart';
 class SetPointScreen extends StatefulWidget {
   const SetPointScreen({Key key}) : super(key: key);
-    static  List x  = ["salam" , "khoobi" , "chetori"];
+    static  List x /* = ["salam" , "khoobi" , "chetori"]*/;
   @override
   _SetPointScreenState createState() => _SetPointScreenState();
 }
