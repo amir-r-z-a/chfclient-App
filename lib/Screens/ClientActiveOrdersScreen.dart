@@ -21,4 +21,3 @@ class _ClientActiveOrdersScreenState extends State<ClientActiveOrdersScreen> {
     );
   }
 }
-

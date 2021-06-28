@@ -22,12 +22,13 @@ class ClientFoodTile extends StatefulWidget {
   static Function cartTile;
   static Function cartScreen;
 
-  ClientFoodTile(this._name,
-      this._price,
-      this._foodStatus,
-      this._category, {
-        this.desc,
-      });
+  ClientFoodTile(
+    this._name,
+    this._price,
+    this._foodStatus,
+    this._category, {
+    this.desc,
+  });
 
   void addComment(CommentTile commentTile) {
     comments.add(commentTile);
@@ -87,35 +88,31 @@ class _ClientFoodTileState extends State<ClientFoodTile> {
     showDialog<void>(
       context: context,
       barrierDismissible: false,
-      builder: (BuildContext context) =>
-          AlertDialog(
-            title: Text('Restaurant is not in your address range'),
-            content: Container(
-              height: 120,
-              child: Column(
+      builder: (BuildContext context) => AlertDialog(
+        title: Text('Restaurant is not in your address range'),
+        content: Container(
+          height: 120,
+          child: Column(
+            children: [
+              Padding(padding: EdgeInsets.fromLTRB(0, 30, 0, 0)),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Padding(padding: EdgeInsets.fromLTRB(0, 30, 0, 0)),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      TextButton(
-                        style: TextButton.styleFrom(
-                            primary: Theme
-                                .of(context)
-                                .primaryColor),
-                        onPressed: () =>
-                            Navigator.pop(context),
-                        child: Text(
-                          'OK',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ],
+                  TextButton(
+                    style: TextButton.styleFrom(
+                        primary: Theme.of(context).primaryColor),
+                    onPressed: () => Navigator.pop(context),
+                    child: Text(
+                      'OK',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                   ),
                 ],
               ),
-            ),
+            ],
           ),
+        ),
+      ),
     );
   }
 
@@ -123,55 +120,50 @@ class _ClientFoodTileState extends State<ClientFoodTile> {
     showDialog<void>(
       context: context,
       barrierDismissible: false,
-      builder: (BuildContext context) =>
-          AlertDialog(
-            title: Text('Your order is out of working time'),
-            content: Container(
-              height: 85,
-              child: Column(
+      builder: (BuildContext context) => AlertDialog(
+        title: Text('Your order is out of working time'),
+        content: Container(
+          height: 85,
+          child: Column(
+            children: [
+              Padding(padding: EdgeInsets.fromLTRB(0, 30, 0, 0)),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Padding(padding: EdgeInsets.fromLTRB(0, 30, 0, 0)),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      TextButton(
-                        style: TextButton.styleFrom(
-                            primary: Theme
-                                .of(context)
-                                .primaryColor),
-                        onPressed: () =>
-                            Navigator.pop(context),
-                        child: Text(
-                          'OK',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ],
+                  TextButton(
+                    style: TextButton.styleFrom(
+                        primary: Theme.of(context).primaryColor),
+                    onPressed: () => Navigator.pop(context),
+                    child: Text(
+                      'OK',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                   ),
                 ],
               ),
-            ),
+            ],
           ),
+        ),
+      ),
     );
   }
 
   void addMinCartFunc(String status) {
     bool near = !ClientAccounts.accounts[ClientAccounts.currentAccount]
         .isInRange(
-        RestaurantAccounts.restaurantList[0][DetailsRestaurantTile.j].location,
-        RestaurantAccounts.restaurantList[0][DetailsRestaurantTile.j]
-            .workingRadius);
+            RestaurantAccounts
+                .restaurantList[0][DetailsRestaurantTile.j].location,
+            RestaurantAccounts
+                .restaurantList[0][DetailsRestaurantTile.j].workingRadius);
     if (near) {
       notInRangeRestaurant();
-    }
-    else if (!Date().compareTime(
-        RestaurantAccounts.restaurantList[0][DetailsRestaurantTile.j]
-            .startingTime,
-        RestaurantAccounts.restaurantList[0][DetailsRestaurantTile.j]
-            .endingTime)) {
+    } else if (!Date().compareTime(
+        RestaurantAccounts
+            .restaurantList[0][DetailsRestaurantTile.j].startingTime,
+        RestaurantAccounts
+            .restaurantList[0][DetailsRestaurantTile.j].endingTime)) {
       notInTime();
-    }
-    else {
+    } else {
       setState(() {
         if (status == '+') {
           widget.counter++;
@@ -231,7 +223,7 @@ class _ClientFoodTileState extends State<ClientFoodTile> {
               Padding(padding: EdgeInsets.all(7)),
               Container(
                 decoration:
-                BoxDecoration(border: Border.all(color: Colors.black)),
+                    BoxDecoration(border: Border.all(color: Colors.black)),
                 height: 95,
                 width: 95,
               ),
@@ -240,27 +232,15 @@ class _ClientFoodTileState extends State<ClientFoodTile> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(ClientAccounts.digester(widget.name,
-                      MediaQuery
-                          .of(context)
-                          .size
-                          .width
-                          .floor() - 372)),
+                      MediaQuery.of(context).size.width.floor() - 372)),
                   Padding(padding: EdgeInsets.all(3)),
                   Text(ClientAccounts.digester(
                       widget.desc == null ? ' ' : widget.desc,
-                      MediaQuery
-                          .of(context)
-                          .size
-                          .width
-                          .floor() - 372)),
+                      MediaQuery.of(context).size.width.floor() - 372)),
                   Padding(padding: EdgeInsets.all(13)),
                   Text(ClientAccounts.digester(
                       'Price: ' + '\$' + widget.price.toString(),
-                      MediaQuery
-                          .of(context)
-                          .size
-                          .width
-                          .floor() - 372)),
+                      MediaQuery.of(context).size.width.floor() - 372)),
                 ],
               ),
             ]),
@@ -277,7 +257,7 @@ class _ClientFoodTileState extends State<ClientFoodTile> {
                           widget.foodStatus ? 'Active' : 'Inactive',
                           style: TextStyle(
                               color:
-                              widget.foodStatus ? Colors.green : Colors.red,
+                                  widget.foodStatus ? Colors.green : Colors.red,
                               fontWeight: FontWeight.bold),
                         ),
                       ],
@@ -286,7 +266,12 @@ class _ClientFoodTileState extends State<ClientFoodTile> {
                 ),
                 Row(
                   children: [
-                    widget.counter == 0 ? myContainer() : myRow(),
+                    widget.foodStatus
+                        ? (widget.counter == 0 ? myContainer() : myRow())
+                        : Container(
+                            width: 0,
+                            height: 0,
+                          ),
                     Padding(padding: EdgeInsets.all(7)),
                   ],
                 ),
@@ -296,10 +281,7 @@ class _ClientFoodTileState extends State<ClientFoodTile> {
         ),
         // color: Colors.green,
         height: 190,
-        width: MediaQuery
-            .of(context)
-            .size
-            .width,
+        width: MediaQuery.of(context).size.width,
       ),
     );
   }
@@ -332,13 +314,9 @@ class _ClientFoodTileState extends State<ClientFoodTile> {
           child: Container(
             child: Icon(Icons.add_outlined, color: Colors.white),
             decoration: BoxDecoration(
-              color: Theme
-                  .of(context)
-                  .primaryColor,
+              color: Theme.of(context).primaryColor,
               border:
-              Border.all(width: 0.7, color: Theme
-                  .of(context)
-                  .primaryColor),
+                  Border.all(width: 0.7, color: Theme.of(context).primaryColor),
               borderRadius: BorderRadius.circular(5),
             ),
           ),
@@ -357,9 +335,7 @@ class _ClientFoodTileState extends State<ClientFoodTile> {
           child: Container(
             child: Icon(
               Icons.remove,
-              color: Theme
-                  .of(context)
-                  .primaryColor,
+              color: Theme.of(context).primaryColor,
             ),
             decoration: BoxDecoration(
               border: Border.all(

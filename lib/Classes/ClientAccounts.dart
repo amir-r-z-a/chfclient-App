@@ -130,31 +130,31 @@ class ClientAccounts {
     return !flag;
   }
 
-  static String commentsIDGenerator(CommentTile commentTile) {
-    bool flag;
-    String randomID;
-    do {
-      flag = false;
-      bool key = false;
-      randomID = '#' +
-          String.fromCharCode(commentTile.foodName.codeUnitAt(0)) +
-          commentTile.clientPhoneNumber
-              .substring(commentTile.clientPhoneNumber.length - 4) +
-          '-' +
-          (Random().nextInt(899) + 100).toString();
-      for (int i = 0; i < getClientAccountsLength(); i++) {
-        for (int j = 0; j < accounts[i].clientComments.length; j++) {
-          if (accounts[i].clientComments[j].id == randomID) {
-            flag = true;
-            key = true;
-            break;
-          }
-          if (key) {
-            break;
-          }
-        }
-      }
-    } while (flag);
-    return randomID;
-  }
+  // static String commentsIDGenerator(CommentTile commentTile) {
+  //   bool flag;
+  //   String randomID;
+  //   do {
+  //     flag = false;
+  //     bool key = false;
+  //     randomID = '#' +
+  //         String.fromCharCode(commentTile.foodName.codeUnitAt(0)) +
+  //         commentTile.clientPhoneNumber
+  //             .substring(commentTile.clientPhoneNumber.length - 4) +
+  //         '-' +
+  //         (Random().nextInt(899) + 100).toString();
+  //     for (int i = 0; i < getClientAccountsLength(); i++) {
+  //       for (int j = 0; j < accounts[i].clientComments.length; j++) {
+  //         if (accounts[i].clientComments[j].id == randomID) {
+  //           flag = true;
+  //           key = true;
+  //           break;
+  //         }
+  //         if (key) {
+  //           break;
+  //         }
+  //       }
+  //     }
+  //   } while (flag);
+  //   return randomID;
+  // }
 }

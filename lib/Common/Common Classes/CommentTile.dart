@@ -12,7 +12,8 @@ class CommentTile extends StatefulWidget {
   String _foodName;
   String _point;
   Date _date;
-  String _id;
+
+  // String _id;
 
   CommentTile(this._question, this._foodName, this._date,
       this._clientPhoneNumber, this._destinationRestaurant,
@@ -48,11 +49,11 @@ class CommentTile extends StatefulWidget {
     _destinationRestaurant = value;
   }
 
-  String get id => _id;
-
-  set id(String value) {
-    _id = value;
-  }
+  // String get id => _id;
+  //
+  // set id(String value) {
+  //   _id = value;
+  // }
 
   String get foodName => _foodName;
 
@@ -106,7 +107,7 @@ class _CommentTileState extends State<CommentTile> {
                             ')',
                         50) +
                     '\n' +
-                    widget.id +
+                    // widget.id +
                     '\n\n\n\n\n\n'),
                 Text(
                   'Answer: ',

@@ -213,8 +213,8 @@ class _ClientSignInScreenState extends State<ClientSignInScreen> {
       List<String> strings = ans.split(', ');
       print("strings is:" + strings.toString());
       ClientAccounts.accounts = [];
-      Client client = ClientAccounts.addAccount(
-          Client(strings[1], ans.substring(0, ans.indexOf(':')), strings[2]));
+      Client client =
+          Client(strings[1], ans.substring(0, ans.indexOf(':')), strings[2]);
       ClientAccounts.key = true;
       if (strings[3] != 'null') {
         client.email = strings[3];

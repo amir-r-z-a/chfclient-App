@@ -46,21 +46,21 @@ class ClientMyTextFormField extends StatelessWidget {
               ? ClientAccounts.accounts[ClientAccounts.currentAccount].name =
                   value
               : name = value;
+          name = value;
         } else if (index == 2) {
-          addToAccounts
-              ? ClientAccounts
-                  .accounts[ClientAccounts.currentAccount].phoneNumber = value
-              : phoneNumber = value;
+          // addToAccounts
+          ClientAccounts.accounts[ClientAccounts.currentAccount].phoneNumber =
+              value;
+          phoneNumber = value;
         } else if (index == 3) {
           addToAccounts
               ? ClientAccounts.accounts[ClientAccounts.currentAccount]
-                  .addAddress(value,location)
+                  .addAddress(value, location)
               : address = value;
         } else if (index == 4) {
-          addToAccounts
-              ? ClientAccounts.accounts[ClientAccounts.currentAccount].email =
-                  value
-              : email = value;
+          // addToAccounts
+          ClientAccounts.accounts[ClientAccounts.currentAccount].email = value;
+          email = value;
         } else if (index == 5) {
           question = value;
         } else if (index == 6) {

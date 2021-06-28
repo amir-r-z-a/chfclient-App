@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:chfclient/Classes/ClientAccounts.dart';
 import 'package:chfclient/Classes/ClientFoodTile.dart';
 import 'package:chfclient/Classes/RestaurantAccounts.dart';
@@ -6,6 +8,7 @@ import 'package:chfclient/Common/Common%20Classes/Date.dart';
 import 'package:chfclient/Common/Text/ClientMyTextFormField.dart';
 import 'package:chfclient/Screens/DetailsRestaurantTile.dart';
 import 'package:chfclient/Screens/OrderRegistrationScreen.dart';
+import 'package:chfclient/main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -120,9 +123,14 @@ class _DetailsClientFoodTileState extends State<DetailsClientFoodTile> {
                 ),
                 Row(
                   children: [
-                    DetailsClientFoodTile.counter == 0
-                        ? DetailsClientFoodTile.myContainer
-                        : DetailsClientFoodTile.myRow,
+                    DetailsClientFoodTile.foodStatus
+                        ? (DetailsClientFoodTile.counter == 0
+                            ? DetailsClientFoodTile.myContainer
+                            : DetailsClientFoodTile.myRow)
+                        : Container(
+                            height: 0,
+                            width: 0,
+                          ),
                     Padding(padding: EdgeInsets.all(2)),
                   ],
                 ),
@@ -159,11 +167,12 @@ class _DetailsClientFoodTileState extends State<DetailsClientFoodTile> {
                   ),
                   Padding(padding: EdgeInsets.all(10)),
                   ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
                         if (key1.currentState.validate()) {
+                          CommentTile commentTile;
                           setState(() {
                             key1.currentState.save();
-                            CommentTile commentTile = CommentTile(
+                            commentTile = CommentTile(
                                 ClientMyTextFormField.question,
                                 DetailsClientFoodTile.name,
                                 Date(/*'0', '0', '0', '0', '0', '0'*/),
@@ -173,15 +182,58 @@ class _DetailsClientFoodTileState extends State<DetailsClientFoodTile> {
                                 RestaurantAccounts
                                     .restaurantList[0][DetailsRestaurantTile.j]
                                     .phoneNumber);
-                            commentTile.id =
-                                ClientAccounts.commentsIDGenerator(commentTile);
+                            // commentTile.id =
+                            //     ClientAccounts.commentsIDGenerator(commentTile);
                             ClientAccounts
                                 .accounts[ClientAccounts.currentAccount]
                                 .addComment(commentTile);
                             DetailsClientFoodTile.addComment(commentTile);
-                            // DetailsClientFoodTile.comments.add(commentTile);
-                            // ClientMyTextFormField.question='';
                           });
+                          String listen = '';
+                          await Socket.connect(MyApp.ip, 2442)
+                              .then((serverSocket) {
+                            print('connected writer');
+                            String write = 'Comments-addComment-' +
+                                MyApp.id +
+                                '-' +
+                                commentTile.question +
+                                '-' +
+                                'null' +
+                                '-' +
+                                commentTile.foodName +
+                                '-' +
+                                commentTile.destinationRestaurant +
+                                '-Date(' +
+                                commentTile.date.year +
+                                ":" +
+                                commentTile.date.month +
+                                ":" +
+                                commentTile.date.day +
+                                ":" +
+                                commentTile.date.hour +
+                                ":" +
+                                commentTile.date.minute +
+                                ":" +
+                                commentTile.date.second +
+                                ")";
+                            write = (write.length + 7).toString() +
+                                ',Client-' +
+                                write;
+                            serverSocket.write(write);
+                            serverSocket.flush();
+                            print('write: ' + write);
+                            print('connected listen');
+                            serverSocket.listen((socket) {
+                              listen = String.fromCharCodes(socket)
+                                  .trim()
+                                  .substring(2);
+                            }).onDone(() {
+                              print("listen: " + listen);
+                            });
+                            // serverSocket.close();
+                          });
+                          // DetailsClientFoodTile.comments.add(commentTile);
+                          // ClientMyTextFormField.question='';
                         }
                         // showModalBottomSheet(
                         //   context: context,

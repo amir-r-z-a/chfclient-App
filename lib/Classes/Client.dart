@@ -49,6 +49,9 @@ class Client {
   }
 
   bool isInRange(LatLng restaurant, double restaurantRange) {
+    if (_address.isEmpty) {
+      return true;
+    }
     double x = sqrt(pow(
             (restaurant.latitude - _address[currentAddress].location.latitude),
             2) +
@@ -91,6 +94,10 @@ class Client {
 
   void addOrder(ClientActiveOrderTile clientActiveOrderTile) {
     activeOrders.add(clientActiveOrderTile);
+  }
+
+  void addHistoryOrder(ClientOrderHistoryTile clientOrderHistoryTile) {
+    ordersHistory.add(clientOrderHistoryTile);
   }
 
   void addCart(CartTile cartTile) {

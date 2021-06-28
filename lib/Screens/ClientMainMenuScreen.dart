@@ -1,13 +1,21 @@
+import 'dart:io';
+
 import 'package:chfclient/Classes/ClientAccounts.dart';
+import 'package:chfclient/Classes/ClientActiveOrderTile.dart';
 import 'package:chfclient/Classes/ClientAdreesTile.dart';
 import 'package:chfclient/Classes/ClientFoodTile.dart';
+import 'package:chfclient/Classes/ClientOrderHistoryTile.dart';
+import 'package:chfclient/Classes/FinishedClientFoodTile.dart';
 import 'package:chfclient/Classes/RestaurantAccounts.dart';
+import 'package:chfclient/Common/Common%20Classes/Date.dart';
+import 'package:chfclient/Common/Common%20Classes/Food.dart';
 import 'package:chfclient/Common/Common%20Classes/RestaurantTile.dart';
 import 'package:chfclient/Common/Text/ClientMyTextFormField.dart';
 import 'package:chfclient/Screens/ClientActiveOrdersScreen.dart';
 import 'package:chfclient/Screens/CartScreen.dart';
 import 'package:chfclient/Screens/ClientHomeScreen.dart';
 import 'package:chfclient/Screens/ClientOrdersHistoryScreen.dart';
+import 'package:chfclient/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong/latlong.dart';
@@ -17,6 +25,7 @@ class customListTile extends StatefulWidget {
   IconData icon;
   String text;
   Function ontap;
+
   customListTile(this.icon, this.text, this.ontap);
 
   @override
@@ -64,6 +73,7 @@ class ClientMainMenuScreen extends StatefulWidget {
   static bool activeOrder = false;
   static bool changeAppBarAddress = false;
   static bool isOrderFinished = true;
+
   @override
   _ClientMainMenuScreenState createState() => _ClientMainMenuScreenState();
 }
@@ -260,26 +270,202 @@ class _ClientMainMenuScreenState extends State<ClientMainMenuScreen> {
     );
   }
 
-  void appBarTitle(int value) {
-    setState(() {
-      _currentSelect = value;
-      if (_currentSelect == 0) {
-        appBarText = 'Cart';
-      } else if (_currentSelect == 1) {
-        appBarText = ClientAccounts.accounts[ClientAccounts.currentAccount]
-                    .getAddressLength() ==
-                0
-            ? '        -'
-            : ClientAccounts
-                .accounts[ClientAccounts.currentAccount]
-                .address[ClientAccounts
-                    .accounts[ClientAccounts.currentAccount].currentAddress]
-                .address;
-      } else {
-        appBarText = 'Orders';
-        if (ClientMainMenuScreen.isOrderFinished) {}
+  void orderCalculator(String listen, bool flag) {
+    if (flag) {
+      ClientAccounts.accounts[ClientAccounts.currentAccount].activeOrders = [];
+    } else {
+      ClientAccounts.accounts[ClientAccounts.currentAccount].ordersHistory = [];
+    }
+    if (listen != 'invalid...invalid...invalid') {
+      List<String> split = listen.split('...');
+      List<String> data = split[0].split('\n');
+      List<String> foods = split[1].split('\n');
+      List<String> numbers = split[2].split('\n');
+      print('your data is: ' + data.toString());
+      for (int i = 0; i < data.length; i++) {
+        List<String> foodsElements = foods[i].split('+');
+        List<Food> foodsAns = [];
+        for (int j = 0; j < foodsElements.length; j++) {
+          List<String> foodIndex = foodsElements[j].split(', ');
+          foodsAns.add(Food(foodIndex[1], foodIndex[3], true, foodIndex[0],
+              desc: foodIndex[2] == 'null' ? '' : foodIndex[2]));
+        }
+        List<String> numbersElements = numbers[i].split(', ');
+        List<int> numbersAns = [];
+        for (int j = 0; j < numbersElements.length; j++) {
+          numbersAns.add(int.parse(numbersElements[j]));
+        }
+        List<String> dataAns = data[i].split(', ');
+        List<String> dateElements = dataAns[5].split(':');
+        String restAddress = '';
+        int indexRest = 0;
+        for (int u = 0; u < RestaurantAccounts.restaurantList[0].length; u++) {
+          if (RestaurantAccounts.restaurantList[0][u].phoneNumber ==
+              dataAns[1]) {
+            restAddress = RestaurantAccounts.restaurantList[0][u].address;
+            indexRest = u;
+          }
+        }
+        Map<int, String> cartName = {-1: 'All'};
+        Map<int, int> cartNum = {-1: 0};
+        Map<int, double> cartSum = {-1: 0};
+        Map cartCategory = {};
+        for (int u = 0; u < foodsAns.length; u++) {
+          cartName[u] = foodsAns[u].name;
+          cartNum[u] = numbersAns[u];
+          for (int kk = 0;
+              kk <
+                  RestaurantAccounts
+                      .restaurantList[0][indexRest].clientTabBarView[0].length;
+              kk++) {
+            print('cartName[u]: ' + cartName[u]);
+            print(
+                "RestaurantAccounts.restaurantList[0][indexRest].clientTabBarView[0][kk].name: " +
+                    RestaurantAccounts.restaurantList[0][indexRest]
+                        .clientTabBarView[0][kk].name);
+            if (RestaurantAccounts.restaurantList[0][indexRest]
+                    .clientTabBarView[0][kk].name ==
+                cartName[u]) {
+              cartSum[u] = double.parse(RestaurantAccounts
+                  .restaurantList[0][indexRest].clientTabBarView[0][kk].price);
+              cartCategory[u] = RestaurantAccounts.restaurantList[0][indexRest]
+                  .clientTabBarView[0][kk].category;
+              print('---------------------');
+              print('hiiiiiiiiiiiii');
+              print('---------------------');
+            }
+            cartNum[-1] += cartNum[u];
+            cartSum[-1] += cartSum[u];
+          }
+        }
+        List<FinishedClientFoodTile> finishFoods = [];
+        for (int u = 0; u < cartName.length - 1; u++) {
+          finishFoods.add(FinishedClientFoodTile(
+              cartName[u],
+              (cartSum[u] / cartNum[u]).toString(),
+              cartNum[u],
+              cartCategory[u]));
+        }
+        if (flag) {
+          ClientAccounts.accounts[ClientAccounts.currentAccount].addOrder(
+              ClientActiveOrderTile(
+                  dataAns[2],
+                  Date(
+                      year: dateElements[0]
+                          .substring(dateElements[0].indexOf('(') + 1),
+                      month: dateElements[1],
+                      day: dateElements[2],
+                      hour: dateElements[3],
+                      minute: dateElements[4],
+                      second: dateElements[5]
+                          .substring(0, dateElements[5].indexOf(')'))),
+                  dataAns[3],
+                  restAddress,
+                  cartSum,
+                  cartName,
+                  cartNum,
+                  finishFoods));
+        } else {
+          print('dataAns[0]: ' + dataAns[0]);
+          ClientAccounts.accounts[ClientAccounts.currentAccount]
+              .addHistoryOrder(ClientOrderHistoryTile(
+                  dataAns[2],
+                  Date(
+                      year: dateElements[0]
+                          .substring(dateElements[0].indexOf('(') + 1),
+                      month: dateElements[1],
+                      day: dateElements[2],
+                      hour: dateElements[3],
+                      minute: dateElements[4],
+                      second: dateElements[5]
+                          .substring(0, dateElements[5].indexOf(')'))),
+                  dataAns[3],
+                  restAddress,
+                  cartSum,
+                  cartName,
+                  cartNum,
+                  finishFoods,
+                  dataAns[6],
+                  dataAns[1],
+                  dataAns[0]));
+        }
       }
-    });
+    }
+  }
+
+  void appBarTitle(int value) async {
+    _currentSelect = value;
+    if (_currentSelect == 2) {
+      String listen = '';
+      await Socket.connect(MyApp.ip, 2442).then((serverSocket) {
+        print('connected writer');
+        String write = '';
+        write += 'ClientOrders-ClientActiveOrdersData-' +
+            MyApp.id +
+            '-' +
+            'ClientActiveOrdersFoodNames-' +
+            MyApp.id +
+            '-' +
+            'ClientActiveOrdersNumbers-' +
+            MyApp.id;
+        write = (write.length + 7).toString() + ',Client-' + write;
+        serverSocket.write(write);
+        serverSocket.flush();
+        print('write: ' + write);
+        print('connected listen');
+        serverSocket.listen((socket) {
+          listen = String.fromCharCodes(socket).trim().substring(2);
+        }).onDone(() async {
+          print("listen: " + listen);
+          orderCalculator(listen, true);
+          String listenOrdersHistory = '';
+          await Socket.connect(MyApp.ip, 2442).then((serverSocket) {
+            print('connected writer');
+            String write = '';
+            write += 'ClientOrders-ClientOrdersHistoryData-' +
+                MyApp.id +
+                '-' +
+                'ClientOrdersHistoryFoodNames-' +
+                MyApp.id +
+                '-' +
+                'ClientOrdersHistoryNumbers-' +
+                MyApp.id;
+            write = (write.length + 7).toString() + ',Client-' + write;
+            serverSocket.write(write);
+            serverSocket.flush();
+            print('write: ' + write);
+            print('connected listen');
+            serverSocket.listen((socket) {
+              listenOrdersHistory =
+                  String.fromCharCodes(socket).trim().substring(2);
+            }).onDone(() async {
+              print("listen: " + listenOrdersHistory);
+              orderCalculator(listenOrdersHistory, false);
+              setState(() {
+                appBarText = 'Orders';
+                if (ClientMainMenuScreen.isOrderFinished) {}
+              });
+            });
+          });
+        });
+      });
+    } else {
+      setState(() {
+        if (_currentSelect == 0) {
+          appBarText = 'Cart';
+        } else if (_currentSelect == 1) {
+          appBarText = ClientAccounts.accounts[ClientAccounts.currentAccount]
+                      .getAddressLength() ==
+                  0
+              ? '        -'
+              : ClientAccounts
+                  .accounts[ClientAccounts.currentAccount]
+                  .address[ClientAccounts
+                      .accounts[ClientAccounts.currentAccount].currentAddress]
+                  .address;
+        }
+      });
+    }
   }
 
   // void pointDialog() {
@@ -354,11 +540,21 @@ class _ClientMainMenuScreenState extends State<ClientMainMenuScreen> {
                 () => Navigator.pushNamed(context, '/FavRestaurantsScreen')),
             customListTile(Icons.comment, 'My Comments ',
                 () => Navigator.pushNamed(context, '/CommentsScreen')),
-            customListTile(Icons.phone, 'Contact Us', () => (){Navigator.pushNamed(context, "/ContactUsScreen");}),
+            customListTile(
+                Icons.phone,
+                'Contact Us',
+                () => () {
+                      Navigator.pushNamed(context, "/ContactUsScreen");
+                    }),
             customListTile(
               Icons.logout,
               "Log Out",
               () {
+                MyApp.id = '';
+                MyApp.mode = 'LogOut';
+                // RestaurantProfileScreen.tappedPoints = [];
+                ClientAccounts.key = false;
+                ClientAccounts.currentAccount = 0;
                 Navigator.popUntil(
                     context, ModalRoute.withName('/ClientSignInScreen'));
                 Navigator.pushNamed(context, '/ClientSignInScreen');
@@ -385,12 +581,10 @@ class _ClientMainMenuScreenState extends State<ClientMainMenuScreen> {
                                 suggestion: Center(
                                   child: Text('Filter restaurants by name'),
                                 ),
-                                failure:
-                                    Center(child: Text('No restaurant found :(')),
-                                builder: (RestaurantTile rs) =>
-                                    rs ,
-                                filter: (RestaurantTile rt) =>
-                                    [rt.name],
+                                failure: Center(
+                                    child: Text('No restaurant found :(')),
+                                builder: (RestaurantTile rs) => rs,
+                                filter: (RestaurantTile rt) => [rt.name],
                                 items: RestaurantAccounts.restaurantList[0]));
                       },
                     )
