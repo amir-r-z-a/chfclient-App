@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 
 class ClientHomeScreen extends StatefulWidget {
   static Function restaurantTile;
+  bool HaveResWithMorethan4Points = false;
 
   @override
   _ClientHomeScreenState createState() => _ClientHomeScreenState();
@@ -20,6 +21,12 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    for(var i = 0  ; i <RestaurantAccounts.restaurantList[0].length;i++ ){
+      if(RestaurantAccounts.restaurantList[0][i].point>4){
+        widget.HaveResWithMorethan4Points=true;
+        break ;
+      }
+    }
     print('restaurant list is: ' +
         RestaurantAccounts.restaurantList[0].toString());
     print(RestaurantAccounts.restaurantList[0].length);
@@ -93,7 +100,9 @@ class _ClientHomeScreenState extends State<ClientHomeScreen> {
             ],
           ),
         ),
-        Padding(
+         !widget.HaveResWithMorethan4Points ?
+             Container(height: 0,width: 0,) :
+         Padding(
           padding: EdgeInsets.only(left: 15, top: 10),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

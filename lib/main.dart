@@ -12,6 +12,7 @@ import 'package:chfclient/Common/Common%20Classes/CommentTile.dart';
 import 'package:chfclient/Common/Common%20Classes/Date.dart';
 import 'package:chfclient/Common/Common%20Classes/RestaurantTile.dart';
 import 'package:chfclient/Common/Common%20Classes/RestaurantTypes.dart';
+import 'package:chfclient/Screens/AllCommentsScreen.dart';
 import 'package:chfclient/Screens/CafesScreen.dart';
 import 'package:chfclient/Screens/CartScreen.dart';
 import 'package:chfclient/Screens/ClientActiveOrdersScreen.dart';
@@ -33,6 +34,7 @@ import 'package:chfclient/Screens/OthersScreen.dart';
 import 'package:chfclient/Screens/PaymentAddressesScreen.dart';
 import 'package:chfclient/Screens/PaymentScreen.dart';
 import 'package:chfclient/Screens/ClientProfileScreen.dart';
+import 'package:chfclient/Screens/SetpointScreeen.dart';
 import 'package:chfclient/Screens/SplashScreen.dart';
 import 'package:chfclient/Screens/WalletScreen.dart';
 import 'package:flutter/material.dart';
@@ -41,7 +43,7 @@ import 'package:latlong/latlong.dart';
 import 'Screens/ClientActiveOrderTileScreen.dart';
 
 class MyApp extends StatefulWidget {
-  static String ip = '172.20.10.2';
+  static String ip = '192.168.1.7';
   static String id = '';
   static String mode = 'LogOut';
 
@@ -56,11 +58,14 @@ class _MyAppState extends State<MyApp> {
       title: "CHFood",
       theme: ThemeData(primaryColor: const Color.fromRGBO(248, 95, 106, 1)),
       routes: {
+        '/SetPointScreen': (context) =>
+            SetPointScreen(),
         '/ClientActiveOrderTileScreen': (context) =>
             ClientActiveOrderTileScreen(),
         '/MorePopularRestaurantsScreen': (context) =>
             MorePopularRestaurantsScreen(),
         '/CafesScreen': (context) => CafesScreen(),
+        '/AllCommentsScreen': (context) => AllCommentsScreen(),
         '/ContactUsScreen': (context) => ContactUsScreen(),
         '/OthersScreen': (context) => OthersScreen(),
         '/FastFoodScreen': (context) => FastFoodScreen(),

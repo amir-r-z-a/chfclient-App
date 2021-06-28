@@ -546,6 +546,9 @@ class _ClientMainMenuScreenState extends State<ClientMainMenuScreen> {
                 () => () {
                       Navigator.pushNamed(context, "/ContactUsScreen");
                     }),
+            customListTile(Icons.control_point_sharp, ' Set point ',
+                    () => Navigator.pushNamed(context, '/SetPointScreen')),
+            customListTile(Icons.phone, 'Contact Us', () => (){Navigator.pushNamed(context, "/ContactUsScreen");}),
             customListTile(
               Icons.logout,
               "Log Out",

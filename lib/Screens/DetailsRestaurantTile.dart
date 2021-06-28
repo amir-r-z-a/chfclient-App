@@ -261,6 +261,7 @@ class _DetailsRestaurantTileState extends State<DetailsRestaurantTile> {
                           child: Column(
                             children: [
                               Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   SingleChildScrollView(
                                       scrollDirection: Axis.vertical,
@@ -270,6 +271,35 @@ class _DetailsRestaurantTileState extends State<DetailsRestaurantTile> {
                                             fontWeight: FontWeight.bold,
                                             fontSize: 20),
                                       )),
+                                  Container(
+                                      width: 50,
+                                      height: 30,
+                                      decoration: BoxDecoration(
+                                        color: Colors.green,
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: Colors.black26,
+                                            offset: const Offset(-8, 10),
+                                            blurRadius: 18,
+                                            spreadRadius: 8,
+                                          ),
+                                        ],
+                                        border: Border.all(),
+                                        borderRadius:
+                                        BorderRadius.circular(10),
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          RestaurantAccounts
+                                              .restaurantList[0]
+                                          [DetailsRestaurantTile.j]
+                                              .point
+                                              .toString(),
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 20),
+                                        ),
+                                      ))
                                 ],
                               ),
                               Padding(
@@ -309,35 +339,33 @@ class _DetailsRestaurantTileState extends State<DetailsRestaurantTile> {
                                           fontSize: 20,
                                           color: Colors.white),
                                     ),
-                                    Container(
-                                        width: 60,
-                                        height: 40,
-                                        decoration: BoxDecoration(
-                                          color: Colors.green,
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color: Colors.black26,
-                                              offset: const Offset(-8, 10),
-                                              blurRadius: 18,
-                                              spreadRadius: 8,
-                                            ),
-                                          ],
-                                          border: Border.all(),
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                        ),
-                                        child: Center(
-                                          child: Text(
-                                            RestaurantAccounts
-                                                .restaurantList[0]
-                                                    [DetailsRestaurantTile.j]
-                                                .point
-                                                .toString(),
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 20),
+                                    GestureDetector(
+                                      onTap:() =>Navigator.pushNamed(context, "/AllCommentsScreen"),
+                                      child: Container(
+                                          width: 170,
+                                          height: 40,
+                                          decoration: BoxDecoration(
+                                            color: Color(0xffbcece0),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.black26,
+                                                offset: const Offset(-8, 10),
+                                                blurRadius: 18,
+                                                spreadRadius: 8,
+                                              ),
+                                            ],
+                                            border: Border.all(),
+                                            borderRadius:
+                                                BorderRadius.circular(10),
                                           ),
-                                        ))
+                                          child: Center(
+                                            child: Text( " Show Comments " ,
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 20),
+                                            ),
+                                          )),
+                                    )
                                   ],
                                 ),
                               )

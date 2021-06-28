@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:chfclient/Classes/ClientAccounts.dart';
 import 'package:chfclient/Classes/ClientActiveOrderTile.dart';
 import 'package:chfclient/Classes/ClientAdreesTile.dart';
+import 'package:chfclient/Classes/Discount.dart';
 import 'package:chfclient/Classes/FinishedClientFoodTile.dart';
 import 'package:chfclient/Classes/RestaurantAccounts.dart';
 import 'package:chfclient/Common/Common%20Classes/Date.dart';
@@ -582,13 +583,26 @@ class _PaymentScreenState extends State<PaymentScreen> {
                         key: _key2,
                         padding: const EdgeInsets.fromLTRB(8, 0, 18, 0),
                         child: TextFormField(
+                          onSaved: (String x){
+                            setState(() {
+                              ClientAccounts.accounts[ClientAccounts.currentAccount]
+                                  .cartList[PaymentScreen.j].cartSum[-1] = ClientAccounts.accounts[ClientAccounts.currentAccount]
+                                  .cartList[PaymentScreen.j].cartSum[-1]-(ClientAccounts.accounts[ClientAccounts.currentAccount]
+                                  .cartList[PaymentScreen.j].cartSum[-1])/4 ;
+                            });
+                          },
+                          validator: (String enteredCode){
+                            if(!DiscountCode.Codes.contains(enteredCode)){
+                              return "Invalid Code";
+                            }
+                            return null ;
+                          },
                           cursorColor: Color.fromRGBO(248, 95, 106, 1),
                           decoration: InputDecoration(
                             errorStyle: TextStyle(
                               color: Color.fromRGBO(248, 95, 106, 1),
                             ),
                             labelText: "Discount",
-                            //TODO
                             labelStyle: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,
@@ -600,7 +614,14 @@ class _PaymentScreenState extends State<PaymentScreen> {
                             ),
                           ),
                         ),
-                      ))
+                      )),
+                      ElevatedButton(onPressed: (){
+                        if(_key2.currentState.validate()){
+                          setState(() {
+                            _key2.currentState.save();
+                          });
+                        }
+                      }, child: Text("Save") )
                     ],
                   ),
                 ),
